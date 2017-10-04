@@ -1,4 +1,9 @@
 /web/bundles/
+/web/assets/
+/web/css/
+/web/js/
+/web/images/
+
 /app/bootstrap.php.cache
 /app/cache/*
 /app/config/parameters.yml
@@ -6,7 +11,11 @@
 !app/cache/.gitkeep
 !app/logs/.gitkeep
 /app/phpunit.xml
+
+
 /build/
 /vendor/
 /bin/
 /composer.phar
+/nbproject
+/node_modules

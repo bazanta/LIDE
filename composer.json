@@ -1,6 +1,6 @@
 {
-    "name": "root/lide",
-    "license": "proprietary",
+    "name": "lide",
+    "license": "GPL",
     "type": "project",
     "autoload": {
         "psr-4": {
