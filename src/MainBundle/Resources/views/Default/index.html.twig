@@ -1,1 +1,35 @@
-Hello World!
+{% extends "MainBundle::layout.html.twig" %}
+
+
+{% block title %}{{ parent() }}{% endblock %}
+
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">File name</div>
+                <div class="panel-body">
+                    <form id="editor-form" class="form-horizontal">
+                        <textarea id="editor" class="form-control"rows="25" style="resize: none">Editor</textarea>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Compile</button>
+                            <button type="submit"    class="btn btn-success">Run</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Console Output</div>
+                <div class="panel-body">
+                    <textarea class="form-control" rows="25" id="console" form="editor-form" readonly style="resize: none"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
