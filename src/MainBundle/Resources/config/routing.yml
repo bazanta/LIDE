@@ -1,5 +1,5 @@
 main_homepage:
-    path:     /
+    path:     /console
     defaults: { _controller: MainBundle:Console:index }
 
 executer_commande:
