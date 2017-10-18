@@ -1,0 +1,22 @@
+/*
+    Created on : 11 oct. 2017, 16:46:45
+    Author     : pviolette
+*/
+
+#console-toogle{
+    opacity: 0.75;
+    position: absolute;
+    right: 10px;
+    z-index : 5;
+}
+
+#console{
+    background-color: #5  05050;
+    color : white;
+    resize: none;
+}
+
+.btn_editor{
+    width : 50%;
+    opacity: 0.80;
+}

@@ -20,12 +20,14 @@
   },
   "homepage": "https://github.com/bazanta/LIDE#readme",
   "dependencies": {
+    "bootstrap": "^4.0.0-beta",
     "gulp": "^3.9.1",
     "gulp-copy": "^1.0.1",
     "gulp-cssmin": "^0.2.0",
     "gulp-livereload": "^3.8.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "popper.js": "^1.11.0"
   }
 }
