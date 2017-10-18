@@ -1,4 +1,7 @@
 services:
+    gestionssh:
+        class: MainBundle\Services\GestionSSH
+        arguments: ["%ssh_host%","%ssh_login%","%ssh_password%"]
 #    main.example:
 #        class: MainBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
