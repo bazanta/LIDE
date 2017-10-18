@@ -1,5 +1,9 @@
 main_homepage:
-    path:     /console
+    path:     /
+    defaults: { _controller: MainBundle:Default:index }
+
+vue_console:
+    path:    /console
     defaults: { _controller: MainBundle:Console:index }
 
 executer_commande:
