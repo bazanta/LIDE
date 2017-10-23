@@ -1,17 +1,17 @@
 {% extends "MainBundle::layout.html.twig" %}
 
-{% block navbarContent %}
-<ul class="navbar-nav">
-  <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-  <li class="nav-item dropdown">
-        <select id="select_lang">
-          {% for lang in list_langage %}
-            <option value="{{ lang.nom }}" {% if lang.id == selected_langage %} selected {% endif %}> {{ lang.nom }}</option>
-          {% endfor %}
-        </select>
-  </li>
-</ul>
-
+{% block navbarCollapse %}
+    {{ parent() }}
+    <li class="nav-item dropdown active">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Editeur : {{ selected_langage_name }}
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      {% for lang in list_langage %}
+        <a class="dropdown-item" href="#">{{ lang.nom }}</a>
+      {% endfor %}
+     </div>
+   </li>
 {% endblock %}
 
 
@@ -22,6 +22,7 @@
 
 {% block javascript %}
   {{ parent() }}
+  <script src="{{ asset('js/ace/ace.js')}}"></script>
   <script src="{{ asset('js/ide.js')}}"></script>
 {% endblock %}
 
@@ -32,24 +33,46 @@
 
 
 
-<div class="container-fluid">
-    <div class="row" style="z-index : 0">
-      <button id="console-toogle" class="console-on"><span>Console </span></button> 
-        <div id="block-editor" class="col-sm-8">
-            <div>
-                <form id="editor-form" class="form-horizontal">
-                    <textarea id="editor" class="form-control" style="resize: none;">Editor</textarea>
-                    <div class="btn-group" role="group" style="width : 75%; position : absolute; top: auto; bottom : 5%; left:12.5%; z-index: 2;">
-                        <button id="btn-save" type="submit" class="btn btn-primary btn_save">Save</button>
-                        <button type="submit" class="btn btn-success btn_save">Run</button> <!--TODO dropdown btn -->
-                    </div>
-                </form>
+<div class="container-fluid m-0 p-0">
+    <div class="row m-0 p-0" style="z-index : 0">
+        <div id="block-editor" class="col  m-0 p-0">
+          <div id="editor" class="m-0">
+#include &lt;iostream&gt;
+
+
+
+int main(){
+    /*FizzBuzz : Compter de 1 à 100.
+     * Si le nombre est divisible par 3, afficher "Fizz". Si il est divisible par 5, afficher "Buzz".
+     * Si il divisible par 3 et 5, afficher "FizzBuzz"
+     * Sinon afficher le nombre.
+     */
+    for(int i = 1; i &lt; 100; ++i){
+        if(i % 3 == 0){
+            std::cout &lt;&lt; "Fizz";
+        }
+        if( i % 5 == 0){
+            std::cout &lt;&lt; "Buzz";
+        }
+        if( (i % 3 != 0) && ( i % 5 != 0)){
+            std::cout &lt;&lt; i;
+        }
+        std::cout &lt;&lt; " ";
+    }
+}
+          </div>
+          <form id="editor-form" class="form-horizontal"  style="width : 75%; position : absolute; top: auto; bottom : 5%; left:12.5%; z-index: 2;">
+            <div class="btn-group" role="group">
+              <button id="btn-save" type="submit" class="btn btn-primary btn_save">Save</button>
+              <button type="submit" class="btn btn-success btn_save">Run</button> <!--TODO dropdown btn -->
             </div>
+          </form>
         </div>
-        <div id="console_block" class="col-sm-4">
+        <div id="console-block" class="console-block" class="m-0 p-0">
+          <button id="console-toogle" class="left-0"><span class="glyphicon glyphicon-align-left" aria-hidden="true"></span></button>
           <div id="console">
-            <textarea class="form-control" rows="5" id="output-console" form="editor-form" readonly></textarea>
-            <textarea id="input-console" rows="1" style="width : 75%; position : absolute; top: auto; bottom : 5%; left:12.5%; z-index: 2;"></textarea>
+            <textarea class="form-control" class="w-100" style="height : 90%" id="output-console" form="editor-form" readonly></textarea>
+            <textarea id="input-console" class="w-100" style="height : 10%; background-color : black; color : white; resize : non" style="">Input</textarea>
           </div>
         </div>
     </div>
