@@ -8,3 +8,7 @@ $("#console-toogle").click(function (){
   $("#console-toogle").toggleClass("console-off");
 
 });
+
+var editor = ace.edit("editor");
+editor.getSession().setMode("ace/mode/javascript");
+editor.setTheme("ace/theme/dawn");
