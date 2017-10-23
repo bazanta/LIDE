@@ -1,14 +1,10 @@
 $("#console-toogle").click(function (){
-  $("#console_block").toggleClass("d-none");
-  $("#console_block").toggleClass("col-sm-4");
-  $("#console_block").toggleClass("col-sm-1");
-  $("#block-editor").toggleClass("col-sm-8");
-  $("#block-editor").toggleClass("col-sm-12");
-  $("#console-toogle").toggleClass("console-on");
-  $("#console-toogle").toggleClass("console-off");
-
+  $("#console").toggleClass("d-none");
+  $("#console-block").toggleClass("console-block");
+  $("#console-block").toggleClass("console-block-collapsed");
 });
 
 var editor = ace.edit("editor");
-editor.getSession().setMode("ace/mode/javascript");
+editor.getSession().setMode("ace/mode/c_cpp");
 editor.setTheme("ace/theme/dawn");
+document.getElementById('editor').style.fontSize='16px';

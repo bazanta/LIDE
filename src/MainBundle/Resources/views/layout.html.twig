@@ -11,20 +11,26 @@
 
    </head>
 
-   <body>
-        <nav class="navbar navbar-toggleable-md navbar-light bg-faded ">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">LIDE</a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbarNav">
-            {% block navbarContent %}
-            {% endblock %}
-            </div>
-        </nav>
+   <body class="p-0 bg-primary">
 
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">LIDE</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarToggler">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      {% block navbarCollapse %}
+        <li class="nav-item">
+          <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+        </li>
+      {% endblock %}
+    </ul>
+  </div>
+</nav>
         {% block body %}
         {% endblock %}
 
