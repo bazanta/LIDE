@@ -3,24 +3,26 @@
 namespace MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use MainBundle\Entity\Langage;
+
 
 class DefaultController extends Controller
 {
 
-  /*Retourne un tableau avec les noms des langages stockés dans la BD*/
-    private function getLangages(){
-//TODO Recuperation dans la BD
-      return array('C++' ,'C', 'Java');
-    }
 
     public function indexAction()
     {
-        $arr_lang = $this->getLangages();
+        $selected_langage = 0;
+        $em = $this->getDoctrine()->getManager();
 
+        $langages = $em->getRepository('MainBundle:Langage')->findBy(array('actif' => 1));
+
+        $selected_langage_name = $em->getRepository('MainBundle:Langage')->findBy(array('id' => 1))[0]->getNom();
 
         return $this->render('MainBundle:Default:index.html.twig', array(
-          'list_langage' => $arr_lang,
-          'selected_langage' => 'C++'
+          'list_langage' => $langages,
+          'selected_langage' => $selected_langage,
+          'selected_langage_name' => $selected_langage_name
         ));
     }
 }

@@ -127,28 +127,4 @@ class DetailLangage
     {
         return $this->actif;
     }
-
-    /**
-     * Set langage
-     *
-     * @param \MainBundle\Entity\Langage $langage
-     *
-     * @return DetailLangage
-     */
-    public function setLangage(\MainBundle\Entity\Langage $langage)
-    {
-        $this->langage = $langage;
-
-        return $this;
-    }
-
-    /**
-     * Get langage
-     *
-     * @return \MainBundle\Entity\Langage
-     */
-    public function getLangage()
-    {
-        return $this->langage;
-    }
 }

@@ -4,9 +4,9 @@
 <ul class="navbar-nav">
   <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
   <li class="nav-item dropdown">
-        <select>
+        <select id="select_lang">
           {% for lang in list_langage %}
-            <option value="{{ lang }}" {% if lang == selected_langage %} selected {% endif %}> {{ lang }}</option>
+            <option value="{{ lang.nom }}" {% if lang.id == selected_langage %} selected {% endif %}> {{ lang.nom }}</option>
           {% endfor %}
         </select>
   </li>
@@ -20,7 +20,12 @@
   <link rel="stylesheet" href="{{ asset('css/ide.css') }}" />
 {% endblock %}
 
-{% block title %}{{ parent() }} - {{ selected_langage }} {% endblock %}
+{% block javascript %}
+  {{ parent() }}
+  <script src="{{ asset('js/ide.js')}}"></script>
+{% endblock %}
+
+{% block title %}{{ parent() }} - {{ selected_langage_name }} {% endblock %}
 
 {% block body %}
 
@@ -29,6 +34,7 @@
 
 <div class="container-fluid">
     <div class="row" style="z-index : 0">
+      <button id="console-toogle" class="console-on"><span>Console </span></button> 
         <div id="block-editor" class="col-sm-8">
             <div>
                 <form id="editor-form" class="form-horizontal">
@@ -41,8 +47,10 @@
             </div>
         </div>
         <div id="console_block" class="col-sm-4">
-            <button id="console-toogle">&lt;&lt;</button>
-            <textarea class="form-control" id="console" form="editor-form" readonly></textarea>
+          <div id="console">
+            <textarea class="form-control" rows="5" id="output-console" form="editor-form" readonly></textarea>
+            <textarea id="input-console" rows="1" style="width : 75%; position : absolute; top: auto; bottom : 5%; left:12.5%; z-index: 2;"></textarea>
+          </div>
         </div>
     </div>
  </div>

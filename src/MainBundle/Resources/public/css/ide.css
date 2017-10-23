@@ -2,21 +2,66 @@
     Created on : 11 oct. 2017, 16:46:45
     Author     : pviolette
 */
+#console-toogle {
+  opacity: 0.75;
+  position: absolute;
+  right: 10px;
+  z-index : 5;
 
-#console-toogle{
-    opacity: 0.75;
-    position: absolute;
-    right: 10px;
-    z-index : 5;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #AAAAAA;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 5px;
+  width: 100px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+#console-toogle span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+#console-toogle span:after {
+  content: '>>';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+#console-toogle span {
+  padding-right: 25px;
+}
+
+#console-toogle:hover span:after {
+  opacity: 0.75;
+  right: 0;
 }
 
 #console{
-    background-color: #5  05050;
+    background-color: #505050;
     color : white;
     resize: none;
+}
+
+#input_console{
+  background-color: #606060;
 }
 
 .btn_editor{
     width : 50%;
     opacity: 0.80;
+}
+
+#select_lang{
+  width: inherit;
+  text-align: center;
 }
