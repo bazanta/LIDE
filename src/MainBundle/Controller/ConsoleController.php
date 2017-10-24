@@ -36,10 +36,6 @@ class ConsoleController extends Controller{
 
 
 		return new Response($content);
-
-
-
-
 	}
 
 }

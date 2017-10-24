@@ -9,8 +9,14 @@
   padding: 0 0 0 0;
 }
 
+
+
 nav{
   background-color: white;
+}
+
+.choix-langage-selected{
+  font-weight: bold;
 }
 
 #console-toogle {
@@ -33,15 +39,18 @@ nav{
   margin : 0px;
 }
 
+.toggle-console-open{
+}
+
+.toggle-console-close{
+}
+
 #console-toogle:hover{
   opacity: 0.9;
 }
 
-.console-block{
-  position: absolute;
-  z-index: 4;
-  width : 40%;
-  right: 0;
+.console-block-open{
+  border : solid red 1px
 }
 
 .console-block-collapsed{

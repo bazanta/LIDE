@@ -8,7 +8,7 @@
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
       {% for lang in list_langage %}
-        <a class="dropdown-item" href="#">{{ lang.nom }}</a>
+        <a class="dropdown-item {% if lang.id == selected_langage %} choix-langage-selected{% else %} choix-langage{% endif %}" href="#" data-id="{{ lang.id }}">{{ lang.nom }}</a>
       {% endfor %}
      </div>
    </li>
@@ -23,6 +23,9 @@
 {% block javascript %}
   {{ parent() }}
   <script src="{{ asset('js/plugins/ace/ace.js')}}"></script>
+  <script>
+    var aceMode = '{{ ace_mode }}';
+  </script>
   <script src="{{ asset('js/ide.js')}}"></script>
 {% endblock %}
 
@@ -35,32 +38,8 @@
 
 <div class="container-fluid m-0 p-0">
     <div class="row m-0 p-0" style="z-index : 0">
-        <div id="block-editor" class="col  m-0 p-0">
-          <div id="editor" class="m-0">
-#include &lt;iostream&gt;
-
-
-
-int main(){
-    /*FizzBuzz : Compter de 1 à 100.
-     * Si le nombre est divisible par 3, afficher "Fizz". Si il est divisible par 5, afficher "Buzz".
-     * Si il divisible par 3 et 5, afficher "FizzBuzz"
-     * Sinon afficher le nombre.
-     */
-    for(int i = 1; i &lt; 100; ++i){
-        if(i % 3 == 0){
-            std::cout &lt;&lt; "Fizz";
-        }
-        if( i % 5 == 0){
-            std::cout &lt;&lt; "Buzz";
-        }
-        if( (i % 3 != 0) && ( i % 5 != 0)){
-            std::cout &lt;&lt; i;
-        }
-        std::cout &lt;&lt; " ";
-    }
-}
-          </div>
+        <div id="block-editor" class="col-8  m-0 p-0">
+          <div id="editor" class="m-0">{{ model }}</div>
           <form id="editor-form" class="form-horizontal"  style="width : 75%; position : absolute; top: auto; bottom : 5%; left:12.5%; z-index: 2;">
             <div class="btn-group" role="group">
               <button id="btn-save" type="submit" class="btn btn-primary btn_save">Save</button>
@@ -68,8 +47,8 @@ int main(){
             </div>
           </form>
         </div>
-        <div id="console-block" class="console-block" class="m-0 p-0">
-          <button id="console-toogle" class="left-0"><span class="glyphicon glyphicon-align-left" aria-hidden="true"></span></button>
+        <div id="console-block" class="console-block-open col-4 m-0 p-0">
+          <div id="console-toogle" data-toggle="tooltip" title="Toggle Console" class="left-0 console-toogle-open">&gt;</div>
           <div id="console">
             <textarea class="form-control" class="w-100" style="height : 90%" id="output-console" form="editor-form" readonly></textarea>
             <textarea id="input-console" class="w-100" style="height : 10%; background-color : black; color : white; resize : non" style="">Input</textarea>
