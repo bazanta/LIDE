@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/bazanta/LIDE#readme",
   "dependencies": {
+    "ace-builds": "^1.2.9",
     "bootstrap": "^4.0.0-beta",
     "gulp": "^3.9.1",
     "gulp-copy": "^1.0.1",

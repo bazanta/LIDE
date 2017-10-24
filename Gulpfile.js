@@ -41,8 +41,14 @@ var livereload = require('gulp-livereload');
         gulp.src([
             './node_modules/jquery/dist/jquery.min.js',
             './node_modules/bootstrap/dist/js/bootstrap.min.js',
-            './node_modules/popper.js/dist/popper.min.js'
+            './node_modules/popper.js/dist/popper.min.js',
         ]).pipe(gulp.dest('./web/js/plugins/',{overwrite: true}));
+    });
+
+    gulp.task('ace', function () {
+        gulp.src([
+            './node_modules/ace-builds/src-min/**.js'
+        ]).pipe(gulp.dest('./web/js/plugins/ace/',{overwrite: true}));
     });
 
     //Copie des Images
@@ -64,6 +70,6 @@ var livereload = require('gulp-livereload');
 //Taches par défaults
 gulp.task('default', ['css','js']);
 
-gulp.task('all', ['sass','js','img','js-plugins']);
+gulp.task('all', ['sass','js','img','js-plugins', 'ace']);
 
 gulp.task('prod', ['sass','js','img','js-plugins','min']);
