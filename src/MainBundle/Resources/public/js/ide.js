@@ -1,8 +1,20 @@
+
+$("#editor").height( $("#block-editor").height() - $("#editor-toolbar").height());
+
+$("#output-console").height( $("#console-block").height() - $("#input-console").height());
+
+//Initialisation de l'editeur
 var editor = ace.edit("editor");
 editor.getSession().setMode(aceMode);
-editor.setTheme("ace/theme/dawn");
+editor.setTheme("ace/theme/pastel_on_dark");
 editor.$blockScrolling = Infinity
-document.getElementById('editor').style.fontSize='16px';
+editor.getSession().setUseSoftTabs(true);
+
+/*
+  GESTION DES FICHIERS
+*/
+var files = new Array();
+
 
 function requestAndSetLanguage(language){
   console.log("Selection language : " + language);

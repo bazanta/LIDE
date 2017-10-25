@@ -25,6 +25,8 @@ class DefaultController extends Controller
         case 'C':
           return 'ace/mode/c_cpp';
         break;
+        case 'java':
+        return 'ace/mode/java';
         default:
           return 'ace/mode/plain_text';
           break;
@@ -35,12 +37,14 @@ class DefaultController extends Controller
       $em = $this->getDoctrine()->getManager();
 
       $model = $em->getRepository('MainBundle:DetailLangage')->findBy(array('langage' => $id))[0]->getModele();
+      $extension = $em->getRepository('MainBundle:DetailLangage')->findBy(array('langage' => $id))[0]->getExtension();
       $name = $em->getRepository('MainBundle:Langage')->findBy(array('id' => $id))[0]->getNom();
 
       return array(
         'ace'=> $this->matchLanguageToAce($id),
         'model' => $model,
-        'name' => $name
+        'name' => $name,
+        'extension' => $extension
       );
     }
 
@@ -56,13 +60,13 @@ class DefaultController extends Controller
         $info = $this->getLanguageInfo($selected_langage);
 
 
-
         return $this->render('MainBundle:Default:index.html.twig', array(
           'list_langage' => $langages,
           'selected_langage' => $selected_langage,
           'selected_langage_name' => $info['name'],
           'model' => $info['model'],
-          'ace_mode' => $info['ace']
+          'ace_mode' => $info['ace'],
+          'extension' => $info['extension']
         ));
     }
 
