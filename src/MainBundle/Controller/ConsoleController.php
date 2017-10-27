@@ -8,36 +8,55 @@ use Symfony\Component\HttpFoundation\Request;
 
 
 class ConsoleController extends Controller{
+    
+
+    
+    
+
+    public function indexAction(){
+
+        
+
+        $content=$this->get('templating')->render('MainBundle:Console:console.html.twig',array(""));
+
+        return new Response($content);
 
 
-	public function indexAction(){
+    }
+        
+        
 
-		$content=$this->get('templating')->render('MainBundle:Console:console.html.twig',array('retourssh'=>''));
 
-		return new Response($content);
+        public function inputAction(Request $request){
+            $logger = $this->get('logger');
+        
+            $ssh = $this->container->get('gestionssh');
 
+
+            $msg = $request->request->get('msg');
+
+            $ssh->ecrire($msg);
+            
+            return new Response();
 
 	}
-
-	//Méthode appelée lors du clic sur le bouton Valider
-	//Fait appel à la méthode du service ConnexionSSH qui permet de traiter une commande et de récupérer la réponse à cette commande
-
-	public function traiterAction(Request $request){
-
-		$gestionssh = $this->container->get('gestionssh');
-
-		$cmd = $request->request->get('commande');
-
-
-		$retourssh = $gestionssh->traiter($cmd);
-
-		$content=$this->get('templating')->render('MainBundle:Console:console.html.twig',array('retourssh'=>$retourssh));
-
-
-
-		return new Response($content);
-	}
-
+        
+        public function outputAction(Request $request){
+            $logger = $this->get('logger');
+            $ssh = $this->container->get('gestionssh');
+            
+            $output = $ssh->lire();
+            $logger->info("Log output : ".$output);
+            if($output){
+                $logger->info("Log output : ".$output);
+                return new Response($output);
+            }
+            else{
+                return new Response("END");
+            }
+            
+        }
+       
 }
 
 ?>

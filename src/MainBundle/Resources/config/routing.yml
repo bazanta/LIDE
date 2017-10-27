@@ -9,7 +9,11 @@ language_info:
 vue_console:
     path:    /console
     defaults: { _controller: MainBundle:Console:index }
-
-executer_commande:
-    path:    /executer_commande
-    defaults: { _controller: MainBundle:Console:traiter }
+    
+output:
+    path:    /get_output
+    defaults: {_controller: MainBundle:Console:output }
+    
+input:
+    path:    /get_input
+    defaults: {_controller : MainBundle:Console:input }
