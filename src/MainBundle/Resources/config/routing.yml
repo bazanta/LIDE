@@ -2,7 +2,7 @@ main_homepage:
     path:     /
     defaults: { _controller: MainBundle:Default:index }
 
-langage_info:
+language_info:
     path:   /language_info
     defaults: { _controller: MainBundle:Default:languageInfo }
 

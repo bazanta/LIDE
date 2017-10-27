@@ -1,8 +1,23 @@
+
+$("#editor").height( $("#block-editor").height() - $("#editor-toolbar").height());
+
+$("#output-console").height( $("#console-block").height() - $("#input-console").height());
+
+$("#form-new-file").css("top", $("#editor-toolbar").height());
+
+//Initialisation de l'editeur
 var editor = ace.edit("editor");
-editor.getSession().setMode(aceMode);
-editor.setTheme("ace/theme/dawn");
+editor.setTheme("ace/theme/pastel_on_dark");
 editor.$blockScrolling = Infinity
-document.getElementById('editor').style.fontSize='16px';
+
+var modeles;
+var files;
+var currentFile = -1;
+
+function File(name, content){
+  this.name = name;
+  this.content = content;
+}
 
 function requestAndSetLanguage(language){
   console.log("Selection language : " + language);
@@ -15,11 +30,136 @@ function requestAndSetLanguage(language){
     success: function(response) {
       console.log(response);
       editor.getSession().setMode(response.ace);
-      editor.setValue(response.model);
+
+      modeles = response.modeles;
+      console.log(modeles);
+      console.log(modeles[0]);
+
       $("#navbarDropdownMenuLink").html("Editeur : " + response.name);
+      document.title = "LIDE - " + response.name;
+
+      $("#select-file").html("");
+      currentFile  = -1;
+      files = new Array();
+      addFile("main." + modeles[0].ext, modeles[0].model)
+
+      //Modification du formulaire de nouveau fichier
+      $("#select-modele").html("")
+      $("#select-modele").append(
+        $("<option></option")
+          .attr("value", -1)
+          .text("Fichier vide")
+      );
+      for(var i = 0; i < modeles.length; i++){
+        $("#select-modele").append($("<option></option")
+          .attr("value", i)
+          .text("." + modeles[i].ext )
+        );
+      }
+      $("#select-modele").val(-1);
+      console.log(modeles[0].model);
+      $("#show-model").text(modeles[0].model).html();
+      $("#show-model").html($("#show-model").html().replace(/\n/g,"<br>"));
     },
   });
 }
+
+function changeActiveFileTo(id){
+  if(id >= 0 && id < files.length){
+    console.log("Change file to "  + id);
+    if(currentFile != -1){
+      files[currentFile].content = editor.getValue();
+    }
+    editor.setValue(files[id].content);
+    $("#select-file").val(id);
+    currentFile = id;
+  }
+}
+
+function addFile(name, content){
+
+  files.push(new File(name, content));
+  $("#select-file").append("<option value=\"" + (files.length - 1)  + "\">" + name + "</option>\n");
+  changeActiveFileTo(files.length - 1);
+}
+
+$("#select-file").change(function (){
+  changeActiveFileTo($("#select-file").val());
+});
+
+$("#select-modele").change(function(){
+  var ext;
+  if($( this ).val() == -1){
+    $("#show-model").text("").html();
+    ext = modeles[0].ext;
+  }
+  else{
+    $("#show-model").text(modeles[ $( this ).val() ].model).html();
+    $("#show-model").html($("#show-model").html().replace(/\n/g,"<br>"));
+    ext = modeles[ $( this ).val() ].ext;
+  }
+  $("#extension-addon").text("." + ext);
+});
+
+function removeFile(id){
+  if(id >= 0 && id < files.length){
+    var newFiles = new Array();
+    for(var i = 0; i < files.length; i++){
+      if( i != id){
+        newFiles.push(files[i]);
+      }
+    }
+    files = newFiles;
+
+    if(files.lenght == 0){
+      addFile("main." + modeles[0].ext, modeles[0].model);
+    }
+    currentFile = -1;
+    changeActiveFileTo(0);
+
+    $("#select-file").html("");
+    for(var i = 0; i < files.length; ++i){
+      $("#select-file").append(
+        $("<option></option>")
+          .attr("value", i)
+          .text(files[0].name)
+      );
+    }
+  }
+}
+
+$("#rm_file").click(function (){
+  removeFile(currentFile);
+});
+
+$("#btn-create-file").click(function (){
+  var fileContent = "";
+  var fileName = $( "#new-file-name" ).val();
+  var idModel = $(" #select-modele").val();
+
+  if(fileName == ""){
+    fileName = "file";
+  }
+
+  if(idModel == -1){
+    fileName = fileName + "." + modeles[0].ext;
+  }
+  else{
+    fileName = fileName + "." + modeles[idModel].ext;
+    fileContent = modeles[idModel].model;
+  }
+
+  addFile(fileName, fileContent);
+  $("#add_file").click();
+})
+
+requestAndSetLanguage($(".choix-langage-selected").attr("data-id"));
+
+$("#add_file").click(function(){
+  console.log("Add file button");
+  $("#form-new-file").toggleClass("hidden-new-file");
+  $("#form-new-file").toggleClass("showed-new-file");
+})
 
 $("#console-toogle").click(function (){
   $("#console").toggleClass("d-none");
