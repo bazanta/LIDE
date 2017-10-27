@@ -24,8 +24,7 @@
   {{ parent() }}
   <script src="{{ asset('js/plugins/ace/ace.js')}}"></script>
   <script>
-    var aceMode = '{{ ace_mode }}';
-    var extension = '{{ extension }}'
+
   </script>
   <script src="{{ asset('js/ide.js')}}"></script>
 {% endblock %}
@@ -36,20 +35,43 @@
 
 
 
-
 <div class="container-fluid m-0 p-0">
     <div class="row m-0 p-0 vh-90" style="z-index : 0">
 
         <!--Block contenant l'editeur des texte -->
         <div id="block-editor" class="col-8  m-0 p-0 h-100">
+
+          <!-- Barre d'outils : selection du fichier coruant, ajout/suprression d'un fichier  -->
           <div id="editor-toolbar" class="bg-light">
             <select id="select-file">
-              <option value="0" selected>main.{{ extension}}</option>
+              <option value="0" selected>main</option>
             </select>
-            <button id="add_file" class="btn-danger">+</button>
-        </div>
+            <button id="add_file" class="btn-success">Nouveau fichier</button>
+            <button id="rm_file" class="btn-danger">Supprimer</button>
+            <!--Caché par default -->
+            <form id="form-new-file" class="px-4 py-3 hidden-new-file">
+              <div class="input-group m-1">
+                <input type="text" class="form-control col" id="new-file-name" placeholder="Entrer le nom du fichier">
+                  <span class="input-group-addon" id="extension-addon">.cpp</span>
+              </div>
+              <div class="form-group m-1">
+                <label for="select-modele">Modèle de fichier</label>
+                <select id="select-modele" class="custom-select w-50">
+                </select>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseModele" aria-expanded="false" aria-controls="collapseModele">
+                  Show model
+                </button>
+                <div class="collapse" id="collapseModele">
+                  <code id="show-model" class="form-control">
+                    Modele
+                  </code>
+                </div>
+              </div>
+              <button id="btn-create-file" class="btn-success w-100" type="button">Créer</button>
+            </form>
+          </div>
 
-          <div id="editor" class="m-0" style="font-size : 16pt">{{ model }}</div>
+          <div id="editor" class="m-0" style="font-size : 16pt"></div>
           <form id="editor-form" class="form-horizontal"  style="width : 75%; position : absolute; top: auto; bottom : 5%; left:12.5%; z-index: 2;">
             <div class="btn-group" id="btn-action-file" role="group">
               <button id="btn-save" type="submit" class="btn btn-primary btn_save w-50 m-0">Save</button>

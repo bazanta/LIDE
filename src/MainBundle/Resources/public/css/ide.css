@@ -3,6 +3,18 @@
     Author     : pviolette
 */
 
+.hidden-new-file{
+  display: none;
+}
+
+.showed-new-file{
+  position: absolute;
+  left : 0;
+  background-color: white;
+  z-index: 100;
+  width : 80%;
+}
+
 #editor{
   width: 100%;
   padding: 0 0 0 0;
@@ -39,7 +51,7 @@
 
 #console-toogle {
   opacity: 0.75;
-  z-index : 5;
+  z-index : 200;
 
   position: absolute;
   left : -20px;

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use Psr\Log\LoggerInterface;
 
 class DefaultController extends Controller
 {
@@ -33,46 +34,66 @@ class DefaultController extends Controller
       }
     }
 
-    private function getLanguageInfo($id){
+
+
+    private function getLangageModels($id){
       $em = $this->getDoctrine()->getManager();
 
-      $model = $em->getRepository('MainBundle:DetailLangage')->findBy(array('langage' => $id))[0]->getModele();
-      $extension = $em->getRepository('MainBundle:DetailLangage')->findBy(array('langage' => $id))[0]->getExtension();
-      $name = $em->getRepository('MainBundle:Langage')->findBy(array('id' => $id))[0]->getNom();
 
-      return array(
-        'ace'=> $this->matchLanguageToAce($id),
-        'model' => $model,
-        'name' => $name,
-        'extension' => $extension
-      );
+      return $result;
     }
-
 
 
     public function indexAction()
     {
         $selected_langage = 1;
         $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
         $langages = $em->getRepository('MainBundle:Langage')->findBy(array('actif' => 1));
 
         $info = $this->getLanguageInfo($selected_langage);
 
+        $logger = $this->get('logger');
+        $logger->info(print_r($info, true));
 
         return $this->render('MainBundle:Default:index.html.twig', array(
           'list_langage' => $langages,
           'selected_langage' => $selected_langage,
           'selected_langage_name' => $info['name'],
-          'model' => $info['model'],
-          'ace_mode' => $info['ace'],
-          'extension' => $info['extension']
         ));
     }
 
 /* Méthode appelé lors d'un changement de langage
  *
  */
+
+    private function getLanguageInfo($id){
+      $em = $this->getDoctrine()->getManager();
+
+      $name = $em->getRepository('MainBundle:Langage')->findBy(array('id' => $id))[0]->getNom();
+
+      $details = $em->getRepository('MainBundle:DetailLangage')->findBy(array('langage' => $id));
+
+      $detailThatMatter = array();
+
+      foreach($details as $d){
+        $detailThatMatter[] = array(
+          'ext' => $d->getExtension(),
+          'model' => $d->getModele()
+        );
+      }
+
+      $logger = $this->get('logger');
+      $logger->info(print_r($detailThatMatter, true));
+
+
+      return array(
+        'ace'=> $this->matchLanguageToAce($id),
+        'modeles' => $detailThatMatter,
+        'name' => $name
+      );
+    }
 
     public function languageInfoAction(Request $request){
       /*
@@ -92,4 +113,5 @@ class DefaultController extends Controller
       }
       return new Response('This is not ajax!', 400);
     }
+
 }
