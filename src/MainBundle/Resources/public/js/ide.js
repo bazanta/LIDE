@@ -67,6 +67,8 @@ function requestAndSetLanguage(language){
 function changeActiveFileTo(id){
   if(id >= 0 && id < files.length){
     console.log("Change file to "  + id);
+    console.log(files);
+    console.log(files[id].content);
     if(currentFile != -1){
       files[currentFile].content = editor.getValue();
     }
@@ -78,7 +80,11 @@ function changeActiveFileTo(id){
 
 function addFile(name, content){
 
-  files.push(new File(name, content));
+  var f = new File(name, content);
+  console.log("New file : ");
+  console.log(f);
+  files.push(f);
+
   $("#select-file").append("<option value=\"" + (files.length - 1)  + "\">" + name + "</option>\n");
   changeActiveFileTo(files.length - 1);
 }
@@ -103,19 +109,24 @@ $("#select-modele").change(function(){
 
 function removeFile(id){
   if(id >= 0 && id < files.length){
+    currentFile = -1;
+
     var newFiles = new Array();
     for(var i = 0; i < files.length; i++){
       if( i != id){
+        console.log("Push " + id);
         newFiles.push(files[i]);
       }
     }
     files = newFiles;
 
-    if(files.lenght == 0){
+    console.log("Suppression de " + id + ". files = " + files);
+    if(files.length == 0){
+      console.log("Aucun fichier. Création d'un fichier de base");
       addFile("main." + modeles[0].ext, modeles[0].model);
+    }else{
+      changeActiveFileTo(0);      
     }
-    currentFile = -1;
-    changeActiveFileTo(0);
 
     $("#select-file").html("");
     for(var i = 0; i < files.length; ++i){
