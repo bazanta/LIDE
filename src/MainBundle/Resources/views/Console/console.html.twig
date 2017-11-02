@@ -65,46 +65,35 @@
           
         var jqconsole = $('#console').jqconsole('Hi\n', '');
         
-        var output = "";
         
         var getOutput = function(){
             $.ajax({
-                url: "{{path('output')}}",
+                url: "{{path('exec')}}",
                 type: "POST",
-                async: false,
                 data: {},
                 success: function(data) {
-                    output = data;
-                    alert("Output : "+data);
-                    jqconsole.Write(data + '\n','jqconsole-output');
-                    if(data !== "END"){
-                        
-                        jqconsole.Prompt(true, function(input){
-                            alert("Input : "+input);
-                            $.ajax({
-                                url: "{{path('input')}}",
+                    jqconsole.Write(data, 'jqconsole-output');
+                }
+            });
+            
+            var repondre = function(){
+                jqconsole.Prompt(true, function(input){
+                    $.ajax({
+                                url: "{{path('answer')}}",
                                 type: "POST",
                                 async: false,
                                 data: {"msg": input},
                                 success: function(data){
-                                    alert("Nouvel attribut : "+data);
-                                    getOutput();
+                                    jqconsole.Write(data, 'jqconsole-output');
+                                    repondre();
                                 }
-                            });
-
-                        });
-                    }
+                    });
                     
-                    
-                 }
-            });
-            
-            
-        };
-        
-        
+                });
+            };
+            repondre();
+        };  
         getOutput();
-        
       });
     </script>
   </body>
