@@ -10,8 +10,8 @@
       {% for lang in list_langage %}
         <a class="dropdown-item {% if lang.id == selected_langage %} choix-langage-selected{% else %} choix-langage{% endif %}" href="#" data-id="{{ lang.id }}">{{ lang.nom }}</a>
       {% endfor %}
-     </div>
-   </li>
+    </div>
+  </li>
 {% endblock %}
 
 
