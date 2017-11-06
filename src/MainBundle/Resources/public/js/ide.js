@@ -23,7 +23,7 @@ function requestAndSetLanguage(language){
   console.log("Selection language : " + language);
   $.ajax({
     type: "POST",
-    url: PATH_LANGUAGE_INFO,
+    url: urlLangagesInfo,
     data: {
            lang : language
     },
@@ -59,7 +59,7 @@ function requestAndSetLanguage(language){
       $("#select-modele").val(-1);
       console.log(modeles[0].model);
       $("#show-model").text(modeles[0].model).html();
-      $("#show-model").html($("#show-model").html().replace(/\n/g,"<br>"));
+      $("#show-modelhttps://trello.com/b/PCq4IDlC/lide-licence-informatic-development-environment").html($("#show-model").html().replace(/\n/g,"<br>"));
     },
   });
 }
@@ -98,8 +98,10 @@ $("#select-modele").change(function(){
   if($( this ).val() == -1){
     $("#show-model").text("").html();
     ext = modeles[0].ext;
+    $("#show-model-btn").prop("disabled", true);
   }
   else{
+    $("#show-model-btn").prop("disabled", false);
     $("#show-model").text(modeles[ $( this ).val() ].model).html();
     $("#show-model").html($("#show-model").html().replace(/\n/g,"<br>"));
     ext = modeles[ $( this ).val() ].ext;
@@ -125,7 +127,7 @@ function removeFile(id){
       console.log("Aucun fichier. Création d'un fichier de base");
       addFile("main." + modeles[0].ext, modeles[0].model);
     }else{
-      changeActiveFileTo(0);      
+      changeActiveFileTo(0);
     }
 
     $("#select-file").html("");
@@ -140,8 +142,29 @@ function removeFile(id){
 }
 
 $("#rm_file").click(function (){
-  removeFile(currentFile);
+  if(confirm("Attention ! Toute donnée non sauvegardées seront perdu !")){
+    removeFile(currentFile);    
+  }
 });
+
+function saveFile(id){
+  if(id >= 0 && id < files.length){
+    if(id == currentFile){
+      files[currentFile].content = editor.getValue();
+    }
+    var blob = new Blob( [files[id].content] , {type: "text/plain;charset=utf-8"});
+    saveAs(blob, files[id].name);
+  }
+}
+
+function saveAllFile(){
+  for(i = 0; i < files.length; ++i){
+    saveFile(i);
+  }
+}
+
+$("#btn-save").click(saveAllFile);
+
 
 $("#btn-create-file").click(function (){
   var fileContent = "";
@@ -188,7 +211,6 @@ $("#console-toogle").click(function (){
 
   $("#block-editor").toggleClass("col-12");
   $("#block-editor").toggleClass("col-8");
-
 });
 
 //Selection d'un nouveau langage

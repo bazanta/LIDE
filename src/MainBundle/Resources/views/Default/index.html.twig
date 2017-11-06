@@ -10,8 +10,8 @@
       {% for lang in list_langage %}
         <a class="dropdown-item {% if lang.id == selected_langage %} choix-langage-selected{% else %} choix-langage{% endif %}" href="#" data-id="{{ lang.id }}">{{ lang.nom }}</a>
       {% endfor %}
-     </div>
-   </li>
+    </div>
+  </li>
 {% endblock %}
 
 
@@ -23,22 +23,27 @@
 
 {% block javascript %}
   {{ parent() }}
+
   <script src="{{ asset('js/plugins/ace/ace.js')}}"></script>
-  <script src="{{asset('js/jqconsole.js')}}"></script>
-  <script>
       var PATH_CONSOLE_EXEC = "exec";
       var PATH_CONSOLE_ANS = "answer";
       var PATH_LANGUAGE_INFO = "language_info"
   </script>
   <script src="{{asset('js/console.js')}}"></script>
+  <script src="{{asset('js/jqconsole.js')}}"></script>
+  <script>
+  <script>
+    var urlLangagesInfo = "{{path('language_info')}}";
+    console.log(urlLangagesInfo);
+  </script>
+  <script src="{{ asset('js/plugins/FileSaver.min.js')}}"></script>
+
   <script src="{{ asset('js/ide.js')}}"></script>
 {% endblock %}
 
 {% block title %}{{ parent() }} - {{ selected_langage_name }} {% endblock %}
 
 {% block body %}
-
-
 
 <div class="container-fluid m-0 p-0">
     <div class="row m-0 p-0 vh-90" style="z-index : 0">
@@ -63,7 +68,7 @@
                 <label for="select-modele">Modèle de fichier</label>
                 <select id="select-modele" class="custom-select w-50">
                 </select>
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseModele" aria-expanded="false" aria-controls="collapseModele">
+                <button id="show-model-btn" disabled class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseModele" aria-expanded="false" aria-controls="collapseModele">
                   Show model
                 </button>
                 <div class="collapse" id="collapseModele">
@@ -79,7 +84,7 @@
           <div id="editor" class="m-0" style="font-size : 16pt"></div>
           <form id="editor-form" class="form-horizontal"  style="width : 75%; position : absolute; top: auto; bottom : 5%; left:12.5%; z-index: 2;">
             <div class="btn-group" id="btn-action-file" role="group">
-              <button id="btn-save" type="submit" class="btn btn-primary btn_save w-50 m-0">Save</button>
+              <button id="btn-save" type="button" class="btn btn-primary btn_save w-50 m-0">Save</button>
               <button type="submit" class="btn btn-success btn_save w-50 m-0">Run</button> <!--TODO dropdown btn -->
             </div>
           </form>

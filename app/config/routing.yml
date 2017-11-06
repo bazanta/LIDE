@@ -1,6 +1,7 @@
 main:
     resource: "@MainBundle/Resources/config/routing.yml"
     prefix:   /
+    
 easy_admin_bundle:
     resource: "@EasyAdminBundle/Controller/"
     type:     annotation
