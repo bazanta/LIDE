@@ -143,8 +143,7 @@ function removeFile(id){
 
 $("#rm_file").click(function (){
   if(confirm("Attention ! Toute donnée non sauvegardées seront perdu !")){
-    removeFile(currentFile);
-    
+    removeFile(currentFile);    
   }
 });
 
