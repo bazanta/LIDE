@@ -98,8 +98,10 @@ $("#select-modele").change(function(){
   if($( this ).val() == -1){
     $("#show-model").text("").html();
     ext = modeles[0].ext;
+    $("#show-model-btn").prop("disabled", true);
   }
   else{
+    $("#show-model-btn").prop("disabled", false);
     $("#show-model").text(modeles[ $( this ).val() ].model).html();
     $("#show-model").html($("#show-model").html().replace(/\n/g,"<br>"));
     ext = modeles[ $( this ).val() ].ext;
@@ -125,7 +127,7 @@ function removeFile(id){
       console.log("Aucun fichier. Création d'un fichier de base");
       addFile("main." + modeles[0].ext, modeles[0].model);
     }else{
-      changeActiveFileTo(0);      
+      changeActiveFileTo(0);
     }
 
     $("#select-file").html("");
