@@ -4,14 +4,11 @@ namespace MainBundle\Services;
 
 class GestionSSH{
 
-    private $m_host;
-    private $m_login;
-    private $m_mdp;
-    private $m_connexion;
-    private $m_stream;
-    private $m_stdout;
-    private $testattribut;
     private $shell;
+    private $cmd;   //dernière commande lue
+    private $msg;   //dernier message envoyé
+    
+    private static $TIME_OUT = 30;
 
     public function __construct($ssh_adr,$ssh_login,$ssh_password){
 
@@ -19,17 +16,17 @@ class GestionSSH{
         $this->m_login = $ssh_login;
         $this->m_mdp = $ssh_password;
         
-        $this->m_connexion = ssh2_connect($this->m_host);
-	ssh2_auth_password($this->m_connexion,$this->m_login,$this->m_mdp);
+        $connection = ssh2_connect($ssh_adr);
+	ssh2_auth_password($connection,$ssh_login,$ssh_password);
         
-        $this->shell = ssh2_shell($this->m_connexion,"bash",null,8000,8000, SSH2_TERM_UNIT_CHARS);       
+        $this->shell = ssh2_shell($connection,"bash",null,8000,8000, SSH2_TERM_UNIT_CHARS);       
         
     }
     
     
     //Lire dans le shell
     
-    function lire($cmd, $msg=null){
+    function lire(){
         
         $out = "";
         $start = false;
@@ -39,29 +36,33 @@ class GestionSSH{
             $line = fgets($this->shell);
             
             
-            if(!strstr($line,$cmd)) { //On affiche pas la commande ni le message envoyé
-                if((is_null($msg))||(!is_null($msg)&&(strcmp($line, $msg) !== 0))){
-                    if(preg_match('/\[start\]/',$line)) {
-                        $start = true;
-                    }elseif(preg_match('/\[end\]/',$line)) {
-                        return $out;
-                    }elseif($start){
-                        $out .= $line;
-                    }
+            if(!strstr($line,$this->cmd)) { //On n'affiche pas la commande 
+               
+                if(preg_match('/\[start\]/',$line)) {
+                    $start = true;
+                }elseif(preg_match('/\[end\]/',$line)) {
+                    $output [] = $out;
+                    $output [] = "yes";
+                    return $output;
+                }elseif($start&&!($line===$this->msg."\r\n")){   //On n'affiche pas le message envoyé
+                    $out .= $line;
                 }
-                
             }
         }
         
-        
-        return $out;
+        $output [] = $out;
+        $output [] = "no";
+       
+        return $output;
     }
     
     //Exécute une commande
     
-    function lancerCommande($cmd){
-        $cmdSE = "echo '[start]';$cmd;echo '[end]'";
+    function execCmd($cmd){
+        $cmdSE = "echo '[start]';$cmd; echo '[end]'";
         fwrite($this->shell,$cmdSE . "\n");
+        
+        $this->cmd = $cmd;
     }
    
     //Envoie des messages qui ne sont pas des commandes;
@@ -70,6 +71,8 @@ class GestionSSH{
         flush();
         
         fwrite($this->shell,$msg."\n");
+        
+        $this->msg = $msg;
         
     }
     

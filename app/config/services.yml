@@ -10,4 +10,3 @@ services:
     gestionssh:
         class: MainBundle\Services\GestionSSH
         arguments: ["%ssh_host%","%ssh_login%","%ssh_password%"]
-        scope: prototype

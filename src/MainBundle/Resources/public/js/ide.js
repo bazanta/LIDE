@@ -23,7 +23,7 @@ function requestAndSetLanguage(language){
   console.log("Selection language : " + language);
   $.ajax({
     type: "POST",
-    url: "app_dev.php/language_info",
+    url: PATH_LANGUAGE_INFO,
     data: {
            lang : language
     },
@@ -173,6 +173,8 @@ $("#add_file").click(function(){
 })
 
 $("#console-toogle").click(function (){
+   console.log("TOGGLE CONSOLE");
+    
   $("#console").toggleClass("d-none");
   $("#console-block").toggleClass("console-block-open");
   $("#console-block").toggleClass("col-4");

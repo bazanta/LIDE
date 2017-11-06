@@ -18,11 +18,19 @@
 {% block stylesheet %}
   {{ parent () }}
   <link rel="stylesheet" href="{{ asset('css/ide.css') }}" />
+  <link rel="stylesheet" href="{{ asset('css/jqconsole.css') }}"/>
 {% endblock %}
 
 {% block javascript %}
   {{ parent() }}
   <script src="{{ asset('js/plugins/ace/ace.js')}}"></script>
+  <script src="{{asset('js/jqconsole.js')}}"></script>
+  <script>
+      var PATH_CONSOLE_EXEC = "exec";
+      var PATH_CONSOLE_ANS = "answer";
+      var PATH_LANGUAGE_INFO = "language_info"
+  </script>
+  <script src="{{asset('js/console.js')}}"></script>
   <script src="{{ asset('js/ide.js')}}"></script>
 {% endblock %}
 
@@ -81,8 +89,6 @@
         <div id="console-block" class="console-block-open col-4 m-0 p-0 h-100">
           <div id="console-toogle" data-toggle="tooltip" title="Toggle Console" class="left-0 console-toogle-open h-100">&gt;</div>
           <div id="console">
-            <textarea class="form-control w-100" id="output-console" form="editor-form" readonly>Voilà elle eest comme il faut la console temporaire</textarea>
-            <textarea id="input-console" rows="1" class="w-100" style="background-color : black; color : white; resize : non" style="">Input</textarea>
           </div>
         </div>
     </div>
