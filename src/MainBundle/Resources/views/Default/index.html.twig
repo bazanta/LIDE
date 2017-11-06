@@ -22,7 +22,10 @@
 
 {% block javascript %}
   {{ parent() }}
+
   <script src="{{ asset('js/plugins/ace/ace.js')}}"></script>
+  <script src="{{ asset('js/plugins/FileSaver.min.js')}}"></script>
+
   <script src="{{ asset('js/ide.js')}}"></script>
 {% endblock %}
 
@@ -71,7 +74,7 @@
           <div id="editor" class="m-0" style="font-size : 16pt"></div>
           <form id="editor-form" class="form-horizontal"  style="width : 75%; position : absolute; top: auto; bottom : 5%; left:12.5%; z-index: 2;">
             <div class="btn-group" id="btn-action-file" role="group">
-              <button id="btn-save" type="submit" class="btn btn-primary btn_save w-50 m-0">Save</button>
+              <button id="btn-save" type="button" class="btn btn-primary btn_save w-50 m-0">Save</button>
               <button type="submit" class="btn btn-success btn_save w-50 m-0">Run</button> <!--TODO dropdown btn -->
             </div>
           </form>

@@ -42,6 +42,7 @@ var livereload = require('gulp-livereload');
             './node_modules/jquery/dist/jquery.min.js',
             './node_modules/bootstrap/dist/js/bootstrap.min.js',
             './node_modules/popper.js/dist/popper.min.js',
+            './node_modules/file-saver/FileSaver.min.js'
         ]).pipe(gulp.dest('./web/js/plugins/',{overwrite: true}));
     });
 
