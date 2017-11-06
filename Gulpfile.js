@@ -35,6 +35,12 @@ var livereload = require('gulp-livereload');
             .pipe(gulp.dest('./web/css/',{overwrite: true}));
     });
 
+    //Récup Bootstrap
+    gulp.task('bootstrap', function () {
+        gulp.src('./node_modules/bootstrap/dist/css/bootstrap.min.css')
+            .pipe(gulp.dest('./web/css/plugins/',{overwrite: true}));
+    });
+
 
     //Déplacement des plugins depuis node_modules(npm)
     gulp.task('js-plugins', function () {
@@ -70,6 +76,6 @@ var livereload = require('gulp-livereload');
 //Taches par défaults
 gulp.task('default', ['css','js']);
 
-gulp.task('all', ['sass','js','img','js-plugins', 'ace']);
+gulp.task('all', ['sass','js','img','js-plugins', 'bootstrap','ace']);
 
-gulp.task('prod', ['sass','js','img','js-plugins','min']);
+gulp.task('prod', ['sass','js','img','js-plugins', 'ace','min']);

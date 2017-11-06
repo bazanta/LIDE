@@ -23,6 +23,10 @@
 {% block javascript %}
   {{ parent() }}
   <script src="{{ asset('js/plugins/ace/ace.js')}}"></script>
+  <script>
+    var urlLangagesInfo = "{{path('language_info')}}";
+    console.log(urlLangagesInfo);
+  </script>
   <script src="{{ asset('js/ide.js')}}"></script>
 {% endblock %}
 

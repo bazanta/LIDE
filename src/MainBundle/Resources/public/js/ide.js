@@ -23,7 +23,7 @@ function requestAndSetLanguage(language){
   console.log("Selection language : " + language);
   $.ajax({
     type: "POST",
-    url: "app_dev.php/language_info",
+    url: urlLangagesInfo,
     data: {
            lang : language
     },
