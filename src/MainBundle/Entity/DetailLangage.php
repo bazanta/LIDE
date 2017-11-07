@@ -60,6 +60,14 @@ class DetailLangage
     }
 
     /**
+     * Function for display this object
+     */
+    public function __toString() 
+    {
+        return $this->extension;
+    }
+
+    /**
      * Set extension
      *
      * @param string $extension

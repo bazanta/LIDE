@@ -14,33 +14,9 @@
   </li>
 {% endblock %}
 
-
-{% block stylesheet %}
-  {{ parent () }}
-  <link rel="stylesheet" href="{{ asset('css/ide.css') }}" />
-  <link rel="stylesheet" href="{{ asset('css/jqconsole.css') }}"/>
+{% block title %}
+    {{ parent() }} - {{ selected_langage_name }} 
 {% endblock %}
-
-{% block javascript %}
-  {{ parent() }}
-
-  <script src="{{ asset('js/plugins/ace/ace.js')}}"></script>
-  <script src="{{ asset('js/plugins/FileSaver.min.js')}}"></script>
-  <script src="{{asset('js/jqconsole.js')}}"></script>
-  
-  <script>
-    var urlLangagesInfo = "{{path('language_info')}}";
-    console.log(urlLangagesInfo);
-    
-    var PATH_CONSOLE_EXEC = "exec";
-    var PATH_CONSOLE_ANS = "answer";
-  </script>
-  
-  <script src="{{asset('js/console.js')}}"></script>
-  <script src="{{ asset('js/ide.js')}}"></script>
-{% endblock %}
-
-{% block title %}{{ parent() }} - {{ selected_langage_name }} {% endblock %}
 
 {% block body %}
 
@@ -98,4 +74,28 @@
     </div>
  </div>
 
+{% endblock %}
+
+{% block stylesheet %}
+  {{ parent () }}
+  <link rel="stylesheet" href="{{ asset('css/ide.css') }}" />
+  <link rel="stylesheet" href="{{ asset('css/jqconsole.css') }}"/>
+{% endblock %}
+
+{% block javascript %}
+  {{ parent() }}
+
+  <script src="{{ asset('js/plugins/ace/ace.js')}}"></script>
+  <script src="{{ asset('js/plugins/FileSaver.min.js')}}"></script>
+  <script src="{{asset('js/jqconsole.js')}}"></script>
+  
+  <script>
+    var urlLangagesInfo = "{{path('language_info')}}";
+    
+    var PATH_CONSOLE_EXEC = "exec";
+    var PATH_CONSOLE_ANS = "answer";
+  </script>
+  
+  <script src="{{asset('js/console.js')}}"></script>
+  <script src="{{ asset('js/ide.js')}}"></script>
 {% endblock %}
