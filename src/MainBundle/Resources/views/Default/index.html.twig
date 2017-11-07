@@ -15,28 +15,10 @@
 {% endblock %}
 
 {% block title %}
-    {{ parent() }} - {{ selected_langage_name }} 
+    {{ parent() }} - {{ selected_langage_name }}
 {% endblock %}
 
-{% block javascript %}
-  {{ parent() }}
 
-  <script src="{{ asset('js/plugins/ace/ace.js')       }}"></script>
-  <script src="{{ asset('js/plugins/FileSaver.min.js') }}"></script>
-  <script src="{{ asset('js/plugins/jszip.min.js')     }}"></script>
-  <script src="{{ asset('js/jqconsole.js')             }}"></script>
-
-  <script>
-    var urlLangagesInfo = "{{path('language_info')}}";
-    console.log(urlLangagesInfo);
-
-    var PATH_CONSOLE_EXEC = "{{ path('exec')  }}";
-    var PATH_CONSOLE_ANS =  "{{ path('answer')}}";
-  </script>
-
-  <script src="{{ asset('js/console.js')}}"></script>
-  <script src="{{ asset('js/ide.js')    }}"></script>
-{% endblock %}
 
 {% block title %}{{ parent() }} - {{ selected_langage_name }} {% endblock %}
 
@@ -121,17 +103,19 @@
 {% block javascript %}
   {{ parent() }}
 
-  <script src="{{ asset('js/plugins/ace/ace.js')}}"></script>
-  <script src="{{ asset('js/plugins/FileSaver.min.js')}}"></script>
-  <script src="{{asset('js/jqconsole.js')}}"></script>
-  
+  <script src="{{ asset('js/plugins/ace/ace.js')       }}"></script>
+  <script src="{{ asset('js/plugins/FileSaver.min.js') }}"></script>
+  <script src="{{ asset('js/plugins/jszip.min.js')     }}"></script>
+  <script src="{{ asset('js/jqconsole.js')             }}"></script>
+
   <script>
     var urlLangagesInfo = "{{path('language_info')}}";
-    
-    var PATH_CONSOLE_EXEC = "exec";
-    var PATH_CONSOLE_ANS = "answer";
+    console.log(urlLangagesInfo);
+
+    var PATH_CONSOLE_EXEC = "{{ path('exec')  }}";
+    var PATH_CONSOLE_ANS =  "{{ path('answer')}}";
   </script>
-  
-  <script src="{{asset('js/console.js')}}"></script>
-  <script src="{{ asset('js/ide.js')}}"></script>
+
+  <script src="{{ asset('js/console.js')}}"></script>
+  <script src="{{ asset('js/ide.js')    }}"></script>
 {% endblock %}
