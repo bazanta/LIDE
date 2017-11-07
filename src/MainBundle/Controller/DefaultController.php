@@ -14,10 +14,10 @@ use Psr\Log\LoggerInterface;
 class DefaultController extends Controller
 {
 
-    private function matchLanguageToAce($id){
+    private function matchLanguageToAce($id) {
       //CODE TEMPORAIRE TODO EXTRAIRE DANS UN FICHIER JSON
       $em = $this->getDoctrine()->getManager();
-      $name = $em->getRepository('MainBundle:Langage')->findBy(array('id' => $id))[0]->getNom();
+      $name = $em->getRepository('MainBundle:Langage')->find($id)->getNom();
 
       switch ($name) {
         case 'C++':
@@ -27,7 +27,7 @@ class DefaultController extends Controller
           return 'ace/mode/c_cpp';
         break;
         case 'java':
-        return 'ace/mode/java';
+          return 'ace/mode/java';
         default:
           return 'ace/mode/plain_text';
           break;
@@ -36,7 +36,7 @@ class DefaultController extends Controller
 
 
 
-    private function getLangageModels($id){
+    private function getLangageModels($id) {
       $em = $this->getDoctrine()->getManager();
 
 
@@ -44,13 +44,11 @@ class DefaultController extends Controller
     }
 
 
-    public function indexAction()
-    {
+    public function indexAction() {
         $selected_langage = 1;
         $em = $this->getDoctrine()->getManager();
-        $em = $this->getDoctrine()->getManager();
 
-        $langages = $em->getRepository('MainBundle:Langage')->findBy(array('actif' => 1));
+        $langages = $em->getRepository('MainBundle:Langage')->findByActif(true);
 
         $info = $this->getLanguageInfo($selected_langage);
 
@@ -68,15 +66,13 @@ class DefaultController extends Controller
  *
  */
 
-    private function getLanguageInfo($id){
+    private function getLanguageInfo($id) {
       $em = $this->getDoctrine()->getManager();
 
-      $name = $em->getRepository('MainBundle:Langage')->findBy(array('id' => $id))[0]->getNom();
-
-      $details = $em->getRepository('MainBundle:DetailLangage')->findBy(array('langage' => $id));
+      $name = $em->getRepository('MainBundle:Langage')->find($id)->getNom();
+      $details = $em->getRepository('MainBundle:DetailLangage')->findByLangage($id);
 
       $detailThatMatter = array();
-
       foreach($details as $d){
         $detailThatMatter[] = array(
           'ext' => $d->getExtension(),
