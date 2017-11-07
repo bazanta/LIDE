@@ -19,6 +19,8 @@ class DefaultController extends Controller
       $em = $this->getDoctrine()->getManager();
       $name = $em->getRepository('MainBundle:Langage')->find($id)->getNom();
 
+      $name = strtoupper($name);
+
       switch ($name) {
         case 'C++':
           return 'ace/mode/c_cpp';
@@ -26,7 +28,7 @@ class DefaultController extends Controller
         case 'C':
           return 'ace/mode/c_cpp';
         break;
-        case 'java':
+        case 'JAVA':
           return 'ace/mode/java';
         default:
           return 'ace/mode/plain_text';
@@ -45,19 +47,20 @@ class DefaultController extends Controller
 
 
     public function indexAction() {
-        $selected_langage = 1;
         $em = $this->getDoctrine()->getManager();
 
         $langages = $em->getRepository('MainBundle:Langage')->findByActif(true);
 
-        $info = $this->getLanguageInfo($selected_langage);
+        $selected_langage = $em->getRepository('MainBundle:Langage')->findOneBy(array('actif' => true));
+
+        $info = $this->getLanguageInfo($selected_langage->getId());
 
         $logger = $this->get('logger');
         $logger->info(print_r($info, true));
 
         return $this->render('MainBundle:Default:index.html.twig', array(
           'list_langage' => $langages,
-          'selected_langage' => $selected_langage,
+          'selected_langage' => $selected_langage->getId(),
           'selected_langage_name' => $info['name'],
         ));
     }
@@ -82,7 +85,6 @@ class DefaultController extends Controller
 
       $logger = $this->get('logger');
       $logger->info(print_r($detailThatMatter, true));
-
 
       return array(
         'ace'=> $this->matchLanguageToAce($id),
