@@ -58,8 +58,8 @@ function requestAndSetLanguage(language){
       }
       $("#select-modele").val(-1);
       console.log(modeles[0].model);
-      $("#show-model").text(modeles[0].model).html();
-      $("#show-modelhttps://trello.com/b/PCq4IDlC/lide-licence-informatic-development-environment").html($("#show-model").html().replace(/\n/g,"<br>"));
+      $("#show-model").text("").html();
+      $("#select-modele").change();
     },
   });
 }
@@ -78,7 +78,25 @@ function changeActiveFileTo(id){
   }
 }
 
+function existFile(name){
+  var i;
+  for(i = 0; i < files.length; i++){
+    if(name == files[i].name){
+      return true;
+    }
+  }
+}
+
 function addFile(name, content){
+  if(name == ""){
+    alert("Impossible de créer un fichier avec un nom vide");
+    return;
+  }
+  if(existFile(name)){
+    alert("Le fichier " + name + " existe déjà. Veuillez choisir un autre nom pour votre fichier");
+    return;
+  }
+
 
   var f = new File(name, content);
   console.log("New file : ");
@@ -143,28 +161,9 @@ function removeFile(id){
 
 $("#rm_file").click(function (){
   if(confirm("Attention ! Toute donnée non sauvegardées seront perdu !")){
-    removeFile(currentFile);    
+    removeFile(currentFile);
   }
 });
-
-function saveFile(id){
-  if(id >= 0 && id < files.length){
-    if(id == currentFile){
-      files[currentFile].content = editor.getValue();
-    }
-    var blob = new Blob( [files[id].content] , {type: "text/plain;charset=utf-8"});
-    saveAs(blob, files[id].name);
-  }
-}
-
-function saveAllFile(){
-  for(i = 0; i < files.length; ++i){
-    saveFile(i);
-  }
-}
-
-$("#btn-save").click(saveAllFile);
-
 
 $("#btn-create-file").click(function (){
   var fileContent = "";
@@ -197,7 +196,7 @@ $("#add_file").click(function(){
 
 $("#console-toogle").click(function (){
    console.log("TOGGLE CONSOLE");
-    
+
   $("#console").toggleClass("d-none");
   $("#console-block").toggleClass("console-block-open");
   $("#console-block").toggleClass("col-4");
@@ -232,3 +231,83 @@ function clickLangage(){
   }
 }
 $(".choix-langage").click(clickLangage);
+
+
+/*******************************************************************************
+ *                    SAUVEGARDE DES FICHIERS                                  *
+ *******************************************************************************/
+
+const SAVE_CURRENT_FILE = "file";
+const SAVE_ARCHIVE = "archive";
+const SAVE_ALL_FILES = "all-files";
+
+var CURRENT_SAVE_METHOD = SAVE_CURRENT_FILE;
+
+ function saveFile(id){
+   //Sauvegarde d'un fichier via FileSaver.js
+   if(id >= 0 && id < files.length){
+     if(id == currentFile){
+       files[currentFile].content = editor.getValue();
+     }
+     var blob = new Blob( [files[id].content] , {type: "text/plain;charset=utf-8"});
+     saveAs(blob, files[id].name);
+   }
+   else{
+     console.log("Unknown file id : " + id);
+   }
+ }
+
+ function saveAllFiles(){
+   for(i = 0; i < files.length; ++i){
+     saveFile(i);
+   }
+ }
+
+ function saveAllFilesAsArchive(){
+   //Sauvegarde dans une archive zip avec JSZip + FileSaver.js
+   var zip = new JSZip();
+   for(i = 0; i < files.length; ++i){
+     zip.file(files[i].name, files[i].content);
+   }
+   zip.generateAsync({type:"blob"})
+   .then(function(content) {
+     saveAs(content, "archive.zip");
+   });
+ }
+
+function isValidSaveMethod(saveMethod){
+  return saveMethod == SAVE_CURRENT_FILE || saveMethod == SAVE_ARCHIVE || saveMethod == SAVE_ALL_FILES;
+}
+
+function performSaveMethod(saveMethod){
+  if(saveMethod == SAVE_CURRENT_FILE){
+    saveFile(currentFile);
+  }
+  else if(saveMethod == SAVE_ARCHIVE){
+    saveAllFilesAsArchive();
+  }
+  else if(saveMethod == SAVE_ALL_FILES){
+    saveAllFiles();
+  }
+}
+
+function changeSaveMethod(saveMethod){
+  if(isValidSaveMethod(saveMethod)){
+    CURRENT_SAVE_METHOD = saveMethod;
+  }
+  else{
+    console.log("Unknown save method : " + saveMethod);
+  }
+}
+
+$(".save-method").click(function(){
+  console.log()
+
+  changeSaveMethod( $( this ).attr("data-save-method"));
+  $("#btn-save").html( $( this ).html());
+  performSaveMethod(CURRENT_SAVE_METHOD);
+})
+
+$("#btn-save").click(function (){
+  performSaveMethod(CURRENT_SAVE_METHOD);
+});
