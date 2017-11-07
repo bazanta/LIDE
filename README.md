@@ -19,6 +19,13 @@ Pour installer les dépendances web :
 npm install
 ```
 
+### Gulp
+
+Pour récupérer les fichiers css, js :
+```
+gulp all
+```
+
 ### Base de données
 
 Pour créer la base de données :
@@ -40,3 +47,13 @@ Forcer la mise à jour:
 ```
 php app/console doctrine:schema:update --force
 ```
+
+## Explication du projet
+
+### Interface
+
+
+### Serveurs
+
+
+### Communication entre l'interface et les serveurs
