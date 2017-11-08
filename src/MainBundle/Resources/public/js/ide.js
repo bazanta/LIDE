@@ -1,12 +1,9 @@
-
-//Initialisation de l'editeur
-var editor = ace.edit("editor");
-editor.setTheme("ace/theme/pastel_on_dark");
-editor.$blockScrolling = Infinity
-
 var modeles;
 var files;
 var currentFile = -1;
+
+//Initialisation de l'editeur
+var editor = ace.edit("editor");
 
 /*******************************************************************************
  *                       GESTION DES FICHIERS                                  *
@@ -341,10 +338,14 @@ $(window).resize(function(){
 });
 
 $(document).ready(function() {
+
+  // Paramètrage de l'éditeur
+  editor.setTheme("ace/theme/pastel_on_dark");
+  editor.$blockScrolling = Infinity;
+
   $("#form-new-file").css("top", $("#editor-toolbar").height());
 
   $("#editor").height($("#block-editor").height() - $("#editor-toolbar").height());
 
   requestAndSetLanguage($(".choix-langage-selected").attr("data-id"));
-
 });

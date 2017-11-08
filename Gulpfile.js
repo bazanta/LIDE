@@ -78,6 +78,6 @@ var livereload = require('gulp-livereload');
 //Taches par défaults
 gulp.task('default', ['css','js']);
 
-gulp.task('all', ['sass','js','img','js-plugins', 'bootstrap','ace']);
+gulp.task('all', ['sass','css','js','img','js-plugins','bootstrap','ace']);
 
-gulp.task('prod', ['sass','js','img','js-plugins', 'ace','min']);
+gulp.task('prod', ['sass','css','js','img','js-plugins','bootstrap','ace','min']);
