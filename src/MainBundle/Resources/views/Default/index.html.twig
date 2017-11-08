@@ -32,8 +32,8 @@
             <select id="select-file">
               <option value="0" selected>main</option>
             </select>
-            <button id="add_file" class="btn-success">Nouveau fichier</button>
-            <button id="rm_file" class="btn-danger">Supprimer</button>
+            <button type="button" id="add_file" class="btn btn-success">Nouveau fichier</button>
+            <button type="button" id="rm_file" class="btn btn-danger" disabled>Supprimer</button>
             <!--Caché par default -->
             <form id="form-new-file" class="px-4 py-3 hidden-new-file">
               <div class="input-group m-1">
@@ -82,9 +82,12 @@
 
 
         <div id="console-block" class="console-block-open col-4 m-0 p-0 h-100">
+
           <div id="console-toogle" data-toggle="tooltip" title="Toggle Console" class="left-0 console-toogle-open h-100">&gt;</div>
+
           <div id="console">
           </div>
+
         </div>
     </div>
  </div>

@@ -65,6 +65,10 @@ var currentFile = -1;
 
 //Fonction supprimant un fichier
  function removeFile(id){
+   if(files.length <= 1){
+     console.log("Un seul fichier " + files.length);
+     return;
+   }
    if(id >= 0 && id < files.length){
      currentFile = -1;
 
@@ -78,14 +82,8 @@ var currentFile = -1;
      files = newFiles;
 
      console.log("Suppression de " + id + ". files = " + files);
-     if(files.length == 0){
-       //TODO TOTHINKABOUT Si pas de fichier, création auto d'un fichier de base ou désactivation simple de l'éditeur ??
-       console.log("Aucun fichier. Création d'un fichier de base");
-       addFile("main." + modeles[0].ext, modeles[0].model);
-     }else{
-       //Par default, changement su fichier actif sur le premier fichier de la liste
-       changeActiveFileTo(0);
-     }
+
+     changeActiveFileTo(0);
 
      //Recréation de la liste déroulante
      //TODO : simple suppression de l'élément html correspondant au fichier.
@@ -126,6 +124,10 @@ var currentFile = -1;
  $("#rm_file").click(function (){
    if(confirm("Attention ! Toute donnée non sauvegardées seront perdu !")){
      removeFile(currentFile);
+     if(files.length == 1){
+       console.log("disabled");
+       $(this).prop("disabled", true);
+     }
    }
  });
 
@@ -148,7 +150,14 @@ var currentFile = -1;
    }
 
    addFile(fileName, fileContent);
-   $("#add_file").click();
+
+   $("#form-new-file").toggleClass("hidden-new-file");
+   $("#form-new-file").toggleClass("showed-new-file");
+
+   if(files.length > 1){
+     console.log("not disabled");
+     $("#rm_file").prop("disabled", false);
+   }
  })
 
  $("#add_file").click(function(){
@@ -237,7 +246,7 @@ $("#btn-save").click(function (){
 });
 
 /*******************************************************************************
- *                            CHANGEMENT DE langage                            *
+ *                            CHANGEMENT DE LANGAGE                            *
  *******************************************************************************/
 
 function requestAndSetLanguage(language){
@@ -314,8 +323,8 @@ $(".choix-langage").click(clickLangage);
 
    $("#console").toggleClass("d-none");
    $("#console-block").toggleClass("console-block-open");
-   $("#console-block").toggleClass("col-4");
    $("#console-block").toggleClass("console-block-collapsed");
+   $("#console-block").toggleClass("col-4");
 
    $( this ).toggleClass("console-toogle-open");
    $( this ).toggleClass("console-toggle-close");
@@ -327,12 +336,14 @@ $(".choix-langage").click(clickLangage);
    $("#block-editor").toggleClass("col-8");
  });
 
+$(window).resize(function(){
+  $("#editor").height($("#block-editor").height() - $("#editor-toolbar").height());
+});
+
 $(document).ready(function() {
-  $("#editor").height( $("#block-editor").height() - $("#editor-toolbar").height());
-
-  $("#output-console").height( $("#console-block").height() - $("#input-console").height());
-
   $("#form-new-file").css("top", $("#editor-toolbar").height());
+
+  $("#editor").height($("#block-editor").height() - $("#editor-toolbar").height());
 
   requestAndSetLanguage($(".choix-langage-selected").attr("data-id"));
 
