@@ -51,7 +51,7 @@ class ConsoleController extends Controller{
             'fin' => $output[1]
         );
         
-        $logger->info("Réponse : "+$reponse);
+        $logger->info("Réponse : "+$output[0]);
         return new Response(json_encode($response));
 
     }
