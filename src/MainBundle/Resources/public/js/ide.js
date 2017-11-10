@@ -1,9 +1,6 @@
 
 //Initialisation de l'editeur
-var editor = ace.edit("editor");
-editor.setTheme("ace/theme/pastel_on_dark");
-editor.$blockScrolling = Infinity
-
+var editor;
 var modeles;
 var files;
 var currentFile = -1;
@@ -108,16 +105,19 @@ var currentFile = -1;
    var ext;
    if($( this ).val() == -1){
      $("#show-model").text("").html();
-     ext = modeles[0].ext;
      $("#show-model-btn").prop("disabled", true);
+
+     $("#extension-addon").addClass("d-none");
+
    }
    else{
      $("#show-model-btn").prop("disabled", false);
      $("#show-model").text(modeles[ $( this ).val() ].model).html();
      $("#show-model").html($("#show-model").html().replace(/\n/g,"<br>"));
      ext = modeles[ $( this ).val() ].ext;
+     $("#extension-addon").text("." + ext);
+     $("#extension-addon").removeClass("d-none");
    }
-   $("#extension-addon").text("." + ext);
  });
 
  //Bind bouton de suppression de fichier
@@ -131,8 +131,7 @@ var currentFile = -1;
    }
  });
 
- //Bind bouton de création de fichier
- $("#btn-create-file").click(function (){
+ function createFile(){
    var fileContent = "";
    var fileName = $( "#new-file-name" ).val();
    var idModel = $(" #select-modele").val();
@@ -142,7 +141,7 @@ var currentFile = -1;
    }
 
    if(idModel == -1){
-     fileName = fileName + "." + modeles[0].ext;
+     //Création d'un fichier sans modèle, extension défini par l'utilisateur.
    }
    else{
      fileName = fileName + "." + modeles[idModel].ext;
@@ -158,13 +157,18 @@ var currentFile = -1;
      console.log("not disabled");
      $("#rm_file").prop("disabled", false);
    }
- })
+ }
+
+ //Bind bouton de création de fichier
+ $("#btn-create-file").click(function (){
+   createFile();
+ });
 
  $("#add_file").click(function(){
    console.log("Add file button");
    $("#form-new-file").toggleClass("hidden-new-file");
    $("#form-new-file").toggleClass("showed-new-file");
- })
+ });
 
 /*******************************************************************************
  *                    SAUVEGARDE DES FICHIERS                                  *
@@ -344,6 +348,11 @@ $(document).ready(function() {
   $("#form-new-file").css("top", $("#editor-toolbar").height());
 
   $("#editor").height($("#block-editor").height() - $("#editor-toolbar").height());
+
+  editor = ace.edit("editor");
+  editor.setTheme("ace/theme/pastel_on_dark");
+  editor.$blockScrolling = Infinity
+
 
   requestAndSetLanguage($(".choix-langage-selected").attr("data-id"));
 
