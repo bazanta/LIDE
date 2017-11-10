@@ -5,6 +5,10 @@ namespace MainBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MainBundle\Entity\Langage;
 use MainBundle\Entity\DetailLangage;
+
+use MainBundle\Entity\Execution;
+use MainBundle\Form\ExecutionType;
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -58,10 +62,15 @@ class DefaultController extends Controller
         $logger = $this->get('logger');
         $logger->info(print_r($info, true));
 
+
+        $exec = new Execution();
+        $form = $this->createform(ExecutionType::class, $exec);
+
         return $this->render('MainBundle:Default:index.html.twig', array(
           'list_langage' => $langages,
           'selected_langage' => $selected_langage->getId(),
           'selected_langage_name' => $info['name'],
+          'form' => $form->createView()
         ));
     }
 

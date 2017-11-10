@@ -29,7 +29,7 @@
 
           <!-- Barre d'outils : selection du fichier coruant, ajout/suprression d'un fichier  -->
           <div id="editor-toolbar" class="bg-light">
-            <select id="select-file">
+            <select id="select-file" class="custom-select">
               <option value="0" selected>main</option>
             </select>
             <button type="button" id="add_file" class="btn btn-success">Nouveau fichier</button>
@@ -74,8 +74,44 @@
                 </div>
               </div>
 
-              <button type="submit" class="btn btn-success btn_save w-50 m-0">Run</button> <!--TODO dropdown btn -->
+              <div class="btn-group w-50 dropup">
 
+                <button type="button" class="btn btn-secondary btn_save w-50 m-0">Run</button>
+                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                  <div class="dropdown-menu p-1">
+                    <form class="form-control">
+                      {{ form_start(form) }}
+                      {{ form_errors(form) }}
+                      <div class="form-check">
+                        <label class="custom-control custom-checkbox">
+                          {{ form_widget(form.compileOnly, {'attr': {'class': 'custom-control-input'}}) }}
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">{{ form.compileOnly.vars.label }}</span>
+                        </label>
+                      </div>
+                      <div class="form-group">
+                          {{ form_label(form.inputMode)}}
+                          {% for  mode in form.inputMode.children %}
+                          <div class="form-check inputModeOption">
+                            <label class="custom-control custom-radio">
+                              {% if mode.vars.value == 'it' %}
+                                {{ form_widget(mode, {'attr': {'class': 'custom-control-input', 'checked' : 'checked'}})}}
+                              {% else %}
+                              {{ form_widget(mode, {'attr': {'class': 'custom-control-input'}})}}
+                              {% endif %}
+                              <span class="custom-control-indicator"></span>
+                              <span class="custom-control-description">{{ mode.vars.label}}</span>
+                            </label>
+                          </div>
+                          {% endfor %}
+                          {{ form_widget(form.inputs, { 'attr' : { 'disabled' : ''}})}}
+                      </div>
+                      {{ form_end(form,  {'render_rest': false}) }}
+                    </form>
+                  </div>
+              </div>
             </div>
           </form>
         </div>
@@ -121,4 +157,5 @@
 
   <script src="{{asset('js/console.js')}}"></script>
   <script src="{{ asset('js/ide.js')}}"></script>
+  <script src="{{ asset('js/gestionRunForm.js')}}"></script>
 {% endblock %}
