@@ -1,0 +1,33 @@
+{% extends "MainBundle:Default:Form_Exec.html.twig" %}
+
+{% block first_row %}
+  {{ parent()}}
+  <div class="card col">
+    <div class="card-header">
+      <h4> Option de compilation</h4>
+    </div>
+    <div class="card-body">
+      <div class="custom-controls-stacked">
+      {{ form_label(form.warningLevel)}}
+      {% for  wlvl in form.warningLevel.children %}
+        <label class="custom-control custom-checkbox">
+          {{ form_widget(wlvl, {'attr': {'class': 'custom-control-input'}})}}
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">{{ wlvl.vars.label}}</span>
+        </label>
+      {% endfor %}
+      </div>
+      <div class="custom-controls-stacked">
+      {{ form_label(form.optimisationLevel)}}
+      {% for  olvl in form.optimisationLevel.children %}
+        <label class="custom-control custom-radio">
+          {{ form_widget(olvl, {'attr': {'class': 'custom-control-input'}})}}
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">{{ olvl.vars.label}}</span>
+        </label>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

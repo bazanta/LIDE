@@ -68,6 +68,14 @@ class Serveur
     }
 
     /**
+     * Function for display this object
+     */
+    public function __toString() 
+    {
+        return $this->nom.' ('.$this->adresse.')';
+    }
+
+    /**
      * Set nom
      *
      * @param string $nom

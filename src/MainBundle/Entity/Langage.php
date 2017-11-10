@@ -68,6 +68,14 @@ class Langage
     }
 
     /**
+     * Function for display this object
+     */
+    public function __toString() 
+    {
+        return $this->nom;
+    }
+
+    /**
      * Set nom
      *
      * @param string $nom

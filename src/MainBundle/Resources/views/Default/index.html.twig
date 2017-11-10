@@ -14,36 +14,12 @@
   </li>
 {% endblock %}
 
-
-{% block stylesheet %}
-  {{ parent () }}
-  <link rel="stylesheet" href="{{ asset('css/ide.css') }}" />
-  <link rel="stylesheet" href="{{ asset('css/jqconsole.css') }}"/>
+{% block title %}
+    {{ parent() }} - {{ selected_langage_name }}
 {% endblock %}
 
-{% block javascript %}
-  {{ parent() }}
-
-  <script src="{{ asset('js/plugins/ace/ace.js')}}"></script>
-  <script src="{{ asset('js/plugins/FileSaver.min.js')}}"></script>
-  <script src="{{asset('js/jqconsole.js')}}"></script>
-  
-  <script>
-    var urlLangagesInfo = "{{path('language_info')}}";
-    console.log(urlLangagesInfo);
-    
-    var PATH_CONSOLE_EXEC = "exec";
-    var PATH_CONSOLE_ANS = "answer";
-  </script>
-  
-  <script src="{{asset('js/console.js')}}"></script>
-  <script src="{{ asset('js/ide.js')}}"></script>
-{% endblock %}
-
-{% block title %}{{ parent() }} - {{ selected_langage_name }} {% endblock %}
 
 {% block body %}
-
 <div class="container-fluid m-0 p-0">
     <div class="row m-0 p-0 vh-90" style="z-index : 0">
 
@@ -52,13 +28,16 @@
 
           <!-- Barre d'outils : selection du fichier coruant, ajout/suprression d'un fichier  -->
           <div id="editor-toolbar" class="bg-light">
-            <select id="select-file">
+            <select id="select-file" class="custom-select">
               <option value="0" selected>main</option>
             </select>
-            <button id="add_file" class="btn-success">Nouveau fichier</button>
-            <button id="rm_file" class="btn-danger">Supprimer</button>
+            <button type="button" id="add_file" class="btn btn-success">Nouveau fichier</button>
+            <button type="button" id="rm_file" class="btn btn-danger" disabled>Supprimer</button>
             <!--Caché par default -->
             <form id="form-new-file" class="px-4 py-3 hidden-new-file">
+              <button id="close-new-file" type="button" class="close" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
               <div class="input-group m-1">
                 <input type="text" class="form-control col" id="new-file-name" placeholder="Entrer le nom du fichier">
                   <span class="input-group-addon" id="extension-addon">.cpp</span>
@@ -76,26 +55,84 @@
                   </code>
                 </div>
               </div>
-              <button id="btn-create-file" class="btn-success w-100" type="button">Créer</button>
+              <button id="btn-create-file" class="btn btn-success w-100" type="button">Créer</button>
             </form>
           </div>
 
           <div id="editor" class="m-0" style="font-size : 16pt"></div>
           <form id="editor-form" class="form-horizontal"  style="width : 75%; position : absolute; top: auto; bottom : 5%; left:12.5%; z-index: 2;">
             <div class="btn-group" id="btn-action-file" role="group">
-              <button id="btn-save" type="button" class="btn btn-primary btn_save w-50 m-0">Save</button>
-              <button type="submit" class="btn btn-success btn_save w-50 m-0">Run</button> <!--TODO dropdown btn -->
+
+              <!--Bouton sauvegarde : trois option : sauvegarder uniquement le fichier en cours, tous les fichiers dans une archive, tous les fichiers un par un. -->
+              <div class="btn-group w-50 dropup">
+                <button id="btn-save" type="button" class="btn btn-primary btn_save m-0 w-100">Save file</button>
+                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item save-method" id="save-file" href="#" data-save-method="file">Save file</a>
+                  <a class="dropdown-item save-method" id="save-all-archive" href="#" data-save-method="archive">Save All (as an archive)</a>
+                  <a class="dropdown-item save-method" id="save-all" href="#" data-save-method="all-files">Save All</a>
+                </div>
+              </div>
+
+              <div class="btn-group w-50 dropup">
+
+                <button type="button" class="btn btn-secondary btn_save w-100 m-0" id="run-btn">Run</button>
+                <button type="button" class="btn btn-secondary dropdown-toggle-split" id="runOptionToggle">
+                  <span class="">&plus;</span>
+                </button>
+              </div>
             </div>
           </form>
         </div>
 
 
         <div id="console-block" class="console-block-open col-4 m-0 p-0 h-100">
+
           <div id="console-toogle" data-toggle="tooltip" title="Toggle Console" class="left-0 console-toogle-open h-100">&gt;</div>
+
           <div id="console">
           </div>
+
         </div>
     </div>
  </div>
 
+ {{ include(form_template)}}
+
+
+{% endblock %}
+
+{% block stylesheet %}
+  {{ parent () }}
+  <link rel="stylesheet" href="{{ asset('css/ide.css') }}" />
+  <link rel="stylesheet" href="{{ asset('css/jqconsole.css') }}"/>
+{% endblock %}
+
+{% block javascript %}
+  {{ parent() }}
+
+  <script src="{{ asset('js/plugins/ace/ace.js')}}"></script>
+
+  <!--Script pour la sauvegarde des ficheirs -->
+  <script src="{{ asset('js/plugins/FileSaver.min.js')}}"></script>
+  <script src="{{asset('js/plugins/jszip.min.js')}}"></script>
+
+  <script src="{{asset('js/jqconsole.js')}}"></script>
+
+  <!-- Variable globale dont la valeur dépend de symfony -->
+  <script>
+    var urlLangagesInfo = "{{path('language_info')}}";
+
+    var PATH_CONSOLE_EXEC = "exec";
+    var PATH_CONSOLE_ANS = "answer";
+
+    FORM_NAME = "{{ form.vars.full_name }}"
+    console.log(FORM_NAME);
+  </script>
+
+  <script src="{{asset('js/console.js')}}"></script>
+  <script src="{{ asset('js/ide.js')}}"></script>
+  <script src="{{ asset('js/gestionRunForm.js')}}"></script>
 {% endblock %}

@@ -1,0 +1,50 @@
+<div  id="executionForm-container" class="container execution-hidden">
+  <button id="close-execution-form" type="button" class="close" aria-label="Close" style="z-index : 100">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <form class="" name="exec_form">
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    <div class="row">
+      {% block first_row %}
+        <div class="p-1 card col">
+          <div class="card-header">
+            <h4>Option de lancement<h4>
+          </div>
+          <div class="card-body">
+              <div class="form-check">
+                <label class="custom-control custom-checkbox">
+                  {{ form_widget(form.baseOption.compileOnly, {'attr': {'class': 'custom-control-input'}}) }}
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">{{ form.baseOption.compileOnly.vars.label }}</span>
+                </label>
+              </div>
+              <div class="form-group">
+                  {{ form_label(form.baseOption.inputMode)}}
+                  {% for  mode in form.baseOption.inputMode.children %}
+                  <div class="form-check inputModeOption">
+                    <label class="custom-control custom-radio">
+                      {% if mode.vars.value == 'it' %}
+                        {{ form_widget(mode, {'attr': {'class': 'custom-control-input', 'checked' : 'checked'}})}}
+                      {% else %}
+                      {{ form_widget(mode, {'attr': {'class': 'custom-control-input'}})}}
+                      {% endif %}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-description">{{ mode.vars.label}}</span>
+                    </label>
+                  </div>
+                  {% endfor %}
+                  {{ form_widget(form.baseOption.inputs, { 'attr' : { 'hidden' : ''}})}}
+              </div>
+              <div id="launch-parameters" class="form-group">
+                {{ form_label(form.baseOption.launchParameters)}}
+                {{ form_widget(form.baseOption.launchParameters, { 'attr' : { 'class' : 'form-control'}})}}
+              </div>
+          </div>
+        </div>
+      {% endblock %}
+    </div>
+    {{form_row(form.baseOption.files)}}
+  {{ form_end(form,  {'render_rest': false}) }}
+  </form>
+</div>
