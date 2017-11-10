@@ -30,12 +30,16 @@ class ConsoleController extends Controller{
         $logger = $this->get('logger');
         $ssh = $this->get('gestionssh');
         
+        $id_user = "test";
+        $ip_proxy = "172.29.13.12";
+        $fichier = "test.c";
+        
         $cmd = "docker stop --time=0 test";
        
         $ssh->execCmd($cmd);
         $output = $ssh->lire();
         
-        $cmd = "docker run --rm=true --name  test -it gpp  /bin/bash -c \"wget http://etudiant@172.29.13.12/LIDE/test.c 2>/dev/null && gcc test.c -o exec && ./exec\"";
+        $cmd = "docker run --rm=true --name  $id_user -it gpp  /bin/bash -c \"wget http://etudiant@$ip_proxy/LIDE/$fichier 2>/dev/null && gcc $fichier -o exec && ./exec\"";
         
         
         $ssh->execCmd($cmd);
@@ -47,6 +51,7 @@ class ConsoleController extends Controller{
             'fin' => $output[1]
         );
         
+        $logger->info("Réponse : "+$output[0]);
         return new Response(json_encode($response));
 
     }

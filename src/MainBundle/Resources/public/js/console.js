@@ -9,15 +9,16 @@ var Exec = function(){
     var jqconsole = $('#console').jqconsole('', '');
 
 
-  var getOutput = function(){
+    var getOutput = function(){
       $.ajax({
           url: PATH_CONSOLE_EXEC,
           type: "POST",
           data: {},
           success: function(data) {
               onSuccess(data);
-          }
-      });
+          },
+          timeout: 30000
+    });
 
       var repondre = function(){
           jqconsole.Prompt(true, function(input){

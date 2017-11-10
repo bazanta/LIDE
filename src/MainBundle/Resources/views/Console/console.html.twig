@@ -2,12 +2,21 @@
 <html>
   <head>
     <link rel="stylesheet" href="{{ asset('css/jqconsole.css') }}"/>
-
+    <style>
+        html, body {
+            background-color: #333;
+            color: white;
+            font-family: monospace;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
   </head>
   <body>
     <div id="console"></div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src={{ asset('js/jqconsole.js')}} type="text/javascript" charset="utf-8"></script>
+    <script src={{asset('js/console.js')}} type="text/javascript" charset="utf-8"></script>
     <script>
       
       var Exec = function(){
