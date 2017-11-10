@@ -20,7 +20,6 @@
 
 
 {% block body %}
-
 <div class="container-fluid m-0 p-0">
     <div class="row m-0 p-0 vh-90" style="z-index : 0">
 
@@ -36,6 +35,9 @@
             <button type="button" id="rm_file" class="btn btn-danger" disabled>Supprimer</button>
             <!--Caché par default -->
             <form id="form-new-file" class="px-4 py-3 hidden-new-file">
+              <button id="close-new-file" type="button" class="close" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
               <div class="input-group m-1">
                 <input type="text" class="form-control col" id="new-file-name" placeholder="Entrer le nom du fichier">
                   <span class="input-group-addon" id="extension-addon">.cpp</span>
@@ -53,7 +55,7 @@
                   </code>
                 </div>
               </div>
-              <button id="btn-create-file" class="btn-success w-100" type="button">Créer</button>
+              <button id="btn-create-file" class="btn btn-success w-100" type="button">Créer</button>
             </form>
           </div>
 
@@ -76,41 +78,10 @@
 
               <div class="btn-group w-50 dropup">
 
-                <button type="button" class="btn btn-secondary btn_save w-50 m-0">Run</button>
-                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                  <span class="sr-only">Toggle Dropdown</span>
+                <button type="button" class="btn btn-secondary btn_save w-100 m-0" id="run-btn">Run</button>
+                <button type="button" class="btn btn-secondary dropdown-toggle-split" id="runOptionToggle">
+                  <span class="">&plus;</span>
                 </button>
-                  <div class="dropdown-menu p-1">
-                    <form class="form-control">
-                      {{ form_start(form) }}
-                      {{ form_errors(form) }}
-                      <div class="form-check">
-                        <label class="custom-control custom-checkbox">
-                          {{ form_widget(form.compileOnly, {'attr': {'class': 'custom-control-input'}}) }}
-                          <span class="custom-control-indicator"></span>
-                          <span class="custom-control-description">{{ form.compileOnly.vars.label }}</span>
-                        </label>
-                      </div>
-                      <div class="form-group">
-                          {{ form_label(form.inputMode)}}
-                          {% for  mode in form.inputMode.children %}
-                          <div class="form-check inputModeOption">
-                            <label class="custom-control custom-radio">
-                              {% if mode.vars.value == 'it' %}
-                                {{ form_widget(mode, {'attr': {'class': 'custom-control-input', 'checked' : 'checked'}})}}
-                              {% else %}
-                              {{ form_widget(mode, {'attr': {'class': 'custom-control-input'}})}}
-                              {% endif %}
-                              <span class="custom-control-indicator"></span>
-                              <span class="custom-control-description">{{ mode.vars.label}}</span>
-                            </label>
-                          </div>
-                          {% endfor %}
-                          {{ form_widget(form.inputs, { 'attr' : { 'disabled' : ''}})}}
-                      </div>
-                      {{ form_end(form,  {'render_rest': false}) }}
-                    </form>
-                  </div>
               </div>
             </div>
           </form>
@@ -127,6 +98,9 @@
         </div>
     </div>
  </div>
+
+ {{ include(form_template)}}
+
 
 {% endblock %}
 
@@ -153,6 +127,9 @@
 
     var PATH_CONSOLE_EXEC = "exec";
     var PATH_CONSOLE_ANS = "answer";
+
+    FORM_NAME = "{{ form.vars.full_name }}"
+    console.log(FORM_NAME);
   </script>
 
   <script src="{{asset('js/console.js')}}"></script>

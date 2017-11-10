@@ -170,6 +170,11 @@ var currentFile = -1;
    $("#form-new-file").toggleClass("showed-new-file");
  });
 
+$("#close-new-file").click(function (){
+  $("#form-new-file").addClass("hidden-new-file");
+  $("#form-new-file").removeClass("showed-new-file");
+});
+
 /*******************************************************************************
  *                    SAUVEGARDE DES FICHIERS                                  *
  *******************************************************************************/

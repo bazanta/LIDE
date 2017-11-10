@@ -7,7 +7,9 @@ use MainBundle\Entity\Langage;
 use MainBundle\Entity\DetailLangage;
 
 use MainBundle\Entity\Execution;
+use MainBundle\Entity\ExecutionC_CPP;
 use MainBundle\Form\ExecutionType;
+use MainBundle\Form\ExecutionC_CPPType;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +43,6 @@ class DefaultController extends Controller
     }
 
 
-
     private function getLangageModels($id) {
       $em = $this->getDoctrine()->getManager();
 
@@ -63,14 +64,15 @@ class DefaultController extends Controller
         $logger->info(print_r($info, true));
 
 
-        $exec = new Execution();
-        $form = $this->createform(ExecutionType::class, $exec);
+        $exec = new ExecutionC_CPP();
+        $form = $this->createform(ExecutionC_CPPType::class, $exec);
 
         return $this->render('MainBundle:Default:index.html.twig', array(
           'list_langage' => $langages,
           'selected_langage' => $selected_langage->getId(),
           'selected_langage_name' => $info['name'],
-          'form' => $form->createView()
+          'form' => $form->createView(),
+          'form_template' => 'MainBundle:Default:form_exec_c_cpp.html.twig'
         ));
     }
 
