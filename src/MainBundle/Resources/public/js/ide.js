@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-=======
 
 //Initialisation de l'editeur
 var editor;
->>>>>>> run_form
 var modeles;
 var files;
 var currentFile = -1;
@@ -369,11 +366,7 @@ $(document).ready(function() {
   editor.setTheme("ace/theme/pastel_on_dark");
   editor.$blockScrolling = Infinity
 
-<<<<<<< HEAD
-=======
-
   requestAndSetLanguage($(".choix-langage-selected").attr("data-id"));
->>>>>>> run_form
 
   requestAndSetLanguage($(".choix-langage-selected").attr("data-id"));
 });
