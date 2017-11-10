@@ -3,6 +3,31 @@
     Author     : pviolette
 */
 
+#close-execution-form{
+  position: absolute;
+  right : 10px;
+  top : 5px;
+}
+
+.execution-hidden{
+  display: none;
+}
+
+.execution-shown{
+  position: fixed;
+  display: block;
+  top: 25%;
+  left: 25%;
+  margin: auto;
+  width: 50%;
+  height: 50%
+
+  overflow: scroll;
+
+  z-index: 1500;
+  background-color: white;
+}
+
 .hidden-new-file{
   display: none;
 }
@@ -51,7 +76,7 @@
 
 #console-toogle {
   opacity: 0.75;
-  z-index : 200;
+  z-index : 0;
 
   position: absolute;
   left : -20px;
@@ -77,8 +102,6 @@
 
 .toggle-console-close{
 }
-
-
 
 .console-block-open{
 }

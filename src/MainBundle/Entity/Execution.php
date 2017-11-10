@@ -16,6 +16,10 @@ class Execution{
 
   protected $compileOnly;
 
+  protected $launchParameters;
+
+  protected $language;
+
   function getFiles(){
     return $this->files;
   }
@@ -32,6 +36,37 @@ class Execution{
     return $this->compileOnly;
   }
 
+  function getLaunchParameters(){
+    return $this->launchParameters;
+  }
+
+  function getLanguage(){
+    return $this->language;
+  }
+
+  function setFiles($files){
+    $this->files = $files;
+  }
+
+  function setInputMode($mode){
+    $this->inputMode = $mode;
+  }
+
+  function setInputs($inputs){
+    $this->inputs = $inputs;
+  }
+
+  function setCompileOnly($compileOnly){
+    $this->compileOnly = $compileOnly;
+  }
+
+  function setLaunchParameters($launchParameters){
+    $this->launchParameters = $launchParameters;
+  }
+
+  function setLanguage(){
+    $this->language;
+  }
 }
 
 ?>
