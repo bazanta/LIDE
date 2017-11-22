@@ -99,7 +99,7 @@
     </div>
  </div>
 
- {{ include(form_template)}}
+ {{ include('MainBundle:Default:Form_Exec.html.twig')}}
 
 
 {% endblock %}
@@ -125,8 +125,8 @@
   <script>
     var urlLangagesInfo = "{{path('language_info')}}";
 
-    var PATH_CONSOLE_EXEC = "exec";
-    var PATH_CONSOLE_ANS = "answer";
+    var PATH_CONSOLE_EXEC = "{{path('exec')}}";
+    var PATH_CONSOLE_ANS =  "{{path('answer')}}";
 
     FORM_NAME = "{{ form.vars.full_name }}"
 //    console.log(FORM_NAME);

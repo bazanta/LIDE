@@ -38,17 +38,27 @@ class ExecutionType extends AbstractType
            ->add('launchParameters', TextType::class, array(
              'label' => 'Paramètres de lancement'
            ))
-           ->add('files', HiddenType::Class);
+           ->add('compilationOptions', TextType::class, array(
+             'label' => 'Option de compilation',
+             'data' => '-Wall'
+           ))
+           ->add('files', HiddenType::Class)
+           ->add('language', HiddenType::Class);
    }
 
    public function configureOptions(OptionsResolver $resolver)
    {
-      $resolver->setDefaults(
-        array(
-        'inherit_data' => true
-        )
-      );
-    }
+       $resolver->setDefaults(array(
+           'data_class' => 'MainBundle\Entity\Execution'
+       ));
+   }
 
+   /**
+    * {@inheritdoc}
+    */
+   public function getBlockPrefix()
+   {
+       return 'mainbundle_execution';
+   }
 };
 ?>

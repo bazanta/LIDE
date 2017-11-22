@@ -1,19 +1,20 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-      
 var Exec = function(){
     var jqconsole = $('#console').jqconsole('', '');
-
+    jqconsole.Reset();
+    console.log(FORM_NAME);
+    alert($("#" + FORM_NAME).serialize());
 
     var getOutput = function(){
       $.ajax({
           url: PATH_CONSOLE_EXEC,
           type: "POST",
-          data: {},
+          data: $("#" + FORM_NAME).serialize(),
           success: function(data) {
               onSuccess(data);
           },
@@ -36,15 +37,14 @@ var Exec = function(){
 
       var onSuccess = function(data){
           var reponse = $.parseJSON(data);
-          
+
           jqconsole.Write(reponse.reponse, 'jqconsole-output');
           if(reponse.fin==="no"){
               repondre();
           }
        };
 
-  };  
-  getOutput();  
+  };
+  getOutput();
 
 };
-
