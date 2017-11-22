@@ -13,16 +13,10 @@ class ConsoleController extends Controller{
 
     public function indexAction(){
 
-        
-
         $content=$this->get('templating')->render('MainBundle:Console:console.html.twig',array(""));
         
         $ssh = $this->get('gestionssh');
-        
-        
-        
 
-      
         return new Response($content);
 
 
@@ -35,14 +29,30 @@ class ConsoleController extends Controller{
     public function execAction(Request $request){
         $logger = $this->get('logger');
         $ssh = $this->get('gestionssh');
+        
+        $id_user = "test";
+        $ip_proxy = "172.29.13.12";
+        $fichier = "test.c";
+        
+        $cmd = "docker stop --time=0 test";
        
-        $ssh->lancerCommande("docker stop --time=0 test");
-        $output = $ssh->lire("docker stop --times=0 test");
+        $ssh->execCmd($cmd);
+        $output = $ssh->lire();
         
-        $ssh->lancerCommande("docker run --rm=true --name  test -it gpp  /bin/bash -c \"wget http://etudiant@192.168.1.92/LIDE/test.c 2>/dev/null && gcc test.c -o exec && ./exec\"");
-        $output = $ssh->lire("docker run --rm=true --name  test -it gpp  /bin/bash -c \"wget http://etudiant@192.168.1.92/LIDE/test.c 2>/dev/null && gcc test.c -o exec && ./exec\"");
+        $cmd = "docker run --rm=true --name  $id_user -it gpp  /bin/bash -c \"wget http://etudiant@$ip_proxy/LIDE/$fichier 2>/dev/null && gcc $fichier -o exec && ./exec\"";
         
-        return new Response($output);
+        
+        $ssh->execCmd($cmd);
+        $output = $ssh->lire();
+        
+        
+        $response = array(
+            'reponse' => $output[0],
+            'fin' => $output[1]
+        );
+        
+        $logger->info("Réponse : "+$output[0]);
+        return new Response(json_encode($response));
 
     }
        
@@ -53,14 +63,18 @@ class ConsoleController extends Controller{
 
         $ssh = $this->get('gestionssh');
 
-
         $msg = $request->request->get('msg');
 
-        $ssh->lancerCommande("docker start -ai test");
+        $ssh->execCmd("docker start -ai test");
         $ssh->ecrire($msg);
-        $output = $ssh->lire("docker start -ai test",$msg);
+        $output = $ssh->lire();
         
-        return new Response($output);
+        $response = array(
+            'reponse' => $output[0],
+            'fin' => $output[1]
+        );
+        
+        return new Response(json_encode($response));
 
     }
 

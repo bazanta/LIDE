@@ -1,69 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="{{ asset('css/jqconsole.css') }}"/>
     <style>
-    html, body {
-      background-color: #333;
-      color: white;
-      font-family: monospace;
-      margin: 0;
-      padding: 0;
-    }
-    /* The console container element */
-    #console {
-      height: 400px;
-      width: 750px;
-      position:relative;
-      background-color: black;
-      border: 2px solid #CCC;
-      margin: 0 auto;
-      margin-top: 50px;
-    }
-    /* The inner console element. */
-    .jqconsole {
-        padding: 10px;
-    }
-    /* The cursor. */
-    .jqconsole-cursor {
-        background-color: gray;
-    }
-    /* The cursor color when the console looses focus. */
-    .jqconsole-blurred .jqconsole-cursor {
-        background-color: #666;
-    }
-    /* The current prompt text color */
-    .jqconsole-prompt {
-        color: #0d0;
-    }
-    /* The command history */
-    .jqconsole-old-prompt {
-        color: #0b0;
-        font-weight: normal;
-    }
-    /* The text color when in input mode. */
-    .jqconsole-input {
-        color: #dd0;
-    }
-    /* Previously entered input. */
-    .jqconsole-old-input {
-        color: #bb0;
-        font-weight: normal;
-    }
-    /* The text color of the output. */
-    .jqconsole-output {
-        color: white;
-    }
+        html, body {
+            background-color: #333;
+            color: white;
+            font-family: monospace;
+            margin: 0;
+            padding: 0;
+        }
     </style>
   </head>
   <body>
     <div id="console"></div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src={{ asset('js/jqconsole.js')}} type="text/javascript" charset="utf-8"></script>
+    <script src={{asset('js/console.js')}} type="text/javascript" charset="utf-8"></script>
     <script>
-      $(function () {
-         
-          
-        var jqconsole = $('#console').jqconsole('Hi\n', '');
+      
+      var Exec = function(){
+          var jqconsole = $('#console').jqconsole('', '');
+          jqconsole.Write("bonjour",'jqconsole-output');
         
         
         var getOutput = function(){
@@ -72,29 +30,39 @@
                 type: "POST",
                 data: {},
                 success: function(data) {
-                    jqconsole.Write(data, 'jqconsole-output');
+                    onSuccess(data);
                 }
             });
             
             var repondre = function(){
                 jqconsole.Prompt(true, function(input){
                     $.ajax({
-                                url: "{{path('answer')}}",
-                                type: "POST",
-                                async: false,
-                                data: {"msg": input},
-                                success: function(data){
-                                    jqconsole.Write(data, 'jqconsole-output');
-                                    repondre();
-                                }
+                        url: "{{path('answer')}}",
+                        type: "POST",
+                        data: {"msg": input},
+                        success: function(data){
+                            onSuccess(data);
+                        }
                     });
                     
                 });
             };
-            repondre();
+            
+            var onSuccess = function(data){
+                var reponse = $.parseJSON(data);
+                alert(data);
+
+                jqconsole.Write(reponse.reponse, 'jqconsole-output');
+                if(reponse.fin==="no"){
+                    repondre();
+                }
+             };
+           
         };  
-        getOutput();
-      });
+        getOutput();  
+          
+      };
+     
     </script>
   </body>
 </html>

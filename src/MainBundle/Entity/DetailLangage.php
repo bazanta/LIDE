@@ -58,11 +58,19 @@ class DetailLangage
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Function for display this object
+     */
+    public function __toString()
+    {
+        return $this->extension;
     }
 
     /**
@@ -81,7 +89,7 @@ class DetailLangage
     /**
      * Get extension
      *
-     * @return string 
+     * @return string
      */
     public function getExtension()
     {
@@ -104,7 +112,7 @@ class DetailLangage
     /**
      * Get modele
      *
-     * @return string 
+     * @return string
      */
     public function getModele()
     {
@@ -127,7 +135,7 @@ class DetailLangage
     /**
      * Get actif
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getActif()
     {

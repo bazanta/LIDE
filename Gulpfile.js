@@ -35,13 +35,21 @@ var livereload = require('gulp-livereload');
             .pipe(gulp.dest('./web/css/',{overwrite: true}));
     });
 
+    //Récup Bootstrap
+    gulp.task('bootstrap', function () {
+        gulp.src('./node_modules/bootstrap/dist/css/bootstrap.min.css')
+            .pipe(gulp.dest('./web/css/plugins/',{overwrite: true}));
+    });
+
 
     //Déplacement des plugins depuis node_modules(npm)
     gulp.task('js-plugins', function () {
         gulp.src([
             './node_modules/jquery/dist/jquery.min.js',
             './node_modules/bootstrap/dist/js/bootstrap.min.js',
-            './node_modules/popper.js/dist/popper.min.js',
+            './node_modules/popper.js/dist/umd/popper.min.js',
+            './node_modules/file-saver/FileSaver.min.js',
+            './node_modules/jszip/dist/jszip.min.js'
         ]).pipe(gulp.dest('./web/js/plugins/',{overwrite: true}));
     });
 
@@ -70,6 +78,6 @@ var livereload = require('gulp-livereload');
 //Taches par défaults
 gulp.task('default', ['css','js']);
 
-gulp.task('all', ['sass','js','img','js-plugins', 'ace']);
+gulp.task('all', ['sass','css','js','img','js-plugins','bootstrap','ace']);
 
-gulp.task('prod', ['sass','js','img','js-plugins','min']);
+gulp.task('prod', ['sass','css','js','img','js-plugins','bootstrap','ace','min']);
