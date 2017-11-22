@@ -47,7 +47,17 @@ class DetailLangage
      * @ORM\Column(name="actif", type="boolean")
      */
     private $actif;
+<<<<<<< Updated upstream
 
+=======
+    
+     /**
+     * @var int
+     *
+     * @ORM\Column(name="order", type="integer")
+     */
+    private $ordre;
+>>>>>>> Stashed changes
 
     /**
      * Get id

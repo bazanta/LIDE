@@ -47,7 +47,13 @@ class DetailLangage
      * @ORM\Column(name="actif", type="boolean")
      */
     private $actif;
-
+    
+     /**
+     * @var int
+     *
+     * @ORM\Column(name="order", type="integer")
+     */
+    private $ordre;
 
     /**
      * Get id
@@ -129,6 +135,33 @@ class DetailLangage
     }
 
     /**
+<<<<<<< Updated upstream
+=======
+     * Set ordre
+     *
+     * @param integer $ordre
+     *
+     * @return DetailLangage
+     */
+    public function setOrdre($ordre)
+    {
+        $this->ordre = $ordre;
+
+        return $this;
+    }
+
+    /**
+     * Get ordre
+     *
+     * @return integer
+     */
+    public function getOrdre()
+    {
+        return $this->ordre;
+    }
+
+    /**
+>>>>>>> Stashed changes
      * Set langage
      *
      * @param \MainBundle\Entity\Langage $langage

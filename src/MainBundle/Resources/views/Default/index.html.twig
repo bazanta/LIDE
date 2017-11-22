@@ -35,6 +35,10 @@
 <div class="container-fluid m-0 p-0">
     <div class="row m-0 p-0 vh-90" style="z-index : 0">
 
+        {% if is_granted('ROLE_SUPER_ADMIN') %} 
+         <a href="{{ path('easyadmin') }}"   class="btn-success">Admin</a>
+        {% endif %}
+        
         <!--Block contenant l'editeur des texte -->
         <div id="block-editor" class="col-8  m-0 p-0 h-100">
 

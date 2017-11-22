@@ -78,3 +78,10 @@ easy_admin:
         - MainBundle\Entity\DetailLangage
         - MainBundle\Entity\Langage
         - MainBundle\Entity\Serveur
+        - MainBundle\Entity\User
+        
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: MainBundle\Entity\User
+   

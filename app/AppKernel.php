@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
             new AppBundle\AppBundle(),
             new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
             new MainBundle\MainBundle()
         );
 
@@ -27,6 +28,7 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
         }
 
         return $bundles;

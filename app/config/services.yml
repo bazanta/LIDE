@@ -11,3 +11,6 @@ services:
         class: MainBundle\Services\GestionSSH
         arguments: ["%ssh_host%","%ssh_login%","%ssh_password%"]
         scope: prototype
+    redirect.after.login:
+        class: MainBundle\Redirection\AfterLoginRedirection
+        arguments: ['@router','@security.authorization_checker']
