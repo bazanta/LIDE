@@ -22,9 +22,7 @@
 {% block body %}
 <div class="container-fluid m-0 p-0 main-container-height" id="top-container" >
 
-        {% if is_granted('ROLE_SUPER_ADMIN') %} 
-         <a href="{{ path('easyadmin') }}"   class="btn-success">Admin</a>
-        {% endif %}
+
         
     <div  id="editor-toolbar" class="bg-light row m-0 p-0">
 
@@ -63,7 +61,7 @@
         </div>
     </div>
 
-    <div class="row m-0 p-0 " style="z-index : 0" id="row-editeur-console">
+    <div class="row m-0 p-0 " style="z-index : 1" id="row-editeur-console">
         <!--Block contenant l'editeur des texte -->
         <div id="block-editor" class="col-6  m-0 p-0 h-100">
 

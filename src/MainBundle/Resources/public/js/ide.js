@@ -433,7 +433,6 @@ $(document).ready(function () {
 
     $("#row-editeur-console").height($("#top-container").height() - $("#editor-toolbar").height());
 
-
     editor = ace.edit("editor");
     editor.setTheme("ace/theme/tomorrow_night");
     editor.$blockScrolling = Infinity
