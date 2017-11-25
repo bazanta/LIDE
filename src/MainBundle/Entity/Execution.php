@@ -18,6 +18,8 @@ class Execution{
 
   protected $launchParameters;
 
+  protected $compilationOptions;
+
   protected $language;
 
   function getFiles(){
@@ -44,6 +46,15 @@ class Execution{
     return $this->language;
   }
 
+  function getCompilationOptions(){
+    return $this->compilationOptions;
+  }
+
+  function setCompilationOptions($compilationOptions){
+    $this->compilationOptions = $compilationOptions;
+  }
+
+
   function setFiles($files){
     $this->files = $files;
   }
@@ -64,9 +75,11 @@ class Execution{
     $this->launchParameters = $launchParameters;
   }
 
-  function setLanguage(){
-    $this->language;
+  function setLanguage($language){
+    $this->language = $language;
   }
+
+
 }
 
 ?>

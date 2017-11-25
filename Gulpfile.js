@@ -65,6 +65,11 @@ var livereload = require('gulp-livereload');
             .pipe(gulp.dest('./web/images/',{overwrite: true}));
     });
 
+    gulp.task('open-iconic', function () {
+        gulp.src('./src/MainBundle/Resources/public/open-iconic/**/**')
+            .pipe(gulp.dest('./web/open-iconic', {overwrite : true}));
+    })
+
 //WATCHER
     gulp.task('watch', function () {
         livereload.listen();
@@ -78,6 +83,6 @@ var livereload = require('gulp-livereload');
 //Taches par défaults
 gulp.task('default', ['css','js']);
 
-gulp.task('all', ['sass','css','js','img','js-plugins','bootstrap','ace']);
+gulp.task('all', ['sass','css','js','img','js-plugins','bootstrap','ace', 'open-iconic']);
 
 gulp.task('prod', ['sass','css','js','img','js-plugins','bootstrap','ace','min']);
