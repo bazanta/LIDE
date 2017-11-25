@@ -33,7 +33,7 @@ class ConsoleController extends Controller{
       $ssh = $this->get('gestionssh');
 
       $id_user = "test";
-      $ip_proxy = "172.29.18.192";
+      $ip_proxy = "192.168.1.23";
 
       $exec = new Execution();
       $form = $this->createform(ExecutionType::class, $exec);
@@ -55,7 +55,6 @@ class ConsoleController extends Controller{
         $logger->info("Dossier temporaire : $tmpdir");
 
 //Récupération script compilation & éxecution dans la DB, ecriture sur le disk.
-
         $idLangage = $exec->getLanguage();
         $logger->info("Id langage : ".$idLangage);
         $em = $this->getDoctrine()->getManager();
@@ -95,20 +94,17 @@ class ConsoleController extends Controller{
           }
         }
 
-        $ssh->execCmd($cmd);
-        $output = $ssh->lire();
-
         $parametreCompilation = str_replace("\'", "\'\\\'\'", $exec->getCompilationOptions()); //Remplace tous les <'> par <\'>
         $parametreLancement = str_replace("\'", "\'\\\'\'",$exec->getLaunchParameters()); //Idem
 
         $wgetAdr = "http://etudiant@$ip_proxy/lide/web/$tmpdir/";
 
-        $cmd = "docker run --rm=true --name  $id_user -it gpp  /bin/bash -c \"wget $wgetAdr"."exec.sh  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
+        $cmd = "docker run --rm=true --name  $id_user -it gpp  /bin/bash -c \"wget $wgetAdr"."exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
 
 //Parametre de compilation
-        $cmd .= " ./exec.sh -o $parametreCompilation -f $listeFichiers -w $wgetAdr";
-//Arguments lancement
-        $cmd .= $parametreLancement;
+        $cmd .= " ./exec.sh -o '$parametreCompilation' -f '$listeFichiers' -w $wgetAdr";
+//Arguments
+        $cmd .= " -a '$parametreLancement'";
 //Mode de gestion des entrées
         if($exec->getInputMode() == 'none'){
           $cmd .= " -n";
@@ -131,6 +127,7 @@ class ConsoleController extends Controller{
 
         $cmd .= "\"";
 
+        $logger->info(exec("ls $tmpdir"));
         $logger->info("CMD DOCKER : ".$cmd);
 //Execution de la commande de lancement du docker, qui compile et eventuellement execute
         $ssh->execCmd($cmd);
@@ -141,7 +138,7 @@ class ConsoleController extends Controller{
             'fin' => $output[1]
         );
 
-        exec("rm -rf $tmpdir");
+       exec("rm -rf $tmpdir");
 
         $logger->info("Réponse : "+$output[0]);
         return new Response(json_encode($response));

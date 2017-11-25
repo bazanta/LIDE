@@ -5,10 +5,8 @@
  */
 
 var Exec = function(){
+    $("#console").empty();
     var jqconsole = $('#console').jqconsole('', '');
-    jqconsole.Reset();
-    console.log(FORM_NAME);
-    alert($("#" + FORM_NAME).serialize());
 
     var getOutput = function(){
       $.ajax({

@@ -50,7 +50,7 @@ listeFichiers=$(echo $fichiers | tr " " "\n")
 
 for fichier in $listeFichiers
 do
-	wget $wgetAdr$fichier
+	wget $wgetAdr$fichier 2>/dev/null
 done
 
 listeFichiersFinale=""
@@ -67,24 +67,30 @@ do
 	fi
 done
 
+echo "\$ g++ $options $listeFichiersFinale"
 g++ $options $listeFichiersFinale
+
+executable=$(ls -t | head -1)
 
 if [ $compilationUniquement = false ]
 then
-
-  case $fichierInput in
-  	"")
-			echo ./a.out $arguments
-  		./a.out $arguments
-  		;;
-  	*)
-				echo ./a.out $arguments "<" $fichierInput
-  		./a.out $arguments < $fichierInput
-  		;;
-  esac
-
+	if [ -x $executable ]
+	then
+	  case $fichierInput in
+	  	"")
+				echo \$ ./$executable $arguments
+	  		./$executable $arguments
+	  		;;
+	  	*)
+					echo \$ ./$executable $arguments "<" $fichierInput
+	  		./$executable $arguments < $fichierInput
+	  		;;
+	  esac
+	fi
   if [ -f input ]
   then
   	rm input
   fi
+
+  echo "\$ Process finished with exit code 0 " $?
 fi

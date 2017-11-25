@@ -37,11 +37,15 @@
               </div>
               <div class="form-group">
                 {{form_label(form.compilationOptions)}}
-                {{form_widget(form.compilationOptions, { 'attr' : {'class' : 'form-control'}}) }}
+                {{form_widget(form.compilationOptions, { 'attr' : {'class' : 'form-control font-mono'}}) }}
+                <small id="helpCompilationsOptions" class="form-text text-muted">
+                  La commande suivante sera effectué pour la compilation : <br/>
+                  <span id="compileCMD" class="font-mono font-bold"> g++ -Wall </span> 
+                </small>
               </div>
               <div id="launch-parameters" class="form-group">
                 {{ form_label(form.launchParameters)}}
-                {{ form_widget(form.launchParameters, { 'attr' : { 'class' : 'form-control'}})}}
+                {{ form_widget(form.launchParameters, { 'attr' : { 'class' : 'form-control font-mono'}})}}
               </div>
           </div>
         </div>

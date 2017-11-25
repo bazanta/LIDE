@@ -1,46 +1,53 @@
 <!DOCTYPE html>
 <html>
-   <head>
-       <meta charset="UTF-8" />
-       <title>
-          {% block title %}
-              L.I.D.E
-          {% endblock %}
-        </title>
-
-        {% block stylesheet %}
-           <link rel="stylesheet" href="{{ asset('css/plugins/bootstrap.min.css')}}"/>
-           <link rel="stylesheet" href="{{ asset('css/navbar.css')}}" />
+<head>
+    <meta charset="UTF-8"/>
+    <title>
+        {% block title %}
+            L.I.D.E
         {% endblock %}
+    </title>
 
-   </head>
+    {% block stylesheet %}
+        <!--Feuille de style bootstrap -->
+        <link rel="stylesheet" href="{{ asset('css/plugins/bootstrap.min.css') }}" type="text/css"/>
 
-   <body class="p-0 bg-primary">
+        <!-- Openiconic - icon -->
+        <link rel="stylesheet" href= "{{ asset('open-iconic/font/css/open-iconic-bootstrap.css') }}" type="text/css">
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark vh-10">
-          <a class="navbar-brand" href="{{path('main_homepage')}}">LIDE</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
 
-          <div class="collapse navbar-collapse" id="navbarToggler">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-              {% block navbarCollapse %}
+        <link rel="stylesheet" href="{{ asset('css/layout.css') }}" type="text/css"/>
+    {% endblock %}
+
+</head>
+
+<body class="p-0 bg-primary">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-height">
+    <a class="navbar-brand" href="{{ path('main_homepage') }}">LIDE</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            {% block navbarCollapse %}
                 <li class="nav-item">
-                  <a class="nav-link" href="{{path('easyadmin')}}">Admin<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ path('easyadmin') }}">Admin<span class="sr-only">(current)</span></a>
                 </li>
-              {% endblock %}
-            </ul>
-          </div>
-        </nav>
+            {% endblock %}
+        </ul>
+    </div>
+</nav>
 
-        {% block body %}
-        {% endblock %}
+{% block body %}
+{% endblock %}
 
-        {% block javascript %}
-          <script src="{{ asset('js/plugins/jquery.min.js')}}"></script>
-          <script src="{{ asset('js/plugins/popper.min.js')}}"></script>
-          <script src="{{ asset('js/plugins/bootstrap.min.js')}}"></script>
-        {% endblock %}
-   </body>
+{% block javascript %}
+    <script src="{{ asset('js/plugins/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/popper.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
+{% endblock %}
+</body>
 </html>

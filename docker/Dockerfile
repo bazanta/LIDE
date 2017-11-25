@@ -10,3 +10,4 @@ RUN apt-get install -y wget
 
 RUN apt-get install -y ssh
 
+WORKDIR /home
