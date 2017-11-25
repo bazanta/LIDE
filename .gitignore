@@ -3,6 +3,7 @@
 /web/css/
 /web/js/
 /web/images/
+/web/open-iconic
 
 /app/bootstrap.php.cache
 /app/cache/*
