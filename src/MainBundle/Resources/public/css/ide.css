@@ -42,32 +42,6 @@
  *          Élément de gestions de l'éxecution      *
  ****************************************************/
 
-#close-execution-form {
-    position: absolute;
-    right: 10px;
-    top: 5px;
-}
-
-/*Formulaire d'excution*/
-
-.execution-hidden {
-    display: none;
-}
-
-.execution-shown {
-    position: fixed;
-    display: block;
-    top: 25%;
-    left: 25%;
-    margin: auto;
-    width: 50%;
-    height: 50%;
-
-    overflow: scroll;
-
-    z-index: 1500;
-    background-color: white;
-}
 
 /****************************************************
  *          Relatif à l'éditeur                     *
@@ -97,18 +71,6 @@
     display: none;
 }
 
-/****************************************************
- *          Relatif à la console                    *
- ****************************************************/
-
-#console {
-    background-color: #505050;
-    color: white;
-    border: 0;
-}
-
-.console-block-open {
-}
 
 /****************************************************
  *          Toolbar                                 *

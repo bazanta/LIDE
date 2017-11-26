@@ -1,17 +1,27 @@
+{#
+    Créé par Paulin VIOLETTE
+
+    SVP DEMANDEZ MOI SI VOUS ALLEZ CHANGER QUELQUE CHOSE ME METTEZ PAS DES BOUTTONS / LIENS / N'IMPORTE QUAND SI VOUS ÊTES PAS SÛRE DE CE QUE VOUS FAITES
+#}
+
+
+
 {% extends "MainBundle::layout.html.twig" %}
 
 {% block navbarCollapse %}
-  {{ parent() }}
-  <li class="nav-item dropdown active">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Editeur : {{ selected_langage_name }}
-    </a>
-    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-      {% for lang in list_langage %}
-        <a class="dropdown-item {% if lang.id == selected_langage %} choix-langage-selected{% else %} choix-langage{% endif %}" href="#" data-id="{{ lang.id }}">{{ lang.nom }}</a>
-      {% endfor %}
-    </div>
-  </li>
+    {{ parent() }}
+    <li class="nav-item dropdown active">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            Editeur : {{ selected_langage_name }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            {% for lang in list_langage %}
+                <a class="dropdown-item {% if lang.id == selected_langage %} choix-langage-selected{% else %} choix-langage{% endif %}"
+                   href="#" data-id="{{ lang.id }}">{{ lang.nom }}</a>
+            {% endfor %}
+        </div>
+    </li>
 {% endblock %}
 
 {% block title %}
@@ -20,123 +30,144 @@
 
 
 {% block body %}
-<div class="container-fluid m-0 p-0 main-container-height" id="top-container" >
+    <div class="container-fluid m-0 p-0 main-container-height" id="top-container">
 
 
-        
-    <div  id="editor-toolbar" class="bg-light row m-0 p-0">
+        <div id="editor-toolbar" class="bg-light row m-0 p-0">
+            <div id="file-selector" class="col d-inline-flex m-0 p-0">
+                <!-- Selection du fichier-->
+                <select id="select-file" class="custom-select">
+                    <option value="0" selected>main</option>
+                </select>
+                <!--Buton pour afficher un fichier, lors de trigger le modal avec le formulaire de nouveau fichier -->
+                <button type="button" id="add_file" class="btn btn-cmd-file" data-toggle="modal"
+                        data-target="#modal-new-file" data-tooltip="tooltip" title="Nouveau fichier">
+                    <span class="oi oi-document" title="document" aria-hidden="true"></span><!--Icon fichier/document-->
+                </button>
+
+                <!-- Bouton pour importer des fichiers depuis l'ordianteur client (ajouter depuis une URL ?) -->
+                <button type="button" id="import_file" class="btn btn-cmd-file" data-tooltip="tooltip"
+                        title="Importer des fichiers depuis votre ordinateur"
+                data-toggle="modal" data-target="#modal-import-file">
+                    <span class="oi oi-data-transfer-upload" title="data-transfer-upload" aria-hidden="true"></span>
+                    <!--Icon upload-->
+                </button>
+
+                <!-- Bouton de suppression du fichier courant -->
+                <button type="button" id="rm_file" class="btn btn-danger" disabled data-tooltip="tooltip"
+                        title="Supprimer le fichier">
+                    <span class="oi oi-trash" title="trash" aria-hidden="true"></span> <!--Icon poubelle-->
+                </button>
 
 
-
-        <div id="file-selector" class="col d-inline-flex m-0 p-0">
-            <!-- Selection du fichier-->
-            <select id="select-file" class="custom-select">
-                <option value="0" selected>main</option>
-            </select>
-            <!--Buton pour afficher un fichier, lors de trigger le modal avec le formulaire de nouveau fichier -->
-            <button type="button" id="add_file" class="btn btn-cmd-file" data-toggle="modal" data-target="#modal-new-file" data-tooltip="tooltip" title="Nouveau fichier">
-                <span class="oi oi-document" title="document" aria-hidden="true"></span> <!--Icon fichier/document-->
-            </button>
-
-            <!-- Bouton de suppression du fichier courant -->
-            <button type="button" id="rm_file" class="btn btn-danger" disabled data-tooltip="tooltip" title="Supprimer le fichier">
-                <span class="oi oi-trash" title="trash" aria-hidden="true"></span> <!--Icon poubelle-->
-            </button>
-
-            <div id="file-tabs-container" class="m-0 container-fluid">
-                <div class="row" id="file-tabs-row">
-                    <!--Contient les onglets de fichiers -->
+                <div id="file-tabs-container" class="m-0 container-fluid">
+                    <div class="row" id="file-tabs-row">
+                        <!--Contient les onglets de fichiers -->
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-1 d-inline-flex p-0 m-0">
-            <button type="button" id="btn-option" class="btn w-50" title="Options" data-tooltip="tooltip" title="Nouveau fichier"="tooltip">
-                <span class="oi oi-cog" title="cog" aria-hidden="true"></span> <!--Icon engrenage-->
-            </button>
-            <!-- Button permettant de reduire / etendre la console -->
-            <button type="button" id="toggle-console" class="btn console-toggle-open w-50" data-tooltip="tooltip" title="Étendre / Réduire terminal">
+            <div class="col-1 d-inline-flex p-0 m-0">
+                <button type="button" id="btn-option" class="btn w-50" data-toggle="modal" data-target="#modal-options" title="Options" data-tooltip="tooltip"
+                        title="Nouveau fichier"
+                ="tooltip">
+                <span class="oi oi-wrench" title="wrench" aria-hidden="true"></span> <!--Icon clé à outils-->
+                </button>
+                <!-- Button permettant de reduire / etendre la console -->
+                <button type="button" id="toggle-console" class="btn console-toggle-open w-50" data-tooltip="tooltip"
+                        title="Étendre / Réduire terminal">
                 <span class="oi oi-terminal" title="terminal" aria-hidden="true"> <!--Icon terminal-->
-            </button>
-        </div>
-    </div>
-
-    <div class="row m-0 p-0 " style="z-index : 1" id="row-editeur-console">
-        <!--Block contenant l'editeur des texte -->
-        <div id="block-editor" class="col-6  m-0 p-0 h-100">
-
-          <div id="editor" class="m-0"></div>
-          <form id="editor-form" class="form-horizontal"  style="width : 75%; position : absolute; top: auto; bottom : 5%; left:12.5%; z-index: 2;">
-            <div class="btn-group" id="btn-action-file" role="group">
-
-              <!--Bouton sauvegarde : trois option : sauvegarder uniquement le fichier en cours, tous les fichiers dans une archive, tous les fichiers un par un. -->
-              <div class="btn-group w-50 dropup">
-                <button id="btn-save" type="button" class="btn btn-primary btn_save m-0 w-100">Save file</button>
-                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="sr-only">Toggle Dropdown</span>
                 </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item save-method" id="save-file" href="#" data-save-method="file">Save file</a>
-                  <a class="dropdown-item save-method" id="save-all-archive" href="#" data-save-method="archive">Save All (as an archive)</a>
-                  <a class="dropdown-item save-method" id="save-all" href="#" data-save-method="all-files">Save All</a>
-                </div>
-              </div>
-
-              <div class="btn-group w-50 dropup">
-                <button type="button" class="btn btn-secondary btn_save w-100 m-0" id="run-btn">Run</button>
-                <button type="button" class="btn btn-secondary dropdown-toggle-split" id="runOptionToggle">
-                    <span class="oi oi-cog" title="cog" aria-hidden="true"></span> <!--Icon Engrenage-->
-                </button>
-              </div>
-
             </div>
-          </form>
         </div>
 
-<!-- Div contenant la console. Gerer dans console.js avec jqconsole -->
-        <div id="console-block" class="console-block-open col-6 m-0 p-0 h-100">
-          <div id="console">
-          </div>
+        <div class="row m-0 p-0 " style="z-index : 1" id="row-editeur-console">
+            <!--Block contenant l'editeur des texte -->
+            <div id="block-editor" class="col-6  m-0 p-0 h-100">
+
+                <div id="editor" class="m-0"></div>
+                <form id="editor-form" class="form-horizontal"
+                      style="width : 75%; position : absolute; top: auto; bottom : 5%; left:12.5%; z-index: 2;">
+                    <div class="btn-group" id="btn-action-file" role="group">
+
+                        <!--Bouton sauvegarde : trois option : sauvegarder uniquement le fichier en cours, tous les fichiers dans une archive, tous les fichiers un par un. -->
+                        <div class="btn-group w-50 dropup">
+                            <button id="btn-save" type="button" class="btn btn-primary btn_save m-0 w-100">Save file
+                            </button>
+                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item save-method" id="save-file" href="#" data-save-method="file">Save
+                                    file</a>
+                                <a class="dropdown-item save-method" id="save-all-archive" href="#"
+                                   data-save-method="archive">Save All (as an archive)</a>
+                                <a class="dropdown-item save-method" id="save-all" href="#"
+                                   data-save-method="all-files">Save All</a>
+                            </div>
+                        </div>
+
+                        <div class="btn-group w-50 dropup">
+                            <button id="run-btn" type="button" class="btn btn-secondary btn_save w-100 m-0">Run</button>
+                            <button id="runOptionToggle" type="button" class="btn btn-secondary dropdown-toggle-split"
+                                    data-toggle="modal" data-target="#executionForm-container" data-tooltip="tooltip"
+                                    title="Option de lancement">
+                                <span class="oi oi-cog" title="cog" aria-hidden="true"></span> <!--Icon Engrenage-->
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+            <!-- Div contenant la console. Gerer dans console.js avec jqconsole -->
+            <div id="console-block" class="console-block-open col-6 m-0 p-0 mh-100">
+                <div id="console">
+                </div>
+            </div>
         </div>
     </div>
- </div>
 
-    {{ include('MainBundle:Default:Form_Exec.html.twig')}}
+    {{ include('MainBundle:Default:Form_Exec.html.twig') }}
     {{ include('MainBundle:Default:FormNewFile.html.twig') }}
-
+    {{ include('MainBundle:Default:FormImportFile.html.twig') }}
+    {{ include('MainBundle:Default:options.html.twig') }}
 
 
 {% endblock %}
 
 {% block stylesheet %}
-  {{ parent () }}
-  <link rel="stylesheet" href="{{ asset('css/ide.css') }}" />
-  <link rel="stylesheet" href="{{ asset('css/jqconsole.css') }}"/>
+    {{ parent () }}
+    <link rel="stylesheet" href="{{ asset('css/ide.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/jqconsole.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/ansi.css') }}"
 {% endblock %}
 
 {% block javascript %}
-  {{ parent() }}
+    {{ parent() }}
 
-  <script src="{{ asset('js/plugins/ace/ace.js')}}"></script>
+    <script src="{{ asset('js/plugins/ace/ace.js') }}"></script>
 
-  <!--Script pour la sauvegarde des ficheirs -->
-  <script src="{{ asset('js/plugins/FileSaver.min.js')}}"></script>
-  <script src="{{asset('js/plugins/jszip.min.js')}}"></script>
+    <!--Script pour la sauvegarde des ficheirs -->
+    <script src="{{ asset('js/plugins/FileSaver.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/jszip.min.js') }}"></script>
 
-  <script src="{{asset('js/jqconsole.js')}}"></script>
+    <script src="{{ asset('js/jqconsole.js') }}"></script>
 
-  <!-- Variable globale dont la valeur dépend de symfony -->
-  <script>
-    var urlLangagesInfo = "{{path('language_info')}}";
+    <!-- Variable globale dont la valeur dépend de symfony -->
+    <script>
+        var urlLangagesInfo = "{{ path('language_info') }}";
 
-    var PATH_CONSOLE_EXEC = "{{path('exec')}}";
-    var PATH_CONSOLE_ANS =  "{{path('answer')}}";
+        var PATH_CONSOLE_EXEC = "{{ path('exec') }}";
+        var PATH_CONSOLE_ANS = "{{ path('answer') }}";
 
-    FORM_NAME = "{{ form.vars.full_name }}"
-//    console.log(FORM_NAME);
-  </script>
+        FORM_NAME = "{{ form.vars.full_name }}"
+        //    console.log(FORM_NAME);
+    </script>
 
-  <script src="{{asset('js/console.js')}}"></script>
-  <script src="{{ asset('js/ide.js')}}"></script>
-  <script src="{{ asset('js/gestionRunForm.js')}}"></script>
+    <script src="{{ asset('js/console.js') }}"></script>
+    <script src="{{ asset('js/ide.js') }}"></script>
+    <script src="{{ asset('js/gestionRunForm.js') }}"></script>
+    <script src="{{ asset('js/options.js') }}"></script>
 {% endblock %}

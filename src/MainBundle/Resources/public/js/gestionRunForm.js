@@ -42,20 +42,7 @@ $("input[name='" + FORM_NAME + "[inputMode]']").change(function () {
     }
 });
 
-function toogleExecutionFormView() {
-    $("#executionForm-container").toggleClass("execution-shown");
-    $("#executionForm-container").toggleClass("execution-hidden");
-}
-
-$("#runOptionToggle").click(toogleExecutionFormView);
-
-$("#close-execution-form").click(toogleExecutionFormView);
-
-$("#run-btn").click(function () {
-    $("#executionForm-container").removeClass("execution-shown");
-    $("#executionForm-container").addClass("execution-hidden");
-
-
+function run(){
     if (currentFile != -1) {
         files[currentFile].content = editor.getValue();
     }
@@ -64,4 +51,11 @@ $("#run-btn").click(function () {
     $("#" + FORM_NAME + "_files").val(JSON.stringify(files));
     $("#" + FORM_NAME + "_language").val($('.choix-langage-selected').attr("data-id"));
     Exec();
-});
+}
+
+$("#run-btn").click(run);
+
+$("#exec-form-run-btn").click(function(){
+    $("#executionForm-container").modal('hide');
+    run();
+})

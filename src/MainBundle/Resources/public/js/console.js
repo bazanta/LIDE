@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
+var jqconsole = $('#console').jqconsole('', '');
+
 var Exec = function(){
-    $("#console").empty();
-    var jqconsole = $('#console').jqconsole('', '');
+
+    jqconsole.Clear();
 
     var getOutput = function(){
       $.ajax({

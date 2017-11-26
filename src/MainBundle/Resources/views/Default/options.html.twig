@@ -1,0 +1,57 @@
+<div class="modal fade px-4 py-3" id="modal-options" tabindex="-1" role="dialog"
+     aria-labelledby="modalOptionsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalOptionsLabel">Option</h5>
+
+                <!--Bouton de fermeture du modal-->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class="modal-body container-fluid">
+                <div class="form-group">
+                    <label class="col-form-label" for="ace-theme-selector">Thème de l'éditeur</label>
+                    <select class="form-control custom-select" id="ace-theme-selector">
+                        <optgroup label="Recommandé">
+                            <option value="ace/theme/tomorrow_night" selected>Tomorrow Night</option>
+                            <option value="ace/theme/tomorrow_night_bright">Tomorrow Night (bright)</option>
+                        </optgroup>
+                        <optgroup label="Autre">
+                            <option value="ace/theme/ambiance">Ambiance</option>
+                            <option value="ace/theme/chaos">Chaos</option>
+                            <option value="ace/theme/clouds">Cloud</option>
+                            <option value="ace/theme/clouds_midnight">Cloud Midnight</option>
+                            <option value="ace/theme/cobalt">Cobalt</option>
+                            <option value="ace/theme/crimson_editor">Crimson Editor</option>
+                            <option value="ace/theme/dawn">Dawn</option>
+                            <option value="ace/theme/dracula">Dracula</option>
+                            <option value="ace/theme/eclipse">Eclipse</option>
+                            <option value="ace/theme/pastel_on_dark">Pastel On Dark</option>
+                            <option value="ace/theme/xcode">XCode</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" for="editor-font-size-selector">Taille de la police (editeur)</label>
+                    <select id="editor-font-size-selector" class="form-control custom-select">
+                        {% for i in 8..20 %}
+                            {% if i is even %}
+                                <option value="{{ i }}pt"> {{ i }}pt</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+
+
+            </div> <!-- Modal body -->
+            <div class="modal-footer">
+                <button id="options-cancel" class="btn btn-danger" type="button">Cancel</button>
+                <button id="options-ok" class="btn btn-success" type="button">Ok</button>
+            </div><!--Modal footer -->
+        </div> <!--Modal content -->
+    </div> <!--Modal dialog -->
+</div> <!-- #modal-options -->

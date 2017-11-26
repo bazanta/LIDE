@@ -92,5 +92,5 @@ then
   	rm input
   fi
 
-  echo "\$ Process finished with exit code 0 " $?
+  echo "\$ Process finished with exit code " $?
 fi
