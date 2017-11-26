@@ -70,7 +70,14 @@ done
 echo "\$ g++ $options $listeFichiersFinale"
 g++ $options $listeFichiersFinale
 
+if [ "$?" -ne "0" ]
+then
+    exit $?
+fi
+
+
 executable=$(ls -t | head -1)
+
 
 if [ $compilationUniquement = false ]
 then
