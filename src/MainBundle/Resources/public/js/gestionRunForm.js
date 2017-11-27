@@ -28,8 +28,14 @@ $("#" + FORM_NAME + "_compileOnly").change(function () {
     else {
         disableCompileOnly();
     }
-})
+});
 
+
+//Synchronisation input des options de compilation avec le texte d'aide situé en dessous
+$("#" + FORM_NAME + "_compilationOptions").on('input', function () {
+    console.log("Change compile cmd");
+    $("#compileCMD-options").text( $( this ).val());
+});
 
 //Activation / Désactivation de la textarea pour les input en fonction du choix du mode d'input
 $("input[name='" + FORM_NAME + "[inputMode]']").change(function () {
@@ -58,4 +64,4 @@ $("#run-btn").click(run);
 $("#exec-form-run-btn").click(function(){
     $("#executionForm-container").modal('hide');
     run();
-})
+});

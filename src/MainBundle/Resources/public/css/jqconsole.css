@@ -12,7 +12,7 @@
       width: 100%;
       position:relative;
       background-color: black;
-      border: 2px solid #CCC;
+      border-left: 2px solid #CCC;
       margin: 0 auto;
     }
     /* The inner console element. */

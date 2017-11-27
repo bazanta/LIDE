@@ -5,11 +5,6 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="modalOptionsLabel">Option</h5>
 
-                <!--Bouton de fermeture du modal-->
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-
             </div>
             <div class="modal-body container-fluid">
                 <div class="form-group">
@@ -17,7 +12,7 @@
                     <select class="form-control custom-select" id="ace-theme-selector">
                         <optgroup label="Recommandé">
                             <option value="ace/theme/tomorrow_night" selected>Tomorrow Night</option>
-                            <option value="ace/theme/tomorrow_night_bright">Tomorrow Night (bright)</option>
+                            <option value="ace/theme/clouds">Cloud</option>
                         </optgroup>
                         <optgroup label="Autre">
                             <option value="ace/theme/ambiance">Ambiance</option>
@@ -30,19 +25,14 @@
                             <option value="ace/theme/dracula">Dracula</option>
                             <option value="ace/theme/eclipse">Eclipse</option>
                             <option value="ace/theme/pastel_on_dark">Pastel On Dark</option>
+                            <option value="ace/theme/tomorrow_night_bright">Tomorrow Night (bright)</option>
                             <option value="ace/theme/xcode">XCode</option>
                         </optgroup>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="col-form-label" for="editor-font-size-selector">Taille de la police (editeur)</label>
-                    <select id="editor-font-size-selector" class="form-control custom-select">
-                        {% for i in 8..20 %}
-                            {% if i is even %}
-                                <option value="{{ i }}pt"> {{ i }}pt</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
+                    <input id="editor-font-size-selector" class="form-control" type="number" value="12" step="2">
                 </div>
 
 

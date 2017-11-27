@@ -22,7 +22,6 @@ class ConsoleController extends Controller
 
         return new Response($content);
 
-
     }
 
 
@@ -35,7 +34,8 @@ class ConsoleController extends Controller
         $ssh = $this->get('gestionssh');
 
         $id_user = "test";
-        $ip_proxy = "192.168.1.23";
+        $ip_proxy = "172.29.18.192";
+
 
         $exec = new Execution();
         $form = $this->createform(ExecutionType::class, $exec);
@@ -45,9 +45,6 @@ class ConsoleController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             $exec = $form->getData();
-
-            $cmd = "docker stop --time=0 test";
-
 
             $user = "testUser";
 
@@ -101,7 +98,9 @@ class ConsoleController extends Controller
 
             $wgetAdr = "http://etudiant@$ip_proxy/lide/web/$tmpdir/";
 
-            $cmd = "docker run --rm=true --name  $id_user -it gpp  /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
+            $cmd="";
+    //        $cmd = "docker stop --time=0 test; ";
+            $cmd .= "docker run --rm=true --name  $id_user -it gpp  /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
 
 //Parametre de compilation
             $cmd .= " ./exec.sh -o '$parametreCompilation' -w $wgetAdr";

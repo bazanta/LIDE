@@ -31,7 +31,7 @@ function File(name, content) {
  * @param id l'index du nouveau fichier actif.
  */
 function changeActiveFileTo(id) {
-    if(id == currentFile){
+    if (id == currentFile) {
         return //Demande de changement sur le fichier courant -> rien à faire
     }
     if (id >= 0 && id < files.length) {
@@ -74,12 +74,17 @@ function existFile(name) {
  */
 function addFile(name, content) {
     if (name == "") {
-        alert("Impossible de créer un fichier avec un nom vide");
-        return;
+        swal("Erreur lors de la création du fichier",
+            "Impossible de créer un fichier avec un nom vide",
+            "error"
+        );
+        return false;
     }
     if (existFile(name)) {
-        alert("Le fichier " + name + " existe déjà. Veuillez choisir un autre nom pour votre fichier");
-        return;
+        swal("Erreur lors de la création du fichier",
+            "Le fichier " + name + " existe déjà. Veuillez choisir un autre nom pour votre fichier",
+            "error");
+        return false;
     }
 
     var f = new File(name, content);
@@ -96,12 +101,14 @@ function addFile(name, content) {
     $("#file-tabs-row").append(newTab);
     console.log("Width " + newTab.width());
 
-    newTab.click(function(){
+    newTab.click(function () {
         console.log("Clicked tab " + $(this).attr("data-file"));
-        changeActiveFileTo($( this ).attr("data-file"));
+        changeActiveFileTo($(this).attr("data-file"));
     });
 
     changeActiveFileTo(files.length - 1);
+
+    return true;
 }
 
 /**
@@ -143,15 +150,14 @@ function removeFile(id) {
                 $("<div></div>").attr("class", "col file-tab").attr("data-file", i).text(files[i].name)
             );
         }
-        $(".file-tab").click(function(){
-            changeActiveFileTo($( this ).attr("data-file"));
+        $(".file-tab").click(function () {
+            changeActiveFileTo($(this).attr("data-file"));
         });
 
         changeActiveFileTo(0);
 
     }
 }
-
 
 
 //Synchronisation du modèle sélectionné dans le formulaire du nouveau fichier le reste du formulaire.
@@ -176,13 +182,24 @@ $("#select-modele").change(function () {
 
 //Bind bouton de suppression de fichier
 $("#rm_file").click(function () {
-    if (confirm("Attention ! Toute donnée non sauvegardées seront perdu !")) {
+    swal({
+        title: 'Êtes vous sûr ?',
+        text: "Cette action est irréversible",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonClass: 'btn btn-danger',
+        cancelButtonClass: 'btn btn-primary',
+        confirmButtonText: 'Supprimer',
+        cancelButtonText: 'Annuler'
+    }).then((result) => {
+        if(result.value){
         removeFile(currentFile);
         if (files.length == 1) {
             console.log("disabled");
             $(this).prop("disabled", true);
         }
     }
+    });
 });
 
 /**
@@ -206,26 +223,31 @@ function createFile() {
         fileContent = modeles[idModel].model;
     }
 
-    addFile(fileName, fileContent);
+    var created = addFile(fileName, fileContent);
 
     if (files.length > 1) {
         console.log("not disabled");
         $("#rm_file").prop("disabled", false);
     }
+
+    return created;
 }
 
 //Bind bouton de création de fichier
 $("#btn-create-file").click(function () {
-    createFile();
 
-    $("#modal-new-file").modal('hide');
+    if (createFile())
+    {
+        $("#modal-new-file").modal('hide');
+
+    }
+
 });
 
 //Changement du fichier actifs via la liste déroulante dans la toolbar
 $("#select-file").change(function () {
     changeActiveFileTo($("#select-file").val());
 });
-
 
 
 /*******************************************************************************
@@ -357,40 +379,51 @@ function requestAndSetLanguage(language) {
             //Modification du formulaire de nouveau fichier
             $("#select-modele").html("")
             $("#select-modele").append(
-                $("<option></option")
+                $("<option></option>")
                     .attr("value", -1)
                     .text("Fichier vide")
             );
             for (var i = 0; i < modeles.length; i++) {
-                $("#select-modele").append($("<option></option")
+                $("#select-modele").append($("<option></option>")
                     .attr("value", i)
                     .text("." + modeles[i].ext)
                 );
             }
-            $("#select-modele").val(-1);
-            console.log(modeles[0].model);
-            $("#show-model").text("").html();
+            $("#select-modele").val(0);
             $("#select-modele").change();
+
+            $("#compileCMD-compilateur").text(response.compilateur);
         },
     });
 }
 
 //Selection d'un nouveau langage
 function clickLangage() {
-    if (confirm("Attention ! Toute donnée non sauvegardées seront perdu !")) {
-        requestAndSetLanguage(parseInt($(this).attr("data-id")));
-        var oldSelected = $(".choix-langage-selected");
-        oldSelected.removeClass("choix-langage-selected");
-        oldSelected.addClass("choix-langage");
-        oldSelected.click(clickLangage);
+    var newSelected = $(this);
+    var idRequestedLang = parseInt($(this).attr("data-id"));
+    swal({
+            title : 'Attention !',
+            text : 'Toute modifications non sauvegardé seront perdu !',
+            type : 'warning',
+            showCancelButton : true
+        }
+    ).then(function(result) {
+        if (result.value){
+            requestAndSetLanguage(idRequestedLang);
+            var oldSelected = $(".choix-langage-selected");
+            oldSelected.removeClass("choix-langage-selected");
+            oldSelected.addClass("choix-langage");
+            oldSelected.click(clickLangage);
 
-        var newSelected = $(this);
-        newSelected.removeClass("choix-langage");
-        newSelected.addClass("choix-langage-selected");
-        newSelected.unbind("click");
-    } else {
-        //DO NOTHING FOR NOW
-    }
+            newSelected.removeClass("choix-langage");
+            newSelected.addClass("choix-langage-selected");
+            newSelected.unbind("click");
+        }
+        else{
+            //DO NOTHING
+        }
+    });
+
 }
 
 $(".choix-langage").click(clickLangage);
@@ -412,11 +445,11 @@ $("#toggle-console").click(function () {
     $("#block-editor").toggleClass("col-11");
     $("#block-editor").toggleClass("col-6");
 
-/*
-    $(this).toggleClass("console-toggle-open");
-    $(this).toggleClass("console-toggle-close");
+    /*
+        $(this).toggleClass("console-toggle-open");
+        $(this).toggleClass("console-toggle-close");
 
-*/
+    */
 
     $(this).toggleClass("btn-dark");
 });

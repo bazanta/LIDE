@@ -49,8 +49,15 @@ var livereload = require('gulp-livereload');
             './node_modules/bootstrap/dist/js/bootstrap.min.js',
             './node_modules/popper.js/dist/umd/popper.min.js',
             './node_modules/file-saver/FileSaver.min.js',
-            './node_modules/jszip/dist/jszip.min.js'
+            './node_modules/jszip/dist/jszip.min.js',
+            './node_modules/sweetalert2/dist/sweetalert2.min.js'
         ]).pipe(gulp.dest('./web/js/plugins/',{overwrite: true}));
+    });
+
+    gulp.task('css-plugins', function(){
+       gulp.src([
+           'node_modules/sweetalert2/dist/sweetalert2.css'
+       ]).pipe(gulp.dest('web/css/plugins', {overwrite : true}));
     });
 
     gulp.task('ace', function () {
@@ -83,6 +90,6 @@ var livereload = require('gulp-livereload');
 //Taches par défaults
 gulp.task('default', ['css','js']);
 
-gulp.task('all', ['sass','css','js','img','js-plugins','bootstrap','ace', 'open-iconic']);
+gulp.task('all', ['sass','css','js','img','js-plugins', 'css-plugins', 'bootstrap', 'ace', 'open-iconic']);
 
 gulp.task('prod', ['sass','css','js','img','js-plugins','bootstrap','ace','min']);

@@ -31,14 +31,19 @@
 
  //Ajout d'un fichier
  function addFile(name, content){
-   if(name == ""){
-     alert("Impossible de créer un fichier avec un nom vide");
-     return;
-   }
-   if(existFile(name)){
-     alert("Le fichier " + name + " existe déjà. Veuillez choisir un autre nom pour votre fichier");
-     return;
-   }
+     if(name == ""){
+         swal( "Erreur lors de la création du fichier",
+             "Impossible de créer un fichier avec un nom vide",
+             "error"
+         );
+         return;
+     }
+     if(existFile(name)){
+         swal("Erreur lors de la création du fichier",
+             "Le fichier " + name + " existe déjà. Veuillez choisir un autre nom pour votre fichier",
+             "error");
+         return;
+     }
 
    var f = new File(name, content);
    console.log("New file : ");

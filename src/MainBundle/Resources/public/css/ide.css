@@ -80,10 +80,6 @@
     border-left : solid 1px #303030;
 }
 
-.btn {
-    border-radius: 0;
-    margin: 0;
-}
 
 #file-selector .file-tab:first-child {
     border-left: solid 1px #303030;
@@ -96,14 +92,14 @@
 
     color: white;
 
-    background-color: #475059;
+    background-color: #343A40;
 
     max-height: 100%;
 }
 
 .file-selected-tab {
-    border-bottom: solid thick #0000F0;
-    background-color: #343A40;
+    border-top: solid thick #b1bed3;
+    background-color: #475059 ;
 }
 
 .file-tab:hover {
@@ -114,8 +110,10 @@
     width: 10%;
 }
 
-.btn-cmd-file {
 
+.btn-toolbar{
+    margin : 0;
+    border-radius: 0 !important;
 }
 
 .console-toggle-open{

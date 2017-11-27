@@ -40,13 +40,13 @@
                     <option value="0" selected>main</option>
                 </select>
                 <!--Buton pour afficher un fichier, lors de trigger le modal avec le formulaire de nouveau fichier -->
-                <button type="button" id="add_file" class="btn btn-cmd-file" data-toggle="modal"
+                <button type="button" id="add_file" class="btn btn-toolbar" data-toggle="modal"
                         data-target="#modal-new-file" data-tooltip="tooltip" title="Nouveau fichier">
                     <span class="oi oi-document" title="document" aria-hidden="true"></span><!--Icon fichier/document-->
                 </button>
 
                 <!-- Bouton pour importer des fichiers depuis l'ordianteur client (ajouter depuis une URL ?) -->
-                <button type="button" id="import_file" class="btn btn-cmd-file" data-tooltip="tooltip"
+                <button type="button" id="import_file" class="btn btn-toolbar" data-tooltip="tooltip"
                         title="Importer des fichiers depuis votre ordinateur"
                 data-toggle="modal" data-target="#modal-import-file">
                     <span class="oi oi-data-transfer-upload" title="data-transfer-upload" aria-hidden="true"></span>
@@ -54,7 +54,7 @@
                 </button>
 
                 <!-- Bouton de suppression du fichier courant -->
-                <button type="button" id="rm_file" class="btn btn-danger" disabled data-tooltip="tooltip"
+                <button type="button" id="rm_file" class="btn btn-toolbar btn-danger" disabled data-tooltip="tooltip"
                         title="Supprimer le fichier">
                     <span class="oi oi-trash" title="trash" aria-hidden="true"></span> <!--Icon poubelle-->
                 </button>
@@ -68,13 +68,12 @@
             </div>
 
             <div class="col-1 d-inline-flex p-0 m-0">
-                <button type="button" id="btn-option" class="btn w-50" data-toggle="modal" data-target="#modal-options" title="Options" data-tooltip="tooltip"
-                        title="Nouveau fichier"
-                ="tooltip">
+                <button type="button" id="btn-option" class="btn btn-toolbar w-50" data-toggle="modal" data-target="#modal-options" data-tooltip="tooltip"
+                        title="Options">
                 <span class="oi oi-wrench" title="wrench" aria-hidden="true"></span> <!--Icon clé à outils-->
                 </button>
                 <!-- Button permettant de reduire / etendre la console -->
-                <button type="button" id="toggle-console" class="btn console-toggle-open w-50" data-tooltip="tooltip"
+                <button type="button" id="toggle-console" class="btn btn-toolbar console-toggle-open w-50" data-tooltip="tooltip"
                         title="Étendre / Réduire terminal">
                 <span class="oi oi-terminal" title="terminal" aria-hidden="true"> <!--Icon terminal-->
                 </button>
