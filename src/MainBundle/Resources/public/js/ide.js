@@ -263,7 +263,6 @@ var CURRENT_SAVE_METHOD = SAVE_CURRENT_FILE;
  * Sauvegarde le fichier via téléchargement à la position id dans le tableau file
  * @param id
  */
-
 function saveFile(id) {
     //Sauvegarde d'un fichier via FileSaver.js
     if (id >= 0 && id < files.length) {
@@ -291,7 +290,6 @@ function saveAllFiles() {
  * Créer une archive contenant tous les fichiers, puis la sauvegarde.
  */
 function saveAllFilesAsArchive() {
-    //Sauvegarde dans une archive zip avec JSZip + FileSaver.js
     var zip = new JSZip();
     for (i = 0; i < files.length; ++i) {
         zip.file(files[i].name, files[i].content);
@@ -299,7 +297,7 @@ function saveAllFilesAsArchive() {
     zip.generateAsync({type: "blob"})
         .then(function (content) {
             saveAs(content, "archive.zip");
-        });
+        }); //Generation de l'archive puis "téléchargement"
 }
 
 function isValidSaveMethod(saveMethod) {

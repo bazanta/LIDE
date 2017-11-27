@@ -3,6 +3,7 @@
 namespace MainBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -42,8 +43,12 @@ class ExecutionType extends AbstractType
              'label' => 'Option de compilation',
              'data' => '-Wall'
            ))
-           ->add('files', HiddenType::Class)
-           ->add('language', HiddenType::Class);
+           ->add('files', HiddenType::class)
+           ->add('language', HiddenType::class)
+            ->add('additionalFiles', FileType::class, array(
+                'label' => 'Fichiers additionnels',
+                'multiple' => true
+            ));
    }
 
    public function configureOptions(OptionsResolver $resolver)

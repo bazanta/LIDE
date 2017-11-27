@@ -34,7 +34,7 @@ class ConsoleController extends Controller
         $ssh = $this->get('gestionssh');
 
         $id_user = "test";
-        $ip_proxy = "172.29.18.192";
+        $ip_proxy = "192.168.1.67";
 
 
         $exec = new Execution();
@@ -44,11 +44,11 @@ class ConsoleController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $exec = $form->getData();
-
             $user = "testUser";
 
             $logger->info(print_r($request->get('execution'), true));
+
+            $logger->info("Fichier additionnels : " . print_r($exec->getAdditionalFiles(), true));
 
 //Écriture des fichiers sur le disques
             $tmpdir = exec("mktemp -d $user.XXXXXX");
@@ -92,6 +92,18 @@ class ConsoleController extends Controller
                     return new Response("Echec écriture fichier $f->name sur serveur");
                 }
             }
+
+//Copie fichier additionnels
+            foreach ($exec->getAdditionalFiles() as $file){
+                $fileName = $file->getClientOriginalName();
+                $file->move(
+                    $tmpdir,
+                    $fileName
+                );
+                $listeFichiers.= $fileName . " ";
+                $logger->info($fileName);
+            }
+
 
             $parametreCompilation = str_replace("\'", "\'\\\'\'", $exec->getCompilationOptions()); //Remplace tous les <'> par <\'>
             $parametreLancement = str_replace("\'", "\'\\\'\'", $exec->getLaunchParameters()); //Idem

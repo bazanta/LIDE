@@ -10,6 +10,8 @@ class Execution{
 
   protected $files; //À partir du JSON générer par le JavaScript, on obtient un tableau de tableau, T[i]['name'] pour le nom, T[i]['content'] pour le contenu du fichier i
 
+  protected $additionalFiles;
+
   protected $inputMode; // 0 -> mode interactif, 1 -> rentré à l'avance par l'utilisateur. Mode sans input -> mode 1 avec $inputs chaine vide
 
   protected $inputs;
@@ -78,6 +80,23 @@ class Execution{
   function setLanguage($language){
     $this->language = $language;
   }
+
+    /**
+     * @return mixed
+     */
+    public function getAdditionalFiles()
+    {
+        return $this->additionalFiles;
+    }
+
+    /**
+     * @param mixed $additionalFiles
+     */
+    public function setAdditionalFiles($additionalFiles)
+    {
+        $this->additionalFiles = $additionalFiles;
+    }
+
 
 
 }

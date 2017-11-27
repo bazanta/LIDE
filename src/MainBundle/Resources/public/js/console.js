@@ -14,7 +14,10 @@ var Exec = function(){
       $.ajax({
           url: PATH_CONSOLE_EXEC,
           type: "POST",
-          data: $("#" + FORM_NAME).serialize(),
+          data: new FormData(document.getElementById(FORM_NAME)),
+          cache: false,
+          contentType: false,
+          processData: false,
           success: function(data) {
               onSuccess(data);
           },

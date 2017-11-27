@@ -52,6 +52,10 @@
                         {{ form_label(form.launchParameters) }}
                         {{ form_widget(form.launchParameters, { 'attr' : { 'class' : 'form-control font-mono'}}) }}
                     </div>
+                    <div class="form-group">
+                        {{ form_label(form.additionalFiles) }}
+                        {{ form_widget(form.additionalFiles, { 'attr' : { 'class' : 'form-control'}}) }}
+                    </div>
                     {{ form_row(form.files) }}
                     {{ form_end(form) }}
 
