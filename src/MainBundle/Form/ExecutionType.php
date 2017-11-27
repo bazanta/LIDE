@@ -21,7 +21,7 @@ class ExecutionType extends AbstractType
    {
        $builder
            ->add('inputMode', ChoiceType::class, array(
-             'label' => "Entrée Standard",
+             'label' => "Gestion des entrées",
              'choices' => array(
                'none' => 'Aucune',
                'it' => 'Interractive',

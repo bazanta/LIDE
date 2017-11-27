@@ -239,7 +239,6 @@ $("#btn-create-file").click(function () {
     if (createFile())
     {
         $("#modal-new-file").modal('hide');
-
     }
 
 });
@@ -405,6 +404,7 @@ function clickLangage() {
             title : 'Attention !',
             text : 'Toute modifications non sauvegardé seront perdu !',
             type : 'warning',
+            cancelButtonText : 'Annuler',
             showCancelButton : true
         }
     ).then(function(result) {

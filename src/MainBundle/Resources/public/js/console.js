@@ -37,7 +37,7 @@ var Exec = function(){
 
       var onSuccess = function(data){
           var reponse = $.parseJSON(data);
-
+          console.log(reponse);
           jqconsole.Write(reponse.reponse, 'jqconsole-output');
           if(reponse.fin==="no"){
               repondre();

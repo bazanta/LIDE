@@ -146,9 +146,11 @@ class ConsoleController extends Controller
 
             exec("rm -rf $tmpdir");
 
-            $logger->info("Réponse : " + $output[0]);
+            $logger->info("Réponse : ". $output[0]);
+            $logger->info(json_encode($response));
             return new Response(json_encode($response));
         }
+
         return new Response(json_encode(array(
             'reponse' => "Erreur formulaire",
             'fin' => 'oui'
@@ -174,10 +176,11 @@ class ConsoleController extends Controller
             'fin' => $output[1]
         );
 
+        $logger = $this->get('logger');
+        $logger->info(json_encode($response));
+
         return new Response(json_encode($response));
-
     }
-
 }
 
 ?>
