@@ -34,7 +34,7 @@
 
 
         <div id="editor-toolbar" class="bg-light row m-0 p-0">
-            <div id="file-selector" class="col d-inline-flex m-0 p-0">
+            <div id="file-selector" class="col-6 d-inline-flex m-0 p-0">
                 <!-- Selection du fichier-->
                 <select id="select-file" class="custom-select">
                     <option value="0" selected>main</option>
@@ -67,13 +67,13 @@
                 </div>
             </div>
 
-            <div class="col-1 d-inline-flex p-0 m-0">
-                <button type="button" id="btn-option" class="btn btn-toolbar w-50" data-toggle="modal" data-target="#modal-options" data-tooltip="tooltip"
+            <div id="editor-toolbar-options" class="bg-dark col-6 d-inline-flex p-0 m-0" style="justify-content: flex-end;">
+                <button type="button" id="btn-option" class="btn btn-toolbar" data-toggle="modal" data-target="#modal-options" data-tooltip="tooltip"
                         title="Options">
                 <span class="oi oi-wrench" title="wrench" aria-hidden="true"></span> <!--Icon clé à outils-->
                 </button>
                 <!-- Button permettant de reduire / etendre la console -->
-                <button type="button" id="toggle-console" class="btn btn-toolbar console-toggle-open w-50" data-tooltip="tooltip"
+                <button type="button" id="toggle-console" class="btn btn-toolbar console-toggle-open" data-tooltip="tooltip"
                         title="Étendre / Réduire terminal">
                 <span class="oi oi-terminal" title="terminal" aria-hidden="true"> <!--Icon terminal-->
                 </button>

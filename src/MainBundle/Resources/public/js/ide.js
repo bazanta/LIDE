@@ -73,20 +73,6 @@ function existFile(name) {
  * @param content le contenu du fichier à ajouter.
  */
 function addFile(name, content) {
-    if (name == "") {
-        swal("Erreur lors de la création du fichier",
-            "Impossible de créer un fichier avec un nom vide",
-            "error"
-        );
-        return false;
-    }
-    if (existFile(name)) {
-        swal("Erreur lors de la création du fichier",
-            "Le fichier " + name + " existe déjà. Veuillez choisir un autre nom pour votre fichier",
-            "error");
-        return false;
-    }
-
     var f = new File(name, content);
     console.log("New file : ");
     console.log(f);
@@ -109,6 +95,54 @@ function addFile(name, content) {
     changeActiveFileTo(files.length - 1);
 
     return true;
+}
+
+
+function addFileCorrector(name, content){
+    if(name == "" || existFile(name)){
+        var errorMsg;
+        if(name == "") {
+            errorMsg = "Le nom de fichier est vide.";
+        }
+        else{
+            errorMsg = "Le fichier " + name + " existe déjà.";
+        }
+        swal({
+                title : "Erreur lors de la création du fichier " + name,
+                type: "error",
+                text : errorMsg + " Veuillez choisir un nouveau nom pour le fichier, ou annuler sa création",
+                input : "text",
+                inputValue: name,
+                showCancelButton : true,
+                confirmButtonText : "Créer",
+                cancelButtonText : "Annuler",
+                allowOutsideClick : false,
+                inputValidator : function(value){
+                    if(!value){
+                        return !value && "Veuillez choisir un nom de fichier";
+                    }
+                    else{
+                        return existFile(value) && ("Le fichier " + value + " existe déjà !")
+                    }
+                }
+            }
+        ).then(function(result){
+            console.log(result);
+            if(result.value){
+                console.log("New file name " + result.value)
+                name = result.value;
+                return addFile(name, content);
+            }
+            else{
+                console.log(result)
+                return false;
+            }
+        });
+        return true;
+    }
+    else{
+        return addFile(name, content);
+    }
 }
 
 /**
@@ -223,7 +257,7 @@ function createFile() {
         fileContent = modeles[idModel].model;
     }
 
-    var created = addFile(fileName, fileContent);
+    var created = addFileCorrector(fileName, fileContent);
 
     if (files.length > 1) {
         console.log("not disabled");
@@ -248,6 +282,44 @@ $("#select-file").change(function () {
     changeActiveFileTo($("#select-file").val());
 });
 
+
+/*******************************************************************************
+ * Import de fichier
+ *******************************************************************************/
+
+function handleFileImport(){
+    if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+        alert('The File APIs are not fully supported in this browser.');
+        return;
+    }
+
+    var importFiles = $("#import-file-input").prop("files");
+    if (!importFiles) {
+        alert("This browser doesn't seem to support the `files` property of file inputs.");
+        return false;
+    }
+    else if (!importFiles[0]) {
+        alert("Veuillez selectionner un fichier avant de cliquer 'Importer'");
+        return false;
+    }
+    else {
+        for(var i = 0; i < importFiles.length; ++i){
+            var fr = new FileReader();
+            var file = importFiles[i];
+            fr.onload = function(){
+                addFileCorrector( file.name, fr.result);
+            };
+            fr.readAsText(file);
+        }
+        return true;
+    }
+}
+
+$("#btn-import-file").click(function(){
+    if(handleFileImport()){
+        $("#modal-import-file").modal('hide');
+    }
+});
 
 /*******************************************************************************
  *                    SAUVEGARDE DES FICHIERS                                  *
@@ -439,17 +511,20 @@ $("#toggle-console").click(function () {
     $("#console-block").toggleClass("col-6");
     $("#console-block").toggleClass("col-1");
 
+    $("#editor-toolbar-options").toggleClass("col-6");
+    $("#editor-toolbar-options").toggleClass("col-1");
 
     $("#block-editor").toggleClass("col-11");
     $("#block-editor").toggleClass("col-6");
+    $("#file-selector").toggleClass("col-11");
+    $("#file-selector").toggleClass("col-6");
+
 
     /*
         $(this).toggleClass("console-toggle-open");
         $(this).toggleClass("console-toggle-close");
 
     */
-
-    $(this).toggleClass("btn-dark");
 });
 
 $(window).resize(function () {
