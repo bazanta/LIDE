@@ -45,9 +45,18 @@ function changeActiveFileTo(id) {
         $("#select-file").val(id);
         currentFile = id;
 
+        $(".file-selected-tab").css("background-color", "");
+        $("file-selected-tab").css("color", "");
         $(".file-selected-tab").removeClass("file-selected-tab");
         $(".file-tab[data-file='" + id + "']").addClass("file-selected-tab");
+
+        synchroniseEditorAndSelectedTab();
     }
+}
+
+function synchroniseEditorAndSelectedTab(){
+    $(".file-selected-tab").css("background-color", $("#editor").css("background-color"));
+    $(".file-selected-tab").css("color", $("#editor").css("color"));
 }
 
 /**
@@ -254,7 +263,9 @@ function createFile() {
     }
     else {
         fileName = fileName + "." + modeles[idModel].ext;
-        fileContent = modeles[idModel].model;
+        if($("#useModel").is(":checked")){
+            fileContent = modeles[idModel].model;
+        }
     }
 
     var created = addFileCorrector(fileName, fileContent);

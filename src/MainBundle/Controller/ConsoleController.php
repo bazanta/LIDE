@@ -36,7 +36,6 @@ class ConsoleController extends Controller
         $id_user = "test";
         $ip_proxy = "172.29.18.192";
 
-
         $exec = new Execution();
         $form = $this->createform(ExecutionType::class, $exec);
 
@@ -108,7 +107,7 @@ class ConsoleController extends Controller
             $parametreCompilation = str_replace("\'", "\'\\\'\'", $exec->getCompilationOptions()); //Remplace tous les <'> par <\'>
             $parametreLancement = str_replace("\'", "\'\\\'\'", $exec->getLaunchParameters()); //Idem
 
-            $wgetAdr = "http://etudiant@$ip_proxy/lide/web/$tmpdir/";
+            $wgetAdr = "http://etudiant@$ip_proxy/LIDE/web/$tmpdir/";
 
             $cmd="";
     //        $cmd = "docker stop --time=0 test; ";
@@ -168,7 +167,6 @@ class ConsoleController extends Controller
             'fin' => 'oui'
         )));
     }
-
     //Permet de répondre aux programme (pas nécessairement appelée);
 
     public function answerAction(Request $request)

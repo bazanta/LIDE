@@ -4,6 +4,7 @@ var fontSize = $("#editor-font-size-selector").val();
 
 $("#ace-theme-selector").change(function(){
     editor.setTheme($( this ).val());
+
 });
 
 $("#editor-font-size-selector").change(function () {
@@ -14,6 +15,7 @@ $("#options-ok").click(function () {
     selectedTheme = editor.getTheme();
     fontSize = $("#editor-font-size-selector").val();
     $('#modal-options').modal('hide');
+    synchroniseEditorAndSelectedTab();
 });
 
 $('#options-cancel').click(function () {
