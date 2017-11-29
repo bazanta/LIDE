@@ -22,7 +22,6 @@ class LangageFixtures extends Fixture
             $langage->setDockerfile("toto");
             $langage->setScript("tata");
             $langage->setActif(1);
-            $this->addReference('c', $langage);
             $manager->persist($langage);
             
             $langage1 = new Langage();
@@ -31,10 +30,11 @@ class LangageFixtures extends Fixture
             $langage1->setDockerfile("titi");
             $langage1->setScript("tete");
             $langage1->setActif(0);
-            $this->addReference('c', $langage1);
             $manager->persist($langage1);
        
 
-        $manager->flush();
+			$manager->flush();
+			$this->addReference('language-cpp', $langage);
+			$this->addReference('language-c', $langage1);
     }
 }

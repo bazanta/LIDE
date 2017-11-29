@@ -17,3 +17,11 @@ exec:
 answer:
     path:    /answer
     defaults: {_controller : MainBundle:Console:answer }
+    
+register:
+    path:    /register
+    defaults: {_controller : MainBundle:Registration:register }
+    
+register_check:
+    path:    /registerCheck
+    defaults: {_controller : MainBundle:Registration:check }

@@ -14,3 +14,8 @@ services:
     redirect.after.login:
         class: MainBundle\Redirection\AfterLoginRedirection
         arguments: ['@router','@security.authorization_checker']
+    login_failure_handler:
+        class: MainBundle\Handler\LoginFailureHandler
+        arguments:  [ '@router', '@security.context' ]
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }

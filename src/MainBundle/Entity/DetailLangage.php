@@ -51,7 +51,7 @@ class DetailLangage
      /**
      * @var int
      *
-     * @ORM\Column(name="order", type="integer")
+     * @ORM\Column(name="ordere", type="integer")
      */
     private $ordre;
 

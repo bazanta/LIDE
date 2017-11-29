@@ -23,6 +23,24 @@
         <!-- Openiconic - icon -->
         <link rel="stylesheet" href= "{{ asset('open-iconic/font/css/open-iconic-bootstrap.css') }}" type="text/css">
 
+          <div class="collapse navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+              {% block navbarCollapse %}
+                {% if is_granted('ROLE_SUPER_ADMIN')%}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{path('easyadmin')}}">Admin<span class="sr-only">(current)</span></a>
+                </li>
+                {%endif%} 
+              {% endblock %}
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="profile">Profile<span class="sr-only"></span></a>
+                </li>
+              
+            </ul>
+          </div>
+              
+        </nav>
 
         <link rel="stylesheet" href="{{ asset('css/layout.css') }}" type="text/css"/>
     {% endblock %}

@@ -56,6 +56,29 @@ class User extends BaseUser {
         $this->expiresAt = $date;
     
     }
+    public function setEmail($email){
+
+        $this->checkEmail($email);
+        return parent::setEmail($email);
+       }
+
+public function setEmailCanonical($emailCanonical) {
+
+ $this->checkEmail($emailCanonical);
+ return parent::setEmailCanonical($emailCanonical);
+}
+
+private function checkEmail($email) {
+
+ if(!empty($email) 
+    && filter_var($email, FILTER_VALIDATE_EMAIL) 
+    && (preg_match("/^(.*)@etud.univ-angers.fr$/",$email) || preg_match("/^(.*)@univ-angers.fr$/",$email))) { 
+  return $email;  
+ } else {
+  throw new \Exception('Email invalide');
+ }
+
+}
 
 
    
