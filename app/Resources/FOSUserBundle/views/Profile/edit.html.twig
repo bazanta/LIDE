@@ -6,16 +6,16 @@
   <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/LIDE/web/app_dev.php/">LIDE</a>
+      <a class="navbar-brand" href="{{ path('main') }}">LIDE</a>
     </div>
     <ul class="nav navbar-nav">
-      <li><a href="/LIDE/web/app_dev.php/profile">Profile</a></li>
+      <li><a href= {{  path('fos_user_profile') }}>Profile</a></li>
        {% if is_granted('ROLE_SUPER_ADMIN')%}
-      <li><a href="/LIDE/web/app_dev.php/admin/">Admin</a></li>
+      <li><a href= {{ path('easy_admin_bundle') }}>Admin</a></li>
        {%endif%} 
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="/LIDE/web/app_dev.php/logout"><span class="glyphicon glyphicon-user"></span> Déconnexion</a></li>
+      <li><a href="/lide/web/app_dev.php/logout"><span class="glyphicon glyphicon-user"></span> Déconnexion</a></li>
     </ul>
   </div>
 </nav>
@@ -28,8 +28,7 @@
                         <h3 class="panel-title">Mise a jour de compte</h3>
                     </div>
                     <div class="panel-body">
-                       <div class="modal-body">   
-                           
+                       <div class="modal-body">
                            {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
                        </div>
                    </div>

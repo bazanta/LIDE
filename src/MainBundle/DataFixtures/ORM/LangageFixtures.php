@@ -20,10 +20,21 @@ class LangageFixtures extends Fixture
             $langage->setNom("c++");
             $langage->setCompilateur("g++");
             $langage->setDockerfile("toto");
-            $langage->setScript("tata");
+
+            if($f = fopen("src/MainBundle/Resources/script/exec.sh", "r")){
+
+                $content = file_get_contents("src/MainBundle/Resources/script/exec.sh");
+
+                $langage->setScript($content);
+
+                fclose($f);
+            }else{
+                $langage->setScript("#/bin/bash \n echo \"Erreur serveur : pas de script pour le C++");
+            };
+
             $langage->setActif(1);
             $manager->persist($langage);
-            
+
             $langage1 = new Langage();
             $langage1->setNom("c");
             $langage1->setCompilateur("gcc");
