@@ -240,10 +240,12 @@ $("#rm_file").click(function () {
         if (files.length == 1) {
             console.log("disabled");
             $(this).prop("disabled", true);
+            $(this).tooltip('hide')
         }
     }
     });
 });
+
 
 /**
  * Fonction appelé lorsque la création du fichier est demandé.
