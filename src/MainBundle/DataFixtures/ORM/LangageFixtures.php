@@ -23,7 +23,7 @@ class LangageFixtures extends Fixture
 
             if($f = fopen("src/MainBundle/Resources/script/exec.sh", "r")){
 
-                $content = file_get_contents("src/MainBundle/Resources/script/exec.sh");
+                $content = file_get_contents("src/MainBundle/Resources/script/exec_cpp.sh");
 
                 $langage->setScript($content);
 
