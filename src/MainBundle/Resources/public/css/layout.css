@@ -1,7 +1,30 @@
 
-.navbar-height{
-  height: 5vh;
+.navbar-height {
+    height: 5vh;
 }
-.main-container-height{
-  height: 95vh;
+
+.main-container-height {
+    height: 95vh;
 }
+
+.btn{
+    cursor: pointer;
+}
+
+#navDropDownMenuUser {
+    right: 0;
+    left: auto;
+
+
+}
+
+#navDropDownMenuUser a{
+    cursor: pointer;
+}
+
+#navDropDownMenuUser a:hover{
+    background-color: rgba(0,0,0,0.2);
+}
+
+
+
