@@ -554,7 +554,7 @@ $(document).ready(function () {
 
     editor = ace.edit("editor");
     editor.setTheme("ace/theme/tomorrow_night");
-    editor.$blockScrolling = Infinity
+    editor.$blockScrolling = Infinity;
 
     requestAndSetLanguage($(".choix-langage-selected").attr("data-id"));
 });
