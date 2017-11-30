@@ -103,6 +103,11 @@ function addFile(name, content) {
 
     changeActiveFileTo(files.length - 1);
 
+    if (files.length > 1) {
+        console.log("not disabled");
+        $("#rm_file").prop("disabled", false);
+    }
+
     return true;
 }
 
@@ -271,11 +276,6 @@ function createFile() {
     }
 
     var created = addFileCorrector(fileName, fileContent);
-
-    if (files.length > 1) {
-        console.log("not disabled");
-        $("#rm_file").prop("disabled", false);
-    }
 
     return created;
 }
