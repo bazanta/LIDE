@@ -113,7 +113,7 @@ class ConsoleController extends Controller
             
             
             $cmd="";
-            $cmd = "docker stop --time=0 test 2> /dev/null; ";
+            $cmd = "docker stop --time=0 test > /dev/null 2>&1; ";
             $cmd .= "docker run --rm=true --name  $id_user -it gpp  /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
 
 //Parametre de compilation

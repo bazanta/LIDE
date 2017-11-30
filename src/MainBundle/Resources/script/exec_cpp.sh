@@ -94,10 +94,10 @@ then
 	  		;;
 	  esac
 	fi
+  echo "\$ Process finished with exit code " $?
   if [ -f input ]
   then
   	rm input
   fi
 
-  echo "\$ Process finished with exit code " $?
 fi
