@@ -31,7 +31,7 @@ class GestionSSH{
         $out = "";
         $start = false;
         $start_time = time();
-        $max_time = 0.5; //time in seconds
+        $max_time = 1; //time in seconds
         
         while((time()-$start_time)< GestionSSH::$TIME_OUT){
             
