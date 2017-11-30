@@ -26,8 +26,12 @@ class User extends BaseUser {
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-   
 
+    /**
+     * @ORM\aceTheme
+     * @ORM\Column(type="string")
+     */
+    protected $aceTheme = "tomorrow_night";
     
    
     public function __construct()

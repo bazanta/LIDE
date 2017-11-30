@@ -85,6 +85,10 @@
     border-left: solid 1px #303030;
 }
 
+#editor-toolbar-options{
+    border-left: 2px solid #CCC;
+}
+
 .file-tab {
     border-right: solid 1px #303030;
 
@@ -116,8 +120,12 @@
     border-radius: 0 !important;
 }
 
-.btn-toolbar span.oi{
-    margin: auto;
+.btn-toolbar-style{
+    background-color: #fff3cd;
+}
+
+.btn-toolbar-style:hover{
+    background-color: #b58690;
 }
 
 .console-toggle-open{

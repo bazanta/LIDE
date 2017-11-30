@@ -532,6 +532,7 @@ $("#toggle-console").click(function () {
     $("#file-selector").toggleClass("col-11");
     $("#file-selector").toggleClass("col-6");
 
+    $("#toolbar-span-terminal").toggleClass("d-none");
 
     /*
         $(this).toggleClass("console-toggle-open");
