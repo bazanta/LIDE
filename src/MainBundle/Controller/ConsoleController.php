@@ -12,7 +12,6 @@ use MainBundle\Form\ExecutionType;
 class ConsoleController extends Controller
 {
 
-
     public function indexAction()
     {
 
@@ -34,7 +33,6 @@ class ConsoleController extends Controller
         $ssh = $this->get('gestionssh');
 
         $id_user = "test";
-        $ip_proxy = "192.168.1.89";
 
         $exec = new Execution();
         $form = $this->createform(ExecutionType::class, $exec);
@@ -107,10 +105,15 @@ class ConsoleController extends Controller
             $parametreCompilation = str_replace("\'", "\'\\\'\'", $exec->getCompilationOptions()); //Remplace tous les <'> par <\'>
             $parametreLancement = str_replace("\'", "\'\\\'\'", $exec->getLaunchParameters()); //Idem
 
-            $wgetAdr = "http://etudiant@$ip_proxy/LIDE/web/$tmpdir/";
+            
+            
+            $wgetAdr = "http://etudiant@".$this->container->getParameter('ip_proxy')."/LIDE/web/$tmpdir/";
 
+            $logger->info("Ip proxy : $wgetAdr");
+            
+            
             $cmd="";
-    //        $cmd = "docker stop --time=0 test; ";
+            $cmd = "docker stop --time=0 test 2> /dev/null; ";
             $cmd .= "docker run --rm=true --name  $id_user -it gpp  /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
 
 //Parametre de compilation

@@ -107,4 +107,3 @@ fos_user:
                 address: noreply@lide.com
                 sender_name: Insctiption no-reply
             template: 'email/registration.email.twig'
-            
