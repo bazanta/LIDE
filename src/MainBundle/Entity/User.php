@@ -28,7 +28,6 @@ class User extends BaseUser {
     protected $id;
 
     /**
-     * @ORM\aceTheme
      * @ORM\Column(type="string")
      */
     protected $aceTheme = "tomorrow_night";
