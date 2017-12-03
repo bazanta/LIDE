@@ -559,3 +559,7 @@ $(document).ready(function () {
 
     requestAndSetLanguage($(".choix-langage-selected").attr("data-id"));
 });
+
+$(window).bind('beforeunload', function(){
+    return 'Are you sure you want to leave?';
+});

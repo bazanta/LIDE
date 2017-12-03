@@ -116,7 +116,7 @@ class ConsoleController extends Controller
 
             $cmd="";
             $cmd = "docker stop --time=0 $id_user > /dev/null 2>&1; ";
-            $cmd .= "docker run --rm=true --name  $id_user -it gpp  /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
+            $cmd .= "docker run --rm=true --name  id_$id_user -it gpp  /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
 
 //Parametre de compilation
             $cmd .= " ./exec.sh -o '$parametreCompilation' -w $wgetAdr";
@@ -182,7 +182,7 @@ class ConsoleController extends Controller
 
         $id_user = $this->getUser()->getId();
 
-        $ssh->execCmd("docker start -ai $id_user");
+        $ssh->execCmd("docker start -ai id_$id_user");
         $ssh->ecrire($msg);
         $output = $ssh->lire();
 

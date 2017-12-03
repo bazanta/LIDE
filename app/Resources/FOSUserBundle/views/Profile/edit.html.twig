@@ -2,38 +2,18 @@
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 {% block fos_user_content %}
-  
-  <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="{{ path('main') }}">LIDE</a>
+
+    <div id="modal_content m-4">
+        <div class="card p-4">
+            <div class="card-heading">
+                <h3 class="card-title">Mise a jour de compte</h3>
+            </div>
+            <div class="card-body">
+                <div class="modal-body">
+                    {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+                </div>
+            </div>
+        </div>
     </div>
-    <ul class="nav navbar-nav">
-      <li><a href= {{  path('fos_user_profile') }}>Profile</a></li>
-       {% if is_granted('ROLE_SUPER_ADMIN')%}
-      <li><a href= {{ path('easy_admin_bundle') }}>Admin</a></li>
-       {%endif%} 
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="/lide/web/app_dev.php/logout"><span class="glyphicon glyphicon-user"></span> Déconnexion</a></li>
-    </ul>
-  </div>
-</nav>
-     <br><br><br><br><br>
-   
-	<div id="modal_content">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Mise a jour de compte</h3>
-                    </div>
-                    <div class="panel-body">
-                       <div class="modal-body">
-                           {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
-                       </div>
-                   </div>
-               </div>
-             </div>
-           </div>
 {% endblock fos_user_content %}
 

@@ -1,79 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>L.I.D.E</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-<body>
-
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/LIDE/web/app_dev.php/">LIDE</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="/LIDE/web/app_dev.php/profile">Profile</a></li>
-       {% if is_granted('ROLE_SUPER_ADMIN')%}
-      <li><a href="/LIDE/web/app_dev.php/admin/">Admin</a></li>
-       {%endif%} 
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="/LIDE/web/app_dev.php/logout"><span class="glyphicon glyphicon-user"></span> Déconnexion</a></li>
-    </ul>
-  </div>
-</nav>
-  
-<div class="container">
-     <br><br><br><br><br>
+{% block body %}
     <div class="fos_user_user_show">
-     <div class="container">
-                    
-           <div> 
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
-   
-   
-          <div class="panel panel-success">
-            <div class="panel-heading">
-              <h3 class="panel-title">Profile</h3>
-            </div>
-        <div class="panel-body">
-              <div class="row">
-                <div class="col-md-3 col-lg-3 " align="center">  </div>
-                <div class=" col-md-9 col-lg-9 "> 
-                  <table class="table table-user-information">
-                    <tbody>
-                      <tr>
-                        <td>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }} :</td>
-                        <td>{{ user.username }} </td>
-                      </tr>  
-                       <tr>
-                        <td>Email</td>
-                        <td>{{ user.email }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
+        <div class=" mt-4 container">
+            <div>
+                <div class="card">
+                    <div class="card-heading">
+                        <h3 class="card-title p-3">Profile</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 " align="center"></div>
+                            <div class=" col-md-9 col-lg-9 ">
+                                <table class="table table-user-information">
+                                    <tbody>
+                                    <tr>
+                                        <td>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }} :</td>
+                                        <td>{{ user.username }} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>{{ user.email }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <A href="/LIDE/web/app_dev.php/profile/edit"> <input type="submit"
+                                                                                     class="btn btn-success btn-block"
+                                                                                     value="{{ 'Editer le Profile'|trans }}"
+                                                                                     data-toggle="modal"
+                                                                                     data-target="#edit_profile"/></A>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                 <div>
-                           <A href="/LIDE/web/app_dev.php/profile/edit" > <input type="submit" class="btn btn-success btn-block" value="{{ 'Editer le Profile'|trans }}" data-toggle="modal" data-target="#edit_profile"/></A>
-                 </div>
-              </div>
-              
-         
+            </div>
         </div>
-      </div>
     </div>
-       </div>
-                        
-   
-      </div>
-</div>
-
-  
-</div>
-
-</body>
-</html>
+{% endblock %}

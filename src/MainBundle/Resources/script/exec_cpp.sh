@@ -67,7 +67,7 @@ do
 	fi
 done
 
-echo "\$ g++ $options $listeFichiersFinale"
+echo "\$ g++ $options $listeFichiersFinale \e[0m"
 g++ $options $listeFichiersFinale
 
 if [ "$?" -ne "0" ]

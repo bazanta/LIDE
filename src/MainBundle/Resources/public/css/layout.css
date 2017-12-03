@@ -1,10 +1,22 @@
 
+.flexHBox{
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
 .navbar-height {
-    height: 5vh;
+    flex : 0 1 auto;
 }
 
 .main-container-height {
-    height: 95vh;
+    flex: 1 1 auto;
+}
+
+.flexFooter{
+    flex : 0 1 auto;
 }
 
 .btn{
@@ -26,5 +38,14 @@
     background-color: rgba(0,0,0,0.2);
 }
 
+.bg-body{
+    background: #141E30;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.buttonUser{
+    min-width: 10%;
+}
 
 
