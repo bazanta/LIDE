@@ -19,7 +19,7 @@ arguments=""
 
 wgetAdr=""
 
-while getopts "o:f:i:n:c:a:w:" option
+while getopts "o:f:i:nca:w:" option
 do
 	case $option in
 		o)
