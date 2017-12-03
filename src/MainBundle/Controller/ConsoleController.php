@@ -24,6 +24,28 @@ class ConsoleController extends Controller
     }
 
 
+    private function writeFilesInDir($files, $dir){
+        $listeFichiers = "";
+        $logger = $this->get('logger');
+        foreach ($files as $f) {
+            //Écriture des fichiers dans un dossier temporaire
+            if ($file_on_disk = fopen($dir . "/" . $f->name, "w")) {
+                //Écriture contenu fichier
+                $logger->info("Écriture fichier : $f->name");
+
+                fwrite($file_on_disk, $f->content);
+                $listeFichiers .= $f->name . " ";
+
+                fclose($file_on_disk);
+            } else {
+                //Echec fopen
+                exec("rm -rf $dir");
+                return new Response("Echec écriture fichier $f->name sur serveur");
+            }
+        }
+        return $listeFichiers;
+    }
+
     //Méthode appelée par la vue console
     //Première méthode appelée après l'appui sur le bouton RUN
 
@@ -32,7 +54,7 @@ class ConsoleController extends Controller
         $logger = $this->get('logger');
         $ssh = $this->get('gestionssh');
 
-        $id_user = "test";
+        $id_user = $this->getUser()->getId();
 
         $exec = new Execution();
         $form = $this->createform(ExecutionType::class, $exec);
@@ -71,24 +93,7 @@ class ConsoleController extends Controller
             $logger->info(print_r($fichiers, true));
 
 
-            $listeFichiers = "";
-
-            foreach ($fichiers as $f) {
-                //Écriture des fichiers dans un dossier temporaire
-                if ($file_on_disk = fopen($tmpdir . "/" . $f->name, "w")) {
-                    //Écriture contenu fichier
-                    $logger->info("Écriture fichier : $f->name");
-
-                    fwrite($file_on_disk, $f->content);
-                    $listeFichiers .= $f->name . " ";
-
-                    fclose($file_on_disk);
-                } else {
-                    //Echec fopen
-                    exec("rm -rf $tmpdir");
-                    return new Response("Echec écriture fichier $f->name sur serveur");
-                }
-            }
+            $listeFichiers = $this->writeFilesInDir($fichiers, $tmpdir);
 
 //Copie fichier additionnels
             foreach ($exec->getAdditionalFiles() as $file){
@@ -102,18 +107,15 @@ class ConsoleController extends Controller
             }
 
 
-            $parametreCompilation = str_replace("\'", "\'\\\'\'", $exec->getCompilationOptions()); //Remplace tous les <'> par <\'>
+            $parametreCompilation = str_replace("\'", "\'\\\'\'", $exec->getCompilationOptions()); //Remplace tous les 'par \'
             $parametreLancement = str_replace("\'", "\'\\\'\'", $exec->getLaunchParameters()); //Idem
 
-            
-            
             $wgetAdr = "http://etudiant@".$this->container->getParameter('ip_proxy')."/LIDE/web/$tmpdir/";
 
             $logger->info("Ip proxy : $wgetAdr");
-            
-            
+
             $cmd="";
-            $cmd = "docker stop --time=0 test > /dev/null 2>&1; ";
+            $cmd = "docker stop --time=0 $id_user > /dev/null 2>&1; ";
             $cmd .= "docker run --rm=true --name  $id_user -it gpp  /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
 
 //Parametre de compilation
@@ -147,8 +149,7 @@ class ConsoleController extends Controller
 
             $cmd .= "\"";
 
-            $logger->info(exec("ls $tmpdir"));
-            $logger->info("CMD DOCKER : " . $cmd);
+            $logger->info("Starting docker with command : " . $cmd);
 //Execution de la commande de lancement du docker, qui compile et eventuellement execute
             $ssh->execCmd($cmd);
             $output = $ssh->lire();
@@ -160,8 +161,7 @@ class ConsoleController extends Controller
 
             exec("rm -rf $tmpdir");
 
-            $logger->info("Réponse : ". $output[0]);
-            $logger->info(json_encode($response));
+            $logger->info("Reponse : " . json_encode($response));
             return new Response(json_encode($response));
         }
 
@@ -180,7 +180,9 @@ class ConsoleController extends Controller
 
         $msg = $request->request->get('msg');
 
-        $ssh->execCmd("docker start -ai test");
+        $id_user = $this->getUser()->getId();
+
+        $ssh->execCmd("docker start -ai $id_user");
         $ssh->ecrire($msg);
         $output = $ssh->lire();
 

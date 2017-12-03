@@ -18,7 +18,7 @@ class detailFixtures extends Fixture {
             $detaillangage = new DetailLangage();
             $detaillangage->setLangage($this->getReference('language-cpp'));
             $detaillangage->setExtension("cpp");
-            $detaillangage->setModele(file_get_contents("src/MainBundle/Resources/modeles/cpp/helloworld.cpp"));
+            $detaillangage->setModele(file_get_contents("src/MainBundle/Resources/modeles/cpp/whatsyourname.cpp"));
             $detaillangage->setActif(1);
             $detaillangage->setOrdre(0);
 			
