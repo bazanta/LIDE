@@ -29,7 +29,7 @@
     }
     /* The current prompt text color */
     .jqconsole-prompt {
-        color: #fff3cd;
+        color: #0b0;
     }
     /* The command history */
     .jqconsole-old-prompt {

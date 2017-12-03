@@ -19,7 +19,7 @@ class GestionSSH{
         $connection = ssh2_connect($ssh_adr);
 	ssh2_auth_password($connection,$ssh_login,$ssh_password);
         
-        $this->shell = ssh2_shell($connection,"bash",null,10000,10000, SSH2_TERM_UNIT_CHARS);       
+        $this->shell = ssh2_shell($connection,"bash",null,10000,10000, SSH2_TERM_UNIT_CHARS);
         
     }
     
@@ -30,29 +30,30 @@ class GestionSSH{
         
         $out = "";
         $start = false;
+        $msg_rencontre =false;
         $start_time = time();
-        $max_time = 1; //time in seconds
+        $max_time = 2; //time in seconds
         
         while((time()-$start_time)< GestionSSH::$TIME_OUT){
             
             $new_start_time = time();
             while(((time()-$new_start_time) < $max_time)) {
+
                 $line = fgets($this->shell);
 
-
                 if(!(strstr($line,$this->cmd))) { //On n'affiche pas la commande 
-
                     if(preg_match('/\[start\]/',$line)&&!$start) {
                         $start = true;
+                    }elseif(preg_match("/$this->msg/", $line)&&$start&&!$msg_rencontre){ //On n'affiche pas le message envoyé
+                        $msg_rencontre=true;
                     }elseif(preg_match('/\[end\]/',$line)) {
                         $output [] = $out;
                         $output [] = "yes";
                         return $output;
-                    }elseif($start&&!($line===$this->msg."\r\n")){   //On n'affiche pas le message envoyé
+                    }elseif($start&&$msg_rencontre){
                         $out .= $line;
                     }
                 }
-                   
             }
             
             if($out!=null){
