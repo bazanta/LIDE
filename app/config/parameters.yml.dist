@@ -25,4 +25,4 @@ parameters:
     ssh_password: ~
 
     ip_proxy: ~
-    wget_ard: ~
+    wget_adr: ~
