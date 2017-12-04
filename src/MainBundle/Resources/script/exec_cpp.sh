@@ -67,7 +67,7 @@ do
 	fi
 done
 
-echo "\$ g++ $options $listeFichiersFinale \e[0m"
+echo -e "\e[1;33m\$ g++ $options $listeFichiersFinale \e[0m"
 g++ $options $listeFichiersFinale
 
 if [ "$?" -ne "0" ]
@@ -85,16 +85,23 @@ then
 	then
 	  case $fichierInput in
 	  	"")
-				echo \$ ./$executable $arguments
+				echo -e "\e[33m\$ ./$executable $arguments \e[0m"
 	  		./$executable $arguments
+	  		res=$?
 	  		;;
 	  	*)
-					echo \$ ./$executable $arguments "<" $fichierInput
+					echo-e "\e[33m\$ ./$executable $arguments"
 	  		./$executable $arguments < $fichierInput
+	  		res=$?
 	  		;;
 	  esac
 	fi
-  echo "\$ Process finished with exit code " $?
+	if [ "$res" = "0" ]
+	then
+      echo -e "\e[1;32m\$ Process finished with exit code $res\e[0m"
+    else
+      echo -e "\e[1;31m\$ Process finished with exit code $res\e[0m"
+    fi
   if [ -f input ]
   then
   	rm input
