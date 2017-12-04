@@ -65,3 +65,7 @@
     font-family: "DejaVu Sans Mono";
     font-weight: bold;
 }
+
+.navbar{
+    box-shadow: 0 10px 5px ;
+}

@@ -110,9 +110,9 @@ class ConsoleController extends Controller
             $parametreCompilation = str_replace("\'", "\'\\\'\'", $exec->getCompilationOptions()); //Remplace tous les 'par \'
             $parametreLancement = str_replace("\'", "\'\\\'\'", $exec->getLaunchParameters()); //Idem
 
-            $wgetAdr = "http://etudiant@".$this->container->getParameter('ip_proxy')."/LIDE/web/$tmpdir/";
+            $wgetAdr = $this->container->getParameter('wget_adr')."/$tmpdir/";
 
-            $logger->info("Ip proxy : $wgetAdr");
+            $logger->info("Wget adress: $wgetAdr");
 
             $cmd="";
             $cmd = "docker stop --time=0 $id_user > /dev/null 2>&1; ";

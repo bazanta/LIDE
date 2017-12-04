@@ -88,12 +88,12 @@ Dark theme
 
 /* The current prompt text color */
 .console-dark .jqconsole-prompt {
-    color: #0b0;
+    color: #8fbba1;
 }
 
 /* The command history */
 .console-dark .jqconsole-old-prompt {
-    color: #0b0;
+    color: #779f85;
     font-weight: normal;
 }
 
