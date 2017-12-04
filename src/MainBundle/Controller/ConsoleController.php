@@ -115,7 +115,7 @@ class ConsoleController extends Controller
             $logger->info("Wget adress: $wgetAdr");
 
             $cmd="";
-            $cmd = "docker stop --time=0 $id_user > /dev/null 2>&1; ";
+            $cmd = "docker stop --time=0 id_$id_user > /dev/null 2>&1; ";
             $cmd .= "docker run --rm=true --name  id_$id_user -it gpp  /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
 
 //Parametre de compilation
