@@ -30,15 +30,15 @@
 <body class="p-0 bg-body h-100">
 
 <div class="flexHBox">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-height">
-    <a class="navbar-brand" href="{{ path('main_homepage') }}">LIDE</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-height p-0">
+    <a class="navbar-brand navbar-brand-font mr-3 m-0 p-3 navbar-brand-bg" href="{{ path('main_homepage') }}">L.I.D.E.</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
 
-    <div class="collapse navbar-collapse" id="navbarToggler">
+    <div class="collapse navbar-collapse" id="navbarToggler m-3">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             {% block navbarCollapse %}
                 {% if is_granted('ROLE_ADMIN') %}

@@ -48,4 +48,20 @@
     min-width: 10%;
 }
 
+.bg-dark .navbar-brand-bg{
+    background : #5d7177;
+    background : linear-gradient(to bottom right, #5d7177, #343A40);
+    border-bottom-right-radius: 6em;
+    padding-right: 5% !important;
+    padding-left: 2.5% !important;
+}
 
+.bg-dark .navbar-brand-bg:hover{
+    background : #605363;
+    background : linear-gradient(to bottom right, #605363, #3d3540);
+}
+
+.navbar-brand-font{
+    font-family: "DejaVu Sans Mono";
+    font-weight: bold;
+}
