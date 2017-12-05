@@ -24,5 +24,11 @@ parameters:
     ssh_login: etudiant
     ssh_password: ~
 
-    ip_proxy: ~
-    wget_adr: ~
+    wget_adr: 'http://etudiant@172.29.18.192/LIDE/web/'
+
+    #Temps d'éxecution max docker (en s)
+    docker_stop_timeout: 120
+    #Mémoire max docker
+    docker_memory: 10M
+    #Nombre de cpu max à utiliser
+    docker_cpu : 1

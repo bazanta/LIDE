@@ -106,7 +106,6 @@ class ConsoleController extends Controller
                 $logger->info($fileName);
             }
 
-
             $parametreCompilation = str_replace("\'", "\'\\\'\'", $exec->getCompilationOptions()); //Remplace tous les 'par \'
             $parametreLancement = str_replace("\'", "\'\\\'\'", $exec->getLaunchParameters()); //Idem
 
@@ -114,9 +113,13 @@ class ConsoleController extends Controller
 
             $logger->info("Wget adress: $wgetAdr");
 
-            $cmd="";
+            $timeout = $this->container->getParameter('docker_stop_timeout');
+            $cpu = $this->container->getParameter('docker_cpu');
+            $memory = $this->container->getParameter('docker_memory');
+
             $cmd = "docker stop --time=0 id_$id_user > /dev/null 2>&1; ";
-            $cmd .= "docker run --rm=true --name  id_$id_user -it gpp  /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
+            $cmd .= "docker run --rm=true --name  id_$id_user -it --memory $memory --stop-timeout $timeout --cpus $cpu";
+            $cmd .= " gpp /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
 
 //Parametre de compilation
             $cmd .= " ./exec.sh -o '$parametreCompilation' -w $wgetAdr";
@@ -136,7 +139,7 @@ class ConsoleController extends Controller
 
                 $cmd .= " -i $inputFilename";
             } else {
-                //Input interractive
+                //Input interractive : rien à faire
             }
 
 //Liste des fichiers
