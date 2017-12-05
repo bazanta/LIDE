@@ -152,8 +152,9 @@ class ConsoleController extends Controller
             $logger->info("Starting docker with command : " . $cmd);
 //Execution de la commande de lancement du docker, qui compile et eventuellement execute
             $ssh->execCmd($cmd);
-            $output = $ssh->lire();
+            $output = $ssh->lire($id_user);
 
+            $logger->info($output[0]);
             $response = array(
                 'reponse' => $output[0],
                 'fin' => $output[1]
@@ -170,28 +171,34 @@ class ConsoleController extends Controller
             'fin' => 'oui'
         )));
     }
-    //Permet de répondre aux programme (pas nécessairement appelée);
 
+    /**
+     * Permet de répondre aux programme (pas nécessairement appelée);
+     * @param Request $request
+     * @return Response
+     */
     public function answerAction(Request $request)
     {
-
+        $logger = $this->get('logger');
 
         $ssh = $this->get('gestionssh');
 
         $msg = $request->request->get('msg');
+        
+        $logger->info("Reponse : $msg");
 
         $id_user = $this->getUser()->getId();
 
         $ssh->execCmd("docker start -ai id_$id_user");
         $ssh->ecrire($msg);
-        $output = $ssh->lire();
+        $output = $ssh->lire($this->getUser()->getId());
 
         $response = array(
             'reponse' => $output[0],
             'fin' => $output[1]
         );
 
-        $logger = $this->get('logger');
+       
         $logger->info(json_encode($response));
 
         return new Response(json_encode($response));
