@@ -117,7 +117,7 @@ class ConsoleController extends Controller
             $cpu = $this->container->getParameter('docker_cpu');
             $memory = $this->container->getParameter('docker_memory');
 
-            $cmd = "docker stop --time=0 id_$id_user > /dev/null 2>&1; ";
+            $cmd = "docker stop --time=0 id_$id_user"."A > /dev/null 2>&1; ";
             $cmd .= "docker run --rm=true --name  id_$id_user"."A -it --memory $memory --stop-timeout $timeout --cpus $cpu";
             $cmd .= " gpp /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
 
@@ -207,7 +207,6 @@ class ConsoleController extends Controller
                 'reponse' => $output[0],
                 'fin' => $output[1]
             );
-            
         }
         else{
             $response = array(
@@ -221,6 +220,35 @@ class ConsoleController extends Controller
        
         $logger->info(json_encode($response));
 
+        return new Response(json_encode($response));
+    }
+
+    /**
+     * Stop le docker de l'utilisateurs
+     * @param Request $request
+     * @return Response
+     */
+    public function stopAction(Request $request){
+        $ssh = $this->get('gestionssh');
+
+        $id_user = $this->getUser()->getId();
+        $this->get("logger")->info("STOP ".$id_user);
+        if(!$ssh->dockerTermine($id_user)){
+
+            //FONCTIONNE PAS JE COMPREND PAS
+            $ssh->execAndRead("docker stop --time=0 id_$id_user"."A > /dev/null 2>&1; ");
+            $output = $ssh->lire($this->getUser()->getId());
+
+            $response = array(
+                'out' => $output,
+                'stopped' => 'ok'
+            );
+        }
+        else{
+            $response = array(
+                'stopped' => 'already-dead'
+            );
+        }
         return new Response(json_encode($response));
     }
 }
