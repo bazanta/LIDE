@@ -118,7 +118,7 @@ class ConsoleController extends Controller
             $memory = $this->container->getParameter('docker_memory');
 
             $cmd = "docker stop --time=0 id_$id_user > /dev/null 2>&1; ";
-            $cmd .= "docker run --rm=true --name  id_$id_user -it --memory $memory --stop-timeout $timeout --cpus $cpu";
+            $cmd .= "docker run --rm=true --name  id_$id_user"."A -it --memory $memory --stop-timeout $timeout --cpus $cpu";
             $cmd .= " gpp /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
 
 //Parametre de compilation
@@ -154,7 +154,9 @@ class ConsoleController extends Controller
 
             $logger->info("Starting docker with command : " . $cmd);
 //Execution de la commande de lancement du docker, qui compile et eventuellement execute
-            $ssh->execCmd($cmd);
+            $retour = $ssh->execCmd($cmd);
+            
+            $logger->info("Retour commande echo $? : $retour");
             $output = $ssh->lire($id_user);
 
             $logger->info($output[0]);
@@ -192,14 +194,29 @@ class ConsoleController extends Controller
 
         $id_user = $this->getUser()->getId();
 
-        $ssh->execCmd("docker start -ai id_$id_user");
-        $ssh->ecrire($msg);
-        $output = $ssh->lire($this->getUser()->getId());
 
-        $response = array(
-            'reponse' => $output[0],
-            'fin' => $output[1]
-        );
+        
+        
+        if(!$ssh->dockerTermine($id_user)){
+            
+            $ssh->execCmd("docker start -ai id_$id_user"."A");
+            $ssh->ecrire($msg);
+            $output = $ssh->lire($this->getUser()->getId());
+
+            $response = array(
+                'reponse' => $output[0],
+                'fin' => $output[1]
+            );
+            
+        }
+        else{
+            $response = array(
+                'reponse' => "Docker terminé",
+                'fin' => "yes"
+            );
+        }
+        
+        
 
        
         $logger->info(json_encode($response));

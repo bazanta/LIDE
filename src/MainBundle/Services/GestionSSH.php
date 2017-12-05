@@ -59,10 +59,10 @@ class GestionSSH{
             if($out!=null){
                 
                 //On teste si le docker est terminé
-                $testfin = $this->testFin($id_user);
+                $testfin = $this->dockerTermine($id_user);
                 
                 //Le docker est terminé si testfin est égal à "NOT OK"
-                if(strcmp($testfin, "FINI\n") === 0){
+                if($this->dockerTermine($id_user)){
                     
                     //On récupère tout sauf la dernière ligne (invit de commande du shell);
                     $outTab = explode("\n",$out,-1);
@@ -96,10 +96,10 @@ class GestionSSH{
      * @param type $id_user
      * @return type
      */
-    function testFin($id_user){
+    function dockerTermine($id_user){
         
         //On teste si la sortie de docker ps contient l'identifiant de l'utilisateur
-        $stream = ssh2_exec($this->connection, "[[ $(docker ps -a) =~ \"id_$id_user\" ]] && echo \"OK\" || echo \"FINI\"");
+        $stream = ssh2_exec($this->connection, "[[ -n $(docker ps -q -f name=id_$id_user"."A) ]] && echo \"OK\" || echo \"FINI\"");
 
         stream_set_blocking($stream, true);
 
@@ -107,7 +107,7 @@ class GestionSSH{
      
         fclose($stream);
        
-        return $output;
+        return (strcmp($output, "FINI\n") === 0);
     }
     
     /**
@@ -116,9 +116,10 @@ class GestionSSH{
      */
     function execCmd($cmd){
         $cmdSE = "echo 'beginOutput';".$cmd;
+        $this->cmd = $cmdSE;
         fwrite($this->shell,$cmdSE . "\n");
         
-        $this->cmd = $cmdSE;
+
     }
    
     /**
