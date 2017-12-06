@@ -532,13 +532,11 @@ $("#toggle-console").click(function () {
     $("#file-selector").toggleClass("col-11");
     $("#file-selector").toggleClass("col-6");
 
-    $("#toolbar-span-terminal").toggleClass("d-none");
+    $("#toggle-console-icon").toggleClass("oi-chevron-left");
+    $("#toggle-console-icon").toggleClass("oi-chevron-right");
+//GROS HACK PAS BO
 
-    /*
-        $(this).toggleClass("console-toggle-open");
-        $(this).toggleClass("console-toggle-close");
-
-    */
+    $("#terminal-header span").toggleClass("d-none");
 });
 
 $(window).resize(function () {
