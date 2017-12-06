@@ -118,7 +118,7 @@ class ConsoleController extends Controller
             $memory = $this->container->getParameter('docker_memory');
 
             $cmd = "docker stop --time=0 id_$id_user"."A > /dev/null 2>&1; ";
-            $cmd .= "docker run --rm=true --name  id_$id_user"."A -it --memory $memory --stop-timeout $timeout --cpus $cpu";
+            $cmd .= "docker run --rm=true --name  id_$id_user"."A -it --stop-timeout $timeout --cpus $cpu -m 10M";
             $cmd .= " gpp /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
 
 //Parametre de compilation
@@ -150,7 +150,7 @@ class ConsoleController extends Controller
                 $cmd .= " -c";
             }
 
-            $cmd .= "\"";
+            $cmd .= "\" 2>/dev/null";
 
             $logger->info("Starting docker with command : " . $cmd);
 //Execution de la commande de lancement du docker, qui compile et eventuellement execute
