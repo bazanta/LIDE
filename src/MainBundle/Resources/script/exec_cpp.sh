@@ -19,6 +19,8 @@ arguments=""
 
 wgetAdr=""
 
+echo -e "\e[33m$(date) Starting ...\e[0m";
+
 while getopts "o:f:i:nca:w:" option
 do
 	case $option in
@@ -67,9 +69,9 @@ do
 	fi
 done
 
-echo -e "\e[1;33m\$ g++ $options $listeFichiersFinale \e[0m"
+echo -e "\e[1;33m$(date)\$ g++ $options $listeFichiersFinale \e[0m"
 g++ $options $listeFichiersFinale
-
+echo -e "\e[1;33m$(date)\$ Fin de la compilation\e[0m"
 if [ "$?" -ne "0" ]
 then
     exit $?
@@ -85,12 +87,12 @@ then
 	then
 	  case $fichierInput in
 	  	"")
-				echo -e "\e[33m\$ ./$executable $arguments \e[0m"
+			echo -e "\e[33m$(date)\$ ./$executable $arguments \e[0m"
 	  		./$executable $arguments
 	  		res=$?
 	  		;;
 	  	*)
-					echo -e "\e[33m\$ ./$executable $arguments \e[0m"
+					echo -e "\e[33m$(date)\$ ./$executable $arguments \e[0m"
 	  		./$executable $arguments < $fichierInput
 	  		res=$?
 	  		;;
@@ -98,9 +100,9 @@ then
 	fi
 	if [ "$res" = "0" ]
 	then
-      echo -e "\e[1;32m\$ Process finished with exit code $res\e[0m"
+      echo -e "\e[1;32m$(date)\$ Process finished with exit code $res\e[0m"
     else
-      echo -e "\e[1;31m\$ Process finished with exit code $res\e[0m"
+      echo -e "\e[1;31m$(date)\$ Process finished with exit code $res\e[0m"
     fi
   if [ -f input ]
   then
