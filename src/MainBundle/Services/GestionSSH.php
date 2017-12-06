@@ -27,7 +27,7 @@ class GestionSSH{
      * @param type $id_user
      * @return string
      */
-    
+
     function lire($id_user){
         
         $out = "";
@@ -112,16 +112,26 @@ class GestionSSH{
     
     /**
      * Exécute une commande
-     * @param type $cmd
+     * @param type $cmd la commande à executer
      */
     function execCmd($cmd){
         $cmdSE = "echo 'beginOutput';".$cmd;
         $this->cmd = $cmdSE;
         fwrite($this->shell,$cmdSE . "\n");
-        
-
     }
-   
+
+    function execAndRead($cmd){
+        $cmdSE = "echo 'beginOutput';".$cmd;
+        $this->cmd = $cmdSE;
+        fwrite($this->shell,$cmdSE . "\n");
+
+        $out = "";
+        while($line = fgets($this->shell)){
+                  $out .= $line;
+        }
+        return $out;
+    }
+
     /**
      * Ecrit un message dans le shell
      * @param type $msg

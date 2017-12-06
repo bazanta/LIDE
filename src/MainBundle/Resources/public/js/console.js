@@ -1,18 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* Auteur : Valentine Rahier
+ *
  */
 
-//var jqconsole = $('#console').jqconsole('', '');
+var jqconsole;
 
 var Exec = function () {
 
     $('#console').html("");
 
-    var jqconsole = $('#console').jqconsole('', '');
+    jqconsole = $('#console').jqconsole('', '');
 
     var getOutput = function () {
+        $("#btnStop").prop("disabled", false);
         $.ajax({
             url: PATH_CONSOLE_EXEC,
             type: "POST",
@@ -46,9 +45,25 @@ var Exec = function () {
             if (reponse.fin === "no") {
                 repondre();
             }
+            else{
+                $("#btnStop").prop("disabled", true);
+            }
         };
 
     };
     getOutput();
 
 };
+
+$("#btnStop").click(function () {
+    $.ajax({
+        url: PATH_STOP_CONSOLE,
+        type: "POST",
+        cache: false,
+        success: function () {
+            $("#btnStop").prop("disabled", true);
+            jqconsole.AbortPrompt();
+            jqconsole.Write("\033[31m$ Execution interrompu\033[0m");
+        }
+    })
+})

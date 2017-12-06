@@ -25,3 +25,7 @@ register:
 register_check:
     path:    /registerCheck
     defaults: {_controller : MainBundle:Registration:check }
+
+stop_docker:
+    path: /stop_exec
+    defaults: {_controller : MainBundle:Console:stop }
