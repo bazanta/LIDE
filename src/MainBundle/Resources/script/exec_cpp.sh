@@ -90,7 +90,7 @@ then
 	  		res=$?
 	  		;;
 	  	*)
-					echo-e "\e[33m\$ ./$executable $arguments"
+					echo -e "\e[33m\$ ./$executable $arguments \e[0m"
 	  		./$executable $arguments < $fichierInput
 	  		res=$?
 	  		;;
