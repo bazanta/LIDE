@@ -66,4 +66,5 @@ $("#btnStop").click(function () {
             jqconsole.Write("\033[31m$ Execution interrompu\033[0m");
         }
     })
-})
+});
+

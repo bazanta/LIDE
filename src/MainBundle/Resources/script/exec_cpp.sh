@@ -2,7 +2,7 @@
 
 function testExtension {
 	case $1 in
-    "c" | "cpp" | "cxx" | "hpp" | "C" | "H" | "hh")
+    "c" | "cpp" | "cxx" | "hpp" | "C" | "H" | "hh" | "o")
                 echo 1
                 ;;
     *)
@@ -69,8 +69,9 @@ do
 	fi
 done
 
-echo -e "\e[1;33m$(date)\$ g++ $options $listeFichiersFinale \e[0m"
+echo -e "\e[1;33m$(date)\$ g++ $options $listeFichiersFinale \e[0m\n Press Enter to start"
 g++ $options $listeFichiersFinale
+read x
 echo -e "\e[1;33m$(date)\$ Fin de la compilation\e[0m"
 if [ "$?" -ne "0" ]
 then
