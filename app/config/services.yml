@@ -7,3 +7,15 @@ services:
     #service_name:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+    gestionssh:
+        class: MainBundle\Services\GestionSSH
+        arguments: ["%ssh_host%","%ssh_login%","%ssh_password%"]
+        scope: prototype
+    redirect.after.login:
+        class: MainBundle\Redirection\AfterLoginRedirection
+        arguments: ['@router','@security.authorization_checker']
+    login_failure_handler:
+        class: MainBundle\Handler\LoginFailureHandler
+        arguments:  [ '@router', '@security.context' ]
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }

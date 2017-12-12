@@ -1,0 +1,155 @@
+/*
+    Created on : 11 oct. 2017, 16:46:45
+    Author     : pviolette
+
+    CSS pour la page IDE
+*/
+
+/***************************************************
+ *          Classe générale pour les polices       *
+ ***************************************************/
+
+.font-mono {
+    font-family: monospace;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+/****************************************************
+ *            Élément de gestions de fichier        *
+ ****************************************************/
+
+.hidden-new-file {
+    display: none;
+}
+
+.showed-new-file {
+    position: absolute;
+    left: 0;
+    background-color: white;
+    z-index: 100;
+    width: 80%;
+}
+
+/* Bouton de sauvegarde de fichier */
+#btn-action-file {
+    width: 80%;
+}
+
+/****************************************************
+ *          Élément de gestions de l'éxecution      *
+ ****************************************************/
+
+
+/****************************************************
+ *          Relatif à l'éditeur                     *
+ ****************************************************/
+
+#editor {
+    width: 100%;
+    padding: 0 0 0 0;
+    height: inherit;
+    font-size: 12pt;
+}
+
+#block-editor {
+    height: inherit;
+}
+
+#option-panel {
+    position: absolute;
+    right: 0;
+    width: 25px;
+    height: 80%;
+    display: block;
+    background-color: rgba(244, 224, 224, 0.9);
+}
+
+.choix-langage-selected {
+    display: none;
+}
+
+
+/****************************************************
+ *          Toolbar                                 *
+ ****************************************************/
+
+#editor-toolbar .btn{
+    border-left : solid 1px #303030;
+    border-bottom: solid 1px #303030;
+}
+
+
+#file-selector .file-tab:first-child {
+    border-left: solid 1px #303030;
+}
+
+#editor-toolbar-options{
+    border-left: 2px solid #CCC;
+}
+
+.file-tab {
+    border-right: solid 1px #303030;
+
+    padding: 5px;
+
+    color: white;
+
+    background-color: #475059;
+
+    max-height: 100%;
+}
+
+.file-selected-tab {
+    border-top: solid thick #b1bed3;
+    background-color: #475059 ;
+}
+
+.file-tab:hover {
+    background-color: #3b4249;
+}
+
+#select-file {
+    width: 10%;
+}
+
+
+.btn-toolbar{
+    margin : 0;
+    border-radius: 0 !important;
+}
+
+.btn-toolbar-style{
+    background-color: #f3f3f3;
+}
+
+.btn-toolbar-style:hover{
+    background-color: #b58690;
+}
+
+.console-toggle-open{
+    font-style: italic;
+}
+
+.icon-btn{
+    width: auto;
+    height: inherit;
+}
+
+/********************
+ *     Navbar       *
+ ********************/
+
+#select_lang {
+    width: inherit;
+    text-align: center;
+}
+
+/****************************************************/
+
+.btn_editor {
+    width: 50%;
+    opacity: 0.80;
+}

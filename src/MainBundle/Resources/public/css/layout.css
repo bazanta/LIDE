@@ -1,0 +1,69 @@
+
+.flexHBox{
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-height {
+    flex : 0 1 auto;
+}
+
+.main-container-height {
+    flex: 1 1 auto;
+}
+
+.flexFooter{
+    flex : 0 1 auto;
+}
+
+.btn{
+    cursor: pointer;
+}
+
+#navDropDownMenuUser {
+    right: 0;
+    left: auto;
+
+
+}
+
+#navDropDownMenuUser a{
+    cursor: pointer;
+}
+
+#navDropDownMenuUser a:hover{
+    background-color: rgba(0,0,0,0.2);
+}
+
+.bg-body{
+    background: #141E30;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.buttonUser{
+    min-width: 10%;
+}
+
+.bg-dark .navbar-brand-bg{
+    background : #5d7177;
+    background : linear-gradient(to bottom right, #5d7177, #343A40);
+    padding-right: 5% !important;
+    padding-left: 2.5% !important;
+}
+
+.bg-dark .navbar-brand-bg:hover{
+    opacity: 0.5;
+}
+
+.navbar-brand-font{
+    font-family: "DejaVu Sans Mono";
+    font-weight: bold;
+}
+
+.navbar{
+    box-shadow: 0 10px 5px ;
+}

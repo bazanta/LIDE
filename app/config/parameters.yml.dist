@@ -14,6 +14,21 @@ parameters:
     mailer_host: 127.0.0.1
     mailer_user: ~
     mailer_password: ~
+    mailer_auth_mode: ssh_login
+    mailer_encryption: ssl
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
+
+    ssh_host: 127.0.0.1
+    ssh_login: etudiant
+    ssh_password: ~
+
+    wget_adr: 'http://etudiant@172.29.18.192/LIDE/web/'
+
+    #Temps d'éxecution max docker (en s)
+    docker_stop_timeout: 120
+    #Mémoire max docker
+    docker_memory: 10M
+    #Nombre de cpu max à utiliser
+    docker_cpu : 1

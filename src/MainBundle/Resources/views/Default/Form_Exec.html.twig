@@ -1,0 +1,67 @@
+<div id="executionForm-container" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="modalRunOptionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 id="modalRunOptionLabel" class="modal-title">Option de lancement</h5>
+                <!--Bouton de fermeture du modal-->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="{{ form.vars.full_name }}" class="" name="exec_form">
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+                    <div class="form-check">
+                        <label class="custom-control custom-checkbox">
+                            {{ form_widget(form.compileOnly, {'attr': {'class': 'custom-control-input'}}) }}
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">{{ form.compileOnly.vars.label }}</span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.inputMode) }}
+                        {% for  mode in form.inputMode.children %}
+                            <div class="form-check inputModeOption">
+                                <label class="custom-control custom-radio">
+                                    {% if mode.vars.value == 'it' %}
+                                        {{ form_widget(mode, {'attr': {'class': 'custom-control-input', 'checked' : 'checked'}}) }}
+                                    {% else %}
+                                        {{ form_widget(mode, {'attr': {'class': 'custom-control-input'}}) }}
+                                    {% endif %}
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">{{ mode.vars.label }}</span>
+                                </label>
+                            </div>
+                        {% endfor %}
+                        {{ form_widget(form.inputs, { 'attr' : { 'hidden' : '', 'class' : 'form-control', 'rows' : '6'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.compilationOptions) }}
+                        {{ form_widget(form.compilationOptions, { 'attr' : {'class' : 'form-control font-mono'}}) }}
+                        <small id="helpCompilationsOptions" class="form-text text-muted">
+                            La commande suivante sera effectué pour la compilation : <br/>
+                            <span id="compileCMD-compilateur" class="font-mono"> g++ </span>
+                            <span id="compileCMD-options" class="font-mono font-bold"> -Wall </span>
+                            <span id="compileCMD-file-list" class="font-mono">[fichiers]...</span>
+                        </small>
+                    </div>
+                    <div id="launch-parameters" class="form-group">
+                        {{ form_label(form.launchParameters) }}
+                        {{ form_widget(form.launchParameters, { 'attr' : { 'class' : 'form-control font-mono'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.additionalFiles) }}
+                        {{ form_widget(form.additionalFiles, { 'attr' : { 'class' : 'form-control'}}) }}
+                    </div>
+                    {{ form_row(form.files) }}
+                    {{ form_end(form) }}
+
+                    <button id="exec-form-run-btn" class="btn btn-success w-100">Run !</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

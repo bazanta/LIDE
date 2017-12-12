@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ asset('css/jqconsole.css') }}"/>
+    <style>
+        html, body {
+            background-color: #333;
+            color: white;
+            font-family: monospace;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="console"></div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src={{ asset('js/jqconsole.js')}} type="text/javascript" charset="utf-8"></script>
+    <script src={{asset('js/console.js')}} type="text/javascript" charset="utf-8"></script>
+    <script>
+      
+      var Exec = function(){
+          var jqconsole = $('#console').jqconsole('', '');
+          jqconsole.Write("bonjour",'jqconsole-output');
+        
+        
+        var getOutput = function(){
+            $.ajax({
+                url: "{{path('exec')}}",
+                type: "POST",
+                data: {},
+                success: function(data) {
+                    onSuccess(data);
+                }
+            });
+            
+            var repondre = function(){
+                jqconsole.Prompt(true, function(input){
+                    $.ajax({
+                        url: "{{path('answer')}}",
+                        type: "POST",
+                        data: {"msg": input},
+                        success: function(data){
+                            onSuccess(data);
+                        }
+                    });
+                    
+                });
+            };
+            
+            var onSuccess = function(data){
+                var reponse = $.parseJSON(data);
+                alert(data);
+
+                jqconsole.Write(reponse.reponse, 'jqconsole-output');
+                if(reponse.fin==="no"){
+                    repondre();
+                }
+             };
+           
+        };  
+        getOutput();  
+          
+      };
+     
+    </script>
+  </body>
+</html>
+

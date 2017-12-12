@@ -1,0 +1,50 @@
+<!--Formulaire de nouveau fichier, caché par default -->
+<div class="modal fade px-4 py-3" id="modal-new-file" tabindex="-1" role="dialog"
+     aria-labelledby="modalNewFileLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalNewFileLabel">Nouveau fichier</h5>
+
+                <!--Bouton de fermeture du modal-->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <!--Input pour le nom du fichier - input-group-addon contenant l'extension -->
+                <div class="input-group m-1">
+                    <input type="text" class="form-control col" id="new-file-name"
+                           placeholder="Entrer le nom du fichier">
+                    <span class="input-group-addon" id="extension-addon">.cpp</span>
+                </div>
+
+                <div class="form-group m-1">
+                    <label for="select-modele">Modèle de fichier</label>
+                    <select id="select-modele" class="custom-select w-50">
+                    </select>
+                    <button id="show-model-btn" disabled class="btn btn-primary" type="button"
+                            data-toggle="collapse"
+                            data-target="#collapseModele" aria-expanded="false" aria-controls="collapseModele">
+                        Show model
+                    </button>
+
+                    <div class="collapse" id="collapseModele">
+                        <code id="show-model" class="form-control">
+                            Modele
+                        </code>
+                    </div>
+                </div>
+                <label class="custom-control custom-checkbox">
+                    <input id="useModel" type="checkbox" class="custom-control-input" checked />
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Utiliser ce modèle</span>
+                </label>
+                <button id="btn-create-file" class="btn btn-success w-100" type="button">Créer</button>
+
+            </div> <!-- Modal body -->
+
+        </div> <!--Modal content -->
+    </div> <!--Modal dialog -->
+</div> <!-- #modal-new-file -->

@@ -1,0 +1,29 @@
+<!--Formulaire d'importation de fichier caché par default -->
+<div class="modal fade px-4 py-3" id="modal-import-file" tabindex="-1" role="dialog"
+     aria-labelledby="modalImportFileLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalImportFileLabel">Importer un fichier</h5>
+
+                <!--Bouton de fermeture du modal-->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class="modal-body">
+
+                <!--TODO -->
+                <div class="form-group">
+                    <label class="col-form-label" for="import-file-input">Selectionner le.s fichier.s à importer</label>
+                    <input type="file" id="import-file-input" class="form-control" multiple>
+                </div>
+
+                <button id="btn-import-file" class="btn btn-success w-100" type="button">Importer</button>
+
+            </div> <!-- Modal body -->
+
+        </div> <!--Modal content -->
+    </div> <!--Modal dialog -->
+</div> <!-- #modal-new-file -->

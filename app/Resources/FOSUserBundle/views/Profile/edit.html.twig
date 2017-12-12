@@ -1,0 +1,19 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block fos_user_content %}
+
+    <div id="modal_content m-4">
+        <div class="card p-4">
+            <div class="card-heading">
+                <h3 class="card-title">Mise a jour de compte</h3>
+            </div>
+            <div class="card-body">
+                <div class="modal-body">
+                    {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock fos_user_content %}
+
