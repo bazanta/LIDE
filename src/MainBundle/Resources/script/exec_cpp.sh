@@ -71,11 +71,11 @@ done
 
 echo -e "\e[1;33m$(date)\$ g++ $options $listeFichiersFinale \e[0m\n Press Enter to start"
 g++ $options $listeFichiersFinale
+resCompil="$?"
 read x
-echo -e "\e[1;33m$(date)\$ Fin de la compilation\e[0m"
-if [ "$?" -ne "0" ]
+if [ "$resCompil" != "0" ]
 then
-    exit $?
+    exit $resCompil
 fi
 
 
