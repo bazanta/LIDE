@@ -63,7 +63,7 @@ $("#btnStop").click(function () {
         success: function () {
             $("#btnStop").prop("disabled", true);
             jqconsole.AbortPrompt();
-            jqconsole.Write("\033[31m$ Execution interrompu\033[0m");
+            jqconsole.Write("\033[31m$ Execution interrompue\033[0m");
         }
     })
 });
