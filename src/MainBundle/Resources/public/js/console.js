@@ -43,7 +43,14 @@ var Exec = function () {
             console.log(reponse);
             jqconsole.Write(reponse.reponse, 'jqconsole-output');
             if (reponse.fin === "no") {
-                repondre();
+                var form = $("mainbundle_execution[inputMode]:checked").val()
+                // Vérification mode intéractif
+                if (form == "it") {
+                    repondre();
+                } else {
+                    $("#btnStop").click();
+                    alert("Attention, les 'sleep' ou boucle infinie durant un programe entraine l'arrêt de l'exécution.");                    
+                }
             } else {
                 $("#btnStop").prop("disabled", true);
                 jqconsole.Write("\033[32m$ Execution finie.\033[0m", 'jqconsole-output');

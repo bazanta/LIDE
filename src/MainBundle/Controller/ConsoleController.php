@@ -118,14 +118,14 @@ class ConsoleController extends Controller
             $memory = $this->container->getParameter('docker_memory');
 
             $cmd = "docker stop --time=0 id_$id_user"."A > /dev/null 2>&1; ";
-            $cmd .= "docker run --rm=true --name  id_$id_user"."A -it --stop-timeout $timeout --cpus $cpu";
+            $cmd .= "timeout --signal=SIGKILL ".$timeout."s docker run --rm=true --name  id_$id_user"."A -it --cpus $cpu -m $memory";
             $cmd .= " gpp /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
             
-//Parametre de compilation
+            //Parametre de compilation
             $cmd .= " ./exec.sh -o '$parametreCompilation' -w $wgetAdr";
-//Arguments
+            //Arguments
             $cmd .= " -a '$parametreLancement'";
-//Mode de gestion des entrées
+            //Mode de gestion des entrées
             if ($exec->getInputMode() == 'none') {
                 $cmd .= " -n";
             } else if ($exec->getInputMode() == 'text') { //Création d'un fichier d'entrée. Lancement du programme du type ./a.out args ... < input_file
@@ -142,10 +142,10 @@ class ConsoleController extends Controller
                 //Input interractive : rien à faire
             }
 
-//Liste des fichiers
+            //Liste des fichiers
             $cmd .= " -f '$listeFichiers'";
 
-//Mode compilation uniquement
+            //Mode compilation uniquement
             if ($exec->isCompileOnly() == 1) {
                 $cmd .= " -c";
             }
@@ -197,9 +197,6 @@ class ConsoleController extends Controller
 
         $id_user = $this->getUser()->getId();
 
-
-        
-        
         if(!$ssh->dockerTermine($id_user)){
             
             $ssh->execCmd("docker start -ai id_$id_user"."A");
@@ -210,16 +207,12 @@ class ConsoleController extends Controller
                 'reponse' => $output[0],
                 'fin' => $output[1]
             );
-        }
-        else{
+        } else {
             $response = array(
                 'reponse' => "Docker terminé",
                 'fin' => "yes"
             );
         }
-        
-        
-
        
         $logger->info(json_encode($response));
 
@@ -237,8 +230,6 @@ class ConsoleController extends Controller
         $id_user = $this->getUser()->getId();
         $this->get("logger")->info("STOP ".$id_user);
         if(!$ssh->dockerTermine($id_user)){
-
-            //FONCTIONNE PAS JE COMPREND PAS
             $ssh->execAndRead("docker stop --time=0 id_$id_user"."A > /dev/null 2>&1; ");
             $output = $ssh->lire($this->getUser()->getId());
 
@@ -246,8 +237,7 @@ class ConsoleController extends Controller
                 'out' => $output,
                 'stopped' => 'ok'
             );
-        }
-        else{
+        } else {
             $response = array(
                 'stopped' => 'already-dead'
             );
