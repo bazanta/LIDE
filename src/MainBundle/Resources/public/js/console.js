@@ -44,9 +44,9 @@ var Exec = function () {
             jqconsole.Write(reponse.reponse, 'jqconsole-output');
             if (reponse.fin === "no") {
                 repondre();
-            }
-            else{
+            } else {
                 $("#btnStop").prop("disabled", true);
+                jqconsole.Write("\033[32m$ Execution finie.\033[0m", 'jqconsole-output');
             }
         };
 

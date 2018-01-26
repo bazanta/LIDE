@@ -5,6 +5,11 @@ devra être sobre et le plus simple possible pour ne pas déstabiliser un étudi
 
 ## Getting Started
 
+### Installation
+
+Attention, le dossier web doit être propriété de l'utilisateur du serveur web par exemple pour apache, www-data.
+drwxr-xr-x   8 www-data www-data   4096 janv. 26 14:37 web/
+
 ### Composer
 
 Pour installer les dépendances PHP (ex: bundle) :
