@@ -153,7 +153,7 @@ class ConsoleController extends Controller
             $cmd .= "\" 2>/dev/null";
 
             $logger->info("Starting docker with command : " . $cmd);
-//Execution de la commande de lancement du docker, qui compile et eventuellement execute
+            //Execution de la commande de lancement du docker, qui compile et eventuellement execute
             $ssh->execCmd($cmd);
 
             // Pause de 2 secondes pour laisser le temps à la commande de s'exécuter

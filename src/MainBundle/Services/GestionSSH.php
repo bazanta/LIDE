@@ -9,12 +9,12 @@ class GestionSSH{
     private $cmd;   //dernière commande lue
     private $msg;   //dernier message envoyé
     
-    private static $TIME_OUT = 30;
+    private static $TIME_OUT = 60;
 
     public function __construct($ssh_adr,$ssh_login,$ssh_password){
 
         $this->connection = ssh2_connect($ssh_adr);
-	ssh2_auth_password($this->connection,$ssh_login,$ssh_password);
+	    ssh2_auth_password($this->connection,$ssh_login,$ssh_password);
 
         
         $this->shell = ssh2_shell($this->connection,"bash",null,10000,10000, SSH2_TERM_UNIT_CHARS);
@@ -62,7 +62,7 @@ class GestionSSH{
                 $testfin = $this->dockerTermine($id_user);
                 
                 //Le docker est terminé si testfin est égal à "NOT OK"
-                if($this->dockerTermine($id_user)){
+                if($testfin){
                     
                     //On récupère tout sauf la dernière ligne (invit de commande du shell);
                     $outTab = explode("\n",$out,-1);
@@ -72,15 +72,12 @@ class GestionSSH{
                     //i commence à 1 pour ne pas afficher le message encoyé
                     for($i=1;$i<count($outTab);$i++){
                         $out.=$outTab[$i]."\n";
-                    }
-                                       
+                    }               
                     
                     $output [] = $out;
                     $output [] = "yes";
                     return $output;
-                }
-                else{
-                    
+                } else{                    
                     $output [] = $out;
                     $output [] = "no";
                     return $output;

@@ -43,13 +43,13 @@ var Exec = function () {
             console.log(reponse);
             jqconsole.Write(reponse.reponse, 'jqconsole-output');
             if (reponse.fin === "no") {
-                var form = $("mainbundle_execution[inputMode]:checked").val()
+                var form = $('input[name="mainbundle_execution[inputMode]"]:checked').val();
+                console.log(form);
                 // Vérification mode intéractif
                 if (form == "it") {
                     repondre();
                 } else {
-                    $("#btnStop").click();
-                    alert("Attention, les 'sleep' ou boucle infinie durant un programe entraine l'arrêt de l'exécution.");                    
+                    alert("Attention, les 'sleep' ou boucle infinie (programme dépassant le temps autorisé) durant un programe entraine l'arrêt de l'exécution.");                    
                 }
             } else {
                 $("#btnStop").prop("disabled", true);
