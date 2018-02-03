@@ -5,6 +5,7 @@ namespace MainBundle\Entity;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use MainBundle\Validator\Constraints\ContainsMail as MailSuffixe;
 
 /**
  * Description of User
@@ -21,11 +22,7 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @Assert\Regex(
-     *  pattern="/^(.*)@(etud.)?univ-angers.fr$/",
-     *  match=true,
-     *  message="Mail invalide"
-     * )
+     * @MailSuffixe
      */
     protected $email;
 

@@ -32,3 +32,7 @@ parameters:
     docker_memory: 10M
     #Nombre de cpu max à utiliser
     docker_cpu : 1
+
+    mails_suffixe: 
+        - etud.univ-angers.fr
+        - univ-angers.fr
