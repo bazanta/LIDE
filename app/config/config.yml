@@ -66,7 +66,7 @@ swiftmailer:
 gos_web_socket:
     server:
         port: 8080
-        host: 127.0.0.1
+        host: "%database_host%"
 
 #configuration easy_admin
 easy_admin:
@@ -77,27 +77,33 @@ easy_admin:
                 - {label: 'Langage', icon: 'language', entity: 'Langage'}
                 - {entity: 'DetailLangage', label: 'DetailLangage', icon: 'info-circle'}
             - {entity: 'Serveur', label: 'Serveur', icon: 'server'}
+            - {entity: 'User', label: 'User', icon: 'user'}
             - {label: 'Retour au site', route: 'main_homepage' }
     entities:
+        Langage:
+            class: MainBundle\Entity\Langage
+            label: Langage
+            name: Langage            
         DetailLangage:
             class: MainBundle\Entity\DetailLangage
             label: Details
             name: DetailLangage
-        Langage:
-            class: MainBundle\Entity\Langage
-            label: Langage
-            name: Langage
         Serveur:
             class: MainBundle\Entity\Serveur
             label: Serveur
             name: Serveur
+        User:
+            class: MainBundle\Entity\User
+            label: Utilisateur
+            name: User
+
 fos_user:
     firewall_name: main
-    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    db_driver: orm
     user_class: MainBundle\Entity\User
     from_email:
         address: "projetlide@gmail.com"
-        sender_name: "TutoFOSUserBundule"
+        sender_name: "LIDE"
     service:
         mailer: fos_user.mailer.twig_swift
     registration:
@@ -105,5 +111,5 @@ fos_user:
             enabled: true
             from_email:
                 address: noreply@lide.com
-                sender_name: Insctiption no-reply
+                sender_name: Insctiption LIDE no-reply
             template: 'email/registration.email.twig'
