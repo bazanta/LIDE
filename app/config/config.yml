@@ -4,8 +4,6 @@ imports:
     - { resource: services.yml }
     - { resource: "@MainBundle/Resources/config/services.yml" }
 
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
 
@@ -35,6 +33,7 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    #form_themes: ['bootstrap_3_layout.html.twig']
 
 # Doctrine Configuration
 doctrine:
@@ -46,7 +45,6 @@ doctrine:
         user: '%database_user%'
         password: '%database_password%'
         charset: UTF8
-
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -70,24 +68,31 @@ gos_web_socket:
 
 #configuration easy_admin
 easy_admin:
+    site_name: 'LIDE administration'
     design:
         menu: 
             - label: 'Langages'
               children: 
-                - {label: 'Langage', icon: 'language', entity: 'Langage'}
+                - {label: 'Langage', icon: 'language', entity: 'Langage', default: true}
                 - {entity: 'DetailLangage', label: 'DetailLangage', icon: 'info-circle'}
             - {entity: 'Serveur', label: 'Serveur', icon: 'server'}
             - {entity: 'User', label: 'User', icon: 'user'}
             - {label: 'Retour au site', route: 'main_homepage' }
+    formats:
+        date: 'd/m/Y'
+        time: 'h:i A e'
+        datetime: 'd/m/Y h:i'
     entities:
         Langage:
             class: MainBundle\Entity\Langage
             label: Langage
-            name: Langage            
+            name: Langage      
         DetailLangage:
             class: MainBundle\Entity\DetailLangage
             label: Details
-            name: DetailLangage
+            name: DetailLangage            
+            list:                
+                sort: ['ordre', 'ASC']      
         Serveur:
             class: MainBundle\Entity\Serveur
             label: Serveur
@@ -96,7 +101,24 @@ easy_admin:
             class: MainBundle\Entity\User
             label: Utilisateur
             name: User
+            disabled_actions: ['new']
+            form:
+                fields:
+                    - { property: 'username'}
+                    - { property: 'email'}
+                    - { property: 'enabled' }
+                    - { property: 'roles'}
+                    - { property: 'consoleTheme'}
+                    - { property: 'aceTheme'}
+                    - { property: 'sizeEditeur', type: 'number' }
+            list:
+                fields:
+                    - { property: 'username', type: 'text' }
+                    - { property: 'email', type: 'text' }
+                    - { property: 'enabled' }
+                    - { property: 'lastLogin', type: 'date' }
 
+        
 fos_user:
     firewall_name: main
     db_driver: orm

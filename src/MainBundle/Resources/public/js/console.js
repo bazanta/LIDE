@@ -19,8 +19,16 @@ var Exec = function () {
             cache: false,
             contentType: false,
             processData: false,
+            beforeSend: function() {
+                // Activation loading
+                $('#loader').addClass('active');
+            },
             success: function (data) {
                 onSuccess(data);
+            },
+            complete: function() {
+                // Gestion loading
+                $('#loader').removeClass('active');
             },
             timeout: 30000
         });
@@ -44,7 +52,6 @@ var Exec = function () {
             jqconsole.Write(reponse.reponse, 'jqconsole-output');
             if (reponse.fin === "no") {
                 var form = $('input[name="mainbundle_execution[inputMode]"]:checked').val();
-                console.log(form);
                 // Vérification mode intéractif
                 if (form == "it") {
                     repondre();
