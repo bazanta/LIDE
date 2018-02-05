@@ -1,7 +1,7 @@
 services:
     gestionssh:
         class: MainBundle\Services\GestionSSH
-        arguments: ["%ssh_host%","%ssh_login%","%ssh_password%"]
+        arguments: ["%ssh_host%", "%ssh_port%", "%ssh_login%", "%ssh_password%"]
 
     maindbundle.contains_mail_validator:
         class: MainBundle\Validator\Constraints\ContainsMailValidator

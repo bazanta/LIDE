@@ -11,11 +11,10 @@ class GestionSSH{
     
     private static $TIME_OUT = 60;
 
-    public function __construct($ssh_adr,$ssh_login,$ssh_password){
+    public function __construct($ssh_adr, $ssh_port, $ssh_login, $ssh_password){
 
-        $this->connection = ssh2_connect($ssh_adr);
+        $this->connection = ssh2_connect($ssh_adr, $ssh_port);
 	    ssh2_auth_password($this->connection,$ssh_login,$ssh_password);
-
         
         $this->shell = ssh2_shell($this->connection,"bash",null,10000,10000, SSH2_TERM_UNIT_CHARS);
         
@@ -36,7 +35,12 @@ class GestionSSH{
         $start_time = time();
         $max_time = 2; //time in seconds
         
-        
+        // Si la connexion ssh a échoué
+        if ($this->shell == null) {
+            $output [] = "Erreur, connexion ssh \n";
+            $output [] = "yes";
+            return $output;
+        }        
         
         while((time()-$start_time)< GestionSSH::$TIME_OUT){
             

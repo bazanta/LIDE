@@ -23,6 +23,7 @@ parameters:
     ssh_host: 127.0.0.1
     ssh_login: etudiant
     ssh_password: ~
+    ssh_port: 22
 
     wget_adr: 'http://etudiant@172.29.18.192/LIDE/web/'
 
