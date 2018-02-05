@@ -19,8 +19,7 @@ arguments=""
 
 wgetAdr=""
 
-echo -e "\e[33m$(date) Starting ...\e[0m";
-
+#echo -e "\e[33m\$ Starting ...\e[0m";
 while getopts "o:f:i:nca:w:" option
 do
 	case $option in
@@ -69,7 +68,7 @@ do
 	fi
 done
 
-echo -e "\e[1;33m$(date)\$ gcc $options $listeFichiersFinale \e[0m\n Press Enter to start"
+echo -e "\e[1;33m\$ gcc $options $listeFichiersFinale \e[0m\n Appuyer sur Entrer pour commencer"
 gcc $options $listeFichiersFinale
 resCompil="$?"
 read x
@@ -78,9 +77,7 @@ then
     exit $resCompil
 fi
 
-
 executable=$(ls -t | head -1)
-
 
 if [ $compilationUniquement = false ]
 then
@@ -88,12 +85,12 @@ then
 	then
 	  case $fichierInput in
 	  	"")
-			echo -e "\e[33m$(date)\$ ./$executable $arguments \e[0m"
+			echo -e "\e[33m\$ ./$executable $arguments \e[0m"
 	  		./$executable $arguments
 	  		res=$?
 	  		;;
 	  	*)
-					echo -e "\e[33m$(date)\$ ./$executable $arguments \e[0m"
+					echo -e "\e[33m\$ ./$executable $arguments \e[0m"
 	  		./$executable $arguments < $fichierInput
 	  		res=$?
 	  		;;
@@ -101,9 +98,9 @@ then
 	fi
 	if [ "$res" = "0" ]
 	then
-      echo -e "\e[1;32m$(date)\$ Process finished with exit code $res\e[0m"
+      echo -e "\e[1;32m\$ Fin du programme avec le code $res\e[0m"
     else
-      echo -e "\e[1;31m$(date)\$ Process finished with exit code $res\e[0m"
+      echo -e "\e[1;31m\$ Fin du programme avec le code $res\e[0m"
     fi
   if [ -f input ]
   then

@@ -1,7 +1,3 @@
-/* Auteur : Valentine Rahier
- *
- */
-
 var jqconsole;
 
 var Exec = function () {
@@ -9,6 +5,7 @@ var Exec = function () {
     $('#console').html("");
 
     jqconsole = $('#console').jqconsole('', '');
+    var start = true;
 
     var getOutput = function () {
         $("#btnStop").prop("disabled", false);
@@ -22,6 +19,7 @@ var Exec = function () {
             beforeSend: function() {
                 // Activation loading
                 $('#loader').addClass('active');
+                start = true;
             },
             success: function (data) {
                 onSuccess(data);
@@ -47,17 +45,22 @@ var Exec = function () {
         };
 
         var onSuccess = function (data) {
+            console.log(data);
             var reponse = $.parseJSON(data);
-            console.log(reponse);
             jqconsole.Write(reponse.reponse, 'jqconsole-output');
             if (reponse.fin === "no") {
-                var form = $('input[name="mainbundle_execution[inputMode]"]:checked').val();
-                // Vérification mode intéractif
-                if (form == "it") {
-                    repondre();
+                if (start == true) {
+                    start = false;
+                    repondre(); 
                 } else {
-                    alert("Attention, les 'sleep' ou boucle infinie (programme dépassant le temps autorisé) durant un programe entraine l'arrêt de l'exécution.");                    
-                }
+                    var form = $('input[name="mainbundle_execution[inputMode]"]:checked').val();
+                    // Vérification mode intéractif
+                    if (form == "it") {
+                        repondre();
+                    } else {
+                        alert("Attention, les 'sleep' ou boucles infinies (programme dépassant le temps autorisé) durant un programe entraine l'arrêt de l'exécution.");                
+                    }
+                }                
             } else {
                 $("#btnStop").prop("disabled", true);
                 jqconsole.Write("\033[32m$ Execution finie.\033[0m", 'jqconsole-output');

@@ -2,8 +2,8 @@
 
 namespace MainBundle\Services;
 
-class GestionSSH{
-
+class GestionSSH
+{
     private $connection;
     private $shell;
     private $cmd;   //dernière commande lue
@@ -17,7 +17,6 @@ class GestionSSH{
 	    ssh2_auth_password($this->connection,$ssh_login,$ssh_password);
         
         $this->shell = ssh2_shell($this->connection,"bash",null,10000,10000, SSH2_TERM_UNIT_CHARS);
-        
     }
     
     
@@ -27,13 +26,13 @@ class GestionSSH{
      * @return string
      */
 
-    function lire($id_user){
-        
+    function lire($id_user) 
+    {        
         $out = "";
         $start = false;
         $msg_rencontre =false;
         $start_time = time();
-        $max_time = 2; //time in seconds
+        $max_time = 3; //time in seconds
         
         // Si la connexion ssh a échoué
         if ($this->shell == null) {
@@ -42,18 +41,18 @@ class GestionSSH{
             return $output;
         }        
         
-        while((time()-$start_time)< GestionSSH::$TIME_OUT){
+        while ((time()-$start_time)< GestionSSH::$TIME_OUT) {
             
             $new_start_time = time();
-            while(((time()-$new_start_time) < $max_time)) {
+            while (((time()-$new_start_time) < $max_time)) {
 
                 $line = fgets($this->shell);
 
-                if(!(strstr($line,$this->cmd))) { //On n'affiche pas la commande 
+                if (!(strstr($line,$this->cmd))) { //On n'affiche pas la commande 
                     
-                    if(!$start&&preg_match("/beginOutput/", $line)) { //Permet de ne pas afficher les lignes d'initialisation du shell
-                        $start = true;                       
-                    }elseif($start){
+                    if (!$start && preg_match("/beginOutput/", $line)) { //Permet de ne pas afficher les lignes d'initialisation du shell
+                        $start = true;                      
+                    } else if ($start) {
                         $out .= $line;
                     }
                 }
@@ -97,17 +96,13 @@ class GestionSSH{
      * @param type $id_user
      * @return type
      */
-    function dockerTermine($id_user){
-        
+    function dockerTermine($id_user)
+    {        
         //On teste si la sortie de docker ps contient l'identifiant de l'utilisateur
         $stream = ssh2_exec($this->connection, "[[ -n $(docker ps -q -f name=id_$id_user"."A) ]] && echo \"OK\" || echo \"FINI\"");
-
         stream_set_blocking($stream, true);
-
-        $output = stream_get_contents($stream);
-     
-        fclose($stream);
-       
+        $output = stream_get_contents($stream);     
+        fclose($stream);       
         return (strcmp($output, "FINI\n") === 0);
     }
     
@@ -115,20 +110,22 @@ class GestionSSH{
      * Exécute une commande
      * @param type $cmd la commande à executer
      */
-    function execCmd($cmd){
+    function execCmd($cmd)
+    {
         $cmdSE = "echo 'beginOutput';".$cmd;
         $this->cmd = $cmdSE;
         fwrite($this->shell,$cmdSE . "\n");
     }
 
-    function execAndRead($cmd){
+    function execAndRead($cmd)
+    {
         $cmdSE = "echo 'beginOutput';".$cmd;
         $this->cmd = $cmdSE;
         fwrite($this->shell,$cmdSE . "\n");
 
         $out = "";
         while($line = fgets($this->shell)){
-                  $out .= $line;
+            $out .= $line;
         }
         return $out;
     }
@@ -137,14 +134,11 @@ class GestionSSH{
      * Ecrit un message dans le shell
      * @param type $msg
      */
-    function ecrire($msg){
-        
-        flush();
-        
-        fwrite($this->shell,$msg."\n");
-        
+    function ecrire($msg)
+    {        
+        flush();        
+        fwrite($this->shell,$msg."\n");        
         $this->msg = $msg;
-        
     }
     
 };
