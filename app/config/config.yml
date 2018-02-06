@@ -133,5 +133,5 @@ fos_user:
             enabled: true
             from_email:
                 address: noreply@lide.com
-                sender_name: Insctiption LIDE no-reply
+                sender_name: LIDE no-reply
             template: 'email/registration.email.twig'

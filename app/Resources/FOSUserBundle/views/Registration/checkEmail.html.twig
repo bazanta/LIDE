@@ -1,0 +1,21 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+    <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-4">
+            <div class="card p-2">
+                <div class="card-hearder">
+                    <h3 class="card-title">
+                        Inscription
+                    </h3>
+                </div>
+                <div class="card-body">
+                     <p>{{ 'registration.check_email'|trans({'%email%': user.email}, 'FOSUserBundle') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock fos_user_content %}
+

@@ -39,7 +39,7 @@ class AfterLoginRedirection implements AuthenticationSuccessHandlerInterface
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
-        if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($this->security->isGranted('ROLE_ADMIN')) {
             $response = new RedirectResponse($this->router->generate('easyadmin'));
         } else {
          

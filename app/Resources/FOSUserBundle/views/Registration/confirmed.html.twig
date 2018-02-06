@@ -1,0 +1,24 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-4">
+            <div class="card p-2">
+                <div class="card-hearder">
+                    <h3 class="card-title">
+                        Inscription
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}, 'FOSUserBundle') }}</p>
+                    {% if app.session is not empty %}
+                        {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
+                        {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans({}, 'FOSUserBundle') }}</a></p>{% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock fos_user_content %}
