@@ -52,7 +52,7 @@ class GestionSSH
                     
                     if (!$start && preg_match("/beginOutput/", $line)) { //Permet de ne pas afficher les lignes d'initialisation du shell
                         $start = true;                      
-                    } else if ($start) {
+                    } else if ($start && !preg_match("/beginOutput/", $line)) {
                         $out .= $line;
                     }
                 }
