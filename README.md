@@ -1,7 +1,17 @@
 # LIDE
 
-Le but de ce projet est de créer un environnement de développement en ligne dédié aux étudiants de licence. Cette application leur permettra d’éviter de télécharger tous les logiciels nécessaires durant les cours d’informatique (compilation,...). Cette interface
-devra être sobre et le plus simple possible pour ne pas déstabiliser un étudiant débutant.
+Le but de ce projet est de créer un environnement de développement en ligne dédié aux étudiants de licence. 
+Cette application leur permettra d’éviter de télécharger tous les logiciels nécessaires durant les cours d’informatique (compilation,...). 
+Cette interface devra être sobre et le plus simple possible pour ne pas déstabiliser un étudiant débutant.
+
+## Explication du projet
+
+### Interface
+
+### Serveurs
+
+### Communication entre l'interface et les serveurs
+
 
 ## Getting Started
 

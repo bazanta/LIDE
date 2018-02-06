@@ -8,6 +8,8 @@
         {% endblock %}
     </title>
 
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+
     {% block stylesheet %}
         <!--Feuille de style bootstrap -->
         <link rel="stylesheet" href="{{ asset('css/plugins/bootstrap.min.css') }}" type="text/css"/>
@@ -58,14 +60,14 @@
                 </div>
         {% else %}
             <div class="btn-group w-100">
-                <button type="button" class="btn btn-secondary w-75">
+                <a href="{{ path('fos_user_security_login') }}" class="btn btn-secondary w-75">
                     <span class="oi oi-account-login" aria-hidden="true"></span> Log In
-                </button>
+                </a>
                 <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split w-25" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Inscription</a>
+                    <a class="dropdown-item" href="{{ path('fos_user_registration_register') }}">Inscription</a>
                 </div>
             </div>
         {% endif %}
