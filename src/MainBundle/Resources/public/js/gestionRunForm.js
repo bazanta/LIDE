@@ -10,10 +10,8 @@ function disableCompileOnly() {
     $("input[name='" + FORM_NAME + "[inputMode]']").prop('disabled', false);
 
     if ($("input[name='" + FORM_NAME + "[inputMode]']").val() == 'text') {
-        console.log('Enable inputs textarea')
         $("#" + FORM_NAME + "_inputs").prop('hidden', false);
     } else {
-        console.log('Disable inputs textarea')
         $("#" + FORM_NAME + "_inputs").prop('hidden', true);
     }
     $(".inputModeOption").removeClass("disabled");
@@ -39,10 +37,8 @@ $("#" + FORM_NAME + "_compilationOptions").on('input', function () {
 //Activation / Désactivation de la textarea pour les input en fonction du choix du mode d'input
 $("input[name='" + FORM_NAME + "[inputMode]']").change(function () {
     if ($(this).val() == 'text') {
-        console.log('Enable inputs textarea')
         $("#" + FORM_NAME + "_inputs").prop('hidden', false);
     } else {
-        console.log('Disable inputs textarea')
         $("#" + FORM_NAME + "_inputs").prop('hidden', true);
     }
 });

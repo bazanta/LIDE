@@ -56,6 +56,13 @@ class ConsoleController extends Controller
 
         $id_user = $this->getUser()->getId();
 
+        if ($id_user == null) {
+            return new Response(json_encode(array(
+                'reponse' => "Vous êtes déconnecté",
+                'fin' => 'oui'
+            )));
+        }
+
         $exec = new Execution();
         $form = $this->createform(ExecutionType::class, $exec);
 
@@ -69,11 +76,11 @@ class ConsoleController extends Controller
 
             $logger->info("Fichier additionnels : " . print_r($exec->getAdditionalFiles(), true));
 
-//Écriture des fichiers sur le disques
+            //Écriture des fichiers sur le disques
             $tmpdir = exec("mktemp -d $user.XXXXXX");
             $logger->info("Dossier temporaire : $tmpdir");
 
-//Récupération script compilation & éxecution dans la DB, ecriture sur le disk.
+            //Récupération script compilation & éxecution dans la DB, ecriture sur le disk.
             $idLangage = $exec->getLanguage();
             $logger->info("Id langage : " . $idLangage);
             $em = $this->getDoctrine()->getManager();
@@ -86,8 +93,7 @@ class ConsoleController extends Controller
 
             fclose($file_on_disk);
 
-//Copie fichier source user
-
+            //Copie fichier source user
             $fichiers = json_decode($exec->getFiles());
 
             $logger->info(print_r($fichiers, true));
@@ -95,7 +101,7 @@ class ConsoleController extends Controller
 
             $listeFichiers = $this->writeFilesInDir($fichiers, $tmpdir);
 
-//Copie fichier additionnels
+            //Copie fichier additionnels
             foreach ($exec->getAdditionalFiles() as $file){
                 $fileName = $file->getClientOriginalName();
                 $file->move(

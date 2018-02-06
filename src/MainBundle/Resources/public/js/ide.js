@@ -384,9 +384,6 @@ function changeSaveMethod(saveMethod) {
     if (isValidSaveMethod(saveMethod)) {
         CURRENT_SAVE_METHOD = saveMethod;
     }
-    else {
-        console.log("Unknown save method : " + saveMethod);
-    }
 }
 
 $(".save-method").click(function () {
@@ -433,7 +430,7 @@ function requestAndSetLanguage(language) {
             if (filesJson != null) {
                 filesSession = $.parseJSON(filesJson);
             }
-            if (filesSession.length > 0) {
+            if (filesSession != null && filesSession.length > 0) {
                 filesSession.forEach(function(monFile) {
                     addFile(monFile.name, monFile.content);
                 });

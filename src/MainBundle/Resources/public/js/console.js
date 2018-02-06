@@ -45,10 +45,17 @@ var Exec = function () {
         };
 
         var onSuccess = function (data) {
+            console.log(data);
             try {
                 var reponse = $.parseJSON(data);
             } catch (e) {
-                // Problème serveur, impossible à parser
+                // Problème serveur
+                if (data.match("Vous n'êtes pas inscrit ?")) {                    
+                    jqconsole.Write("Attention, vous n'êtes plus connecté", 'jqconsole-output');
+                } else {
+                    jqconsole.Write("Erreur serveur", 'jqconsole-output');
+                }
+                return;
             }
             jqconsole.Write(reponse.reponse, 'jqconsole-output');
             if (reponse.fin === "no") {
