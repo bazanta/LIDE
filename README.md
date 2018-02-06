@@ -17,7 +17,7 @@ Cette interface devra être sobre et le plus simple possible pour ne pas déstab
 
 ### Installation
 
-Attention, le dossier web doit être propriété de l'utilisateur du serveur web par exemple pour apache, www-data.
+Attention, l'utilisateur du serveur web par exemple pour apache, www-data doit avoir les droits d'écriture et de lecture sur le projet et surtout le dossier web.
 drwxr-xr-x   8 www-data www-data   4096 janv. 26 14:37 web/
 
 ### Composer
@@ -69,23 +69,30 @@ Forcer la mise à jour:
 ```
 php app/console doctrine:schema:update --force
 ```
+
 ## Deploiement
 
 1) Paramètrages 
 
- - Dupliquer le fichier prod.rb avec le nom pour le deploiement dans le dossier config/deploy
+ - Dupliquer le fichier prod.rb en le renommant avec le nom pour le deploiement dans le dossier config/deploy
  - Modifier les lignes :
     * set :stage, :prod # remplacer :prod par le nouveau nom
     * set :symfony_env, "prod" # préciser l'environnement voulu : prod ou dev
-    * set :deploy_to, '/var/www/html/LIDE' # Préciser le chemin sur le server
+    * set :deploy_to, '/var/www/html/LIDE' # Préciser le chemin sur le server là dans le dossier du serveur web apache
     * server 'domaineServeur_ou_Ip', user: 'user', port: 22, roles: %w{app db web} # Remplacer avec les informations du serveur de déploiement
 
-2) Installation Capistrano
+2) Installation Capistrano pour le déploiement automatique
 
 gem install bundler
 bundle install
 
 3) Paramètrages serveur
+
+Attention, le serveur doit avoir :
+ * un serveur web (apache, nginx, ...)
+ * PHP 7 et composer
+ * nodesjs v8.6.0 et npm 5.3
+ * l'extention ssh pour php (libssh2, php-ssh2, ... suivant votre distribution)
 
 Créer la base de données en utf8_general_ci avec un utilisateur spécifique ayant des droits que sur cette base de données.
 

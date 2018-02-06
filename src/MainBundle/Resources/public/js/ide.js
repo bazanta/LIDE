@@ -35,9 +35,6 @@ function changeActiveFileTo(id) {
         return //Demande de changement sur le fichier courant -> rien à faire
     }
     if (id >= 0 && id < files.length) {
-        console.log("Change file to " + id);
-        console.log(files);
-        console.log(files[id].content);
         if (currentFile != -1) {
             files[currentFile].content = editor.getValue();
         }
@@ -83,8 +80,6 @@ function existFile(name) {
  */
 function addFile(name, content) {
     var f = new File(name, content);
-    console.log("New file : ");
-    console.log(f);
     files.push(f);
 
     $("#select-file").append(
@@ -94,17 +89,14 @@ function addFile(name, content) {
     );
     var newTab = $("<div></div>").attr("class", "col file-tab").attr("data-file", files.length - 1).text(name);
     $("#file-tabs-row").append(newTab);
-    console.log("Width " + newTab.width());
 
     newTab.click(function () {
-        console.log("Clicked tab " + $(this).attr("data-file"));
         changeActiveFileTo($(this).attr("data-file"));
     });
 
     changeActiveFileTo(files.length - 1);
 
     if (files.length > 1) {
-        console.log("not disabled");
         $("#rm_file").prop("disabled", false);
     }
 
@@ -141,14 +133,11 @@ function addFileCorrector(name, content){
                 }
             }
         ).then(function(result){
-            console.log(result);
             if(result.value){
-                console.log("New file name " + result.value)
                 name = result.value;
                 return addFile(name, content);
             }
             else{
-                console.log(result)
                 return false;
             }
         });
@@ -165,7 +154,6 @@ function addFileCorrector(name, content){
  */
 function removeFile(id) {
     if (files.length <= 1) {
-        console.log("Un seul fichier " + files.length);
         return;
     }
     if (id >= 0 && id < files.length) {
@@ -174,20 +162,15 @@ function removeFile(id) {
         var newFiles = new Array();
         for (var i = 0; i < files.length; i++) {
             if (i != id) {
-                console.log("Push " + id);
                 newFiles.push(files[i]);
             }
         }
         files = newFiles;
 
-        console.log("Suppression de " + id + ". files = " + files);
-
-
         //Recréation de la liste déroulante
         //TODO : simple suppression de l'élément html correspondant au fichier.
         $("#select-file").html("");
         $("#file-tabs-row").html("");
-        console.log("new tab");
         for (var i = 0; i < files.length; ++i) {
             $("#select-file").append(
                 $("<option></option>")
@@ -243,7 +226,6 @@ $("#rm_file").click(function () {
         if(result.value){
         removeFile(currentFile);
         if (files.length == 1) {
-            console.log("disabled");
             $(this).prop("disabled", true);
             $(this).tooltip('hide')
         }
@@ -357,9 +339,6 @@ function saveFile(id) {
         var blob = new Blob([files[id].content], {type: "text/plain;charset=utf-8"});
         saveAs(blob, files[id].name);
     }
-    else {
-        console.log("Unknown file id : " + id);
-    }
 }
 
 /**
@@ -411,8 +390,6 @@ function changeSaveMethod(saveMethod) {
 }
 
 $(".save-method").click(function () {
-    console.log()
-
     changeSaveMethod($(this).attr("data-save-method"));
     $("#btn-save").html($(this).html());
     performSaveMethod(CURRENT_SAVE_METHOD);
@@ -427,7 +404,6 @@ $("#btn-save").click(function () {
  *******************************************************************************/
 
 function requestAndSetLanguage(language) {
-    console.log("Selection language : " + language);
     $.ajax({
         type: "POST",
         url: urlLangagesInfo,
@@ -435,15 +411,11 @@ function requestAndSetLanguage(language) {
             lang: language
         },
         success: function (response) {
-            console.log(response);
-
             //Coloration syntaxique de l'éditeur
             editor.getSession().setMode(response.ace);
 
             //Liste des modèle du langages.
             modeles = response.modeles;
-            console.log(modeles);
-            console.log(modeles[0]);
 
             //Mise à jour de la navbar et du titre de la page
             $("#navbarDropdownMenuLink").html("Editeur : " + response.name);
@@ -453,10 +425,23 @@ function requestAndSetLanguage(language) {
             $("#select-file").html("");
             $("#file-tabs-row").html("");
             currentFile = -1;
-            files = new Array();
 
-            //Création d'un nouveau fichier avec le modèle par défaut (premier modèle).
-            addFile("main." + modeles[0].ext, modeles[0].model)
+            // Gestion des fichiers
+            files = new Array();  
+            var filesSession = new Array();
+            var filesSession = new Array();
+            if (filesJson != null) {
+                filesSession = $.parseJSON(filesJson);
+            }
+            if (filesSession.length > 0) {
+                filesSession.forEach(function(monFile) {
+                    addFile(monFile.name, monFile.content);
+                });
+                filesJson = null;
+            } else {
+                //Création d'un nouveau fichier avec le modèle par défaut (premier modèle).
+                addFile("main." + modeles[0].ext, modeles[0].model)                
+            } 
 
             //Modification du formulaire de nouveau fichier
             $("#select-modele").html("")
@@ -485,7 +470,7 @@ function clickLangage() {
     var idRequestedLang = parseInt($(this).attr("data-id"));
     swal({
             title : 'Attention !',
-            text : 'Toute modifications non sauvegardé seront perdu !',
+            text : 'Toutes modifications non sauvegardées seront perdues !',
             type : 'warning',
             cancelButtonText : 'Annuler',
             showCancelButton : true
@@ -516,9 +501,6 @@ $(".choix-langage").click(clickLangage);
  *******************************************************************************/
 
 $("#toggle-console").click(function () {
-    console.log("TOGGLE CONSOLE");
-
-//   $("#console").toggleClass("d-none");
     $("#console-block").toggleClass("console-block-open");
     $("#console-block").toggleClass("console-block-collapsed");
     $("#console-block").toggleClass("col-6");
@@ -548,7 +530,6 @@ $(document).ready(function () {
     $('[data-tooltip="tooltip"]').tooltip();
 
     // Paramètrage de l'éditeur
-
     $("#row-editeur-console").height($("#top-container").height() - $("#editor-toolbar").height());
 
     editor = ace.edit("editor");
@@ -559,5 +540,45 @@ $(document).ready(function () {
 });
 
 $(window).bind('beforeunload', function(){
-    return 'Are you sure you want to leave?';
+    return 'Etes vous sûr de vouloir partir ?';
+});
+
+/**
+ * Gestion du clavier : ctrl+
+ */
+$(window).bind('keydown', function(event) {
+    if (event.ctrlKey || event.metaKey) {
+        switch (String.fromCharCode(event.which).toLowerCase()) {
+            case 's':
+                event.preventDefault();
+                // Envoie en base du code pour sauvegarder en session
+                if (currentFile != -1) {
+                    files[currentFile].content = editor.getValue();
+                }
+                var filesJSON = JSON.stringify(files);
+
+                $.ajax({
+                    url: PATH_SAVE_CODE,
+                    type: "POST",
+                    data: {
+                        files: filesJSON
+                    },
+                    beforeSend: function () {
+                        // Activation loading
+                        $('#loaderSave').addClass('active');
+                    },
+                    success: function (data) {
+                        swal('Enregistrement en session.');
+                    },
+                    error: function () {
+                        swal("Erreur durant l'enregistrement en session.");
+                    },
+                    complete: function () {
+                        // Gestion loading
+                        $('#loaderSave').removeClass('active');
+                    }
+                });
+                break;
+        }
+    }
 });

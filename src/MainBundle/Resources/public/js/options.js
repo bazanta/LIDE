@@ -15,7 +15,6 @@ function setConsoleTheme(theme){
     var divConsole = $("#console");
     var opt = $("#console-theme-selector option");
     for(var i  =0; i < opt.length; ++i){
-        console.log("console-" + opt[i].value);
         divConsole.removeClass("console-" + opt[i].value);
     }
 
@@ -42,7 +41,6 @@ $("#console-theme-selector").change(function () {
 });
 
 $('#options-cancel').click(function () {
-    console.log(selectedTheme + " " + fontSize);
     $("#ace-theme-selector").val(selectedTheme);
     if(editor.getTheme() != selectedTheme){
         editor.setTheme(selectedTheme);

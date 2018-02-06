@@ -33,7 +33,6 @@ $("#" + FORM_NAME + "_compileOnly").change(function () {
 
 //Synchronisation input des options de compilation avec le texte d'aide situé en dessous
 $("#" + FORM_NAME + "_compilationOptions").on('input', function () {
-    console.log("Change compile cmd");
     $("#compileCMD-options").text( $( this ).val());
 });
 
@@ -52,7 +51,6 @@ function run(){
     if (currentFile != -1) {
         files[currentFile].content = editor.getValue();
     }
-
     console.log("RUN !");
     $("#" + FORM_NAME + "_files").val(JSON.stringify(files));
     $("#" + FORM_NAME + "_language").val($('.choix-langage-selected').attr("data-id"));

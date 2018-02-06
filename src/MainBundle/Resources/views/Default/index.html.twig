@@ -127,10 +127,10 @@
         </div>
     </div>
 
-    {{ include('MainBundle:Default:Form_Exec.html.twig') }}
-    {{ include('MainBundle:Default:FormNewFile.html.twig') }}
-    {{ include('MainBundle:Default:FormImportFile.html.twig') }}
-    {{ include('MainBundle:Default:options.html.twig') }}
+    {{ include('MainBundle:Default:templates/Form_Exec.html.twig') }}
+    {{ include('MainBundle:Default:templates/FormNewFile.html.twig') }}
+    {{ include('MainBundle:Default:templates/FormImportFile.html.twig') }}
+    {{ include('MainBundle:Default:templates/options.html.twig') }}
 
 
 {% endblock %}
@@ -147,7 +147,7 @@
 
     <script src="{{ asset('js/plugins/ace/ace.js') }}"></script>
 
-    <!--Script pour la sauvegarde des ficheirs -->
+    <!--Script pour la sauvegarde des fichiers -->
     <script src="{{ asset('js/plugins/FileSaver.min.js') }}"></script>
     <script src="{{ asset('js/plugins/jszip.min.js') }}"></script>
 
@@ -156,12 +156,12 @@
     <!-- Variable globale dont la valeur dépend de symfony -->
     <script>
         var urlLangagesInfo = "{{ path('language_info') }}";
-
         var PATH_CONSOLE_EXEC = "{{ path('exec') }}";
         var PATH_CONSOLE_ANS = "{{ path('answer') }}";
-        var PATH_STOP_CONSOLE = "{{ path('stop_docker') }}"
-        FORM_NAME = "{{ form.vars.full_name }}"
-        //    console.log(FORM_NAME);
+        var PATH_SAVE_CODE = "{{ path('save_code') }}";
+        var PATH_STOP_CONSOLE = "{{ path('stop_docker') }}";
+        FORM_NAME = "{{ form.vars.full_name }}";
+        var filesJson = "{{ jsonFiles|e('js') }}";
     </script>
 
     <script src="{{ asset('js/console.js') }}"></script>

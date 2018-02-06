@@ -10,10 +10,10 @@ namespace MainBundle\Handler;
 class LoginFailureHandler implements AuthenticationFailureHandlerInterface
 {
 
-    /* @var \Symfony\Component\Routing\Router /
+    /* @var \Symfony\Component\Routing\Router */
     protected $router;
 
-    /* @var \Symfony\Component\Security\Core\SecurityContext /
+    /* @var \Symfony\Component\Security\Core\SecurityContext */
     protected $security;
 
     /**
@@ -45,6 +45,4 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
            return $this->render('MainBundle:Default:erreur.html.twig', $array);
         
     }
-
-
 }

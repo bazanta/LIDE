@@ -4,7 +4,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 id="modalRunOptionLabel" class="modal-title">Option de lancement</h5>
+                <h5 id="modalRunOptionLabel" class="modal-title">Options de lancement</h5>
                 <!--Bouton de fermeture du modal-->
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -42,7 +42,7 @@
                         {{ form_label(form.compilationOptions) }}
                         {{ form_widget(form.compilationOptions, { 'attr' : {'class' : 'form-control font-mono'}}) }}
                         <small id="helpCompilationsOptions" class="form-text text-muted">
-                            La commande suivante sera effectué pour la compilation : <br/>
+                            La commande suivante sera effectuée pour la compilation : <br/>
                             <span id="compileCMD-compilateur" class="font-mono"> g++ </span>
                             <span id="compileCMD-options" class="font-mono font-bold"> -Wall </span>
                             <span id="compileCMD-file-list" class="font-mono">[fichiers]...</span>

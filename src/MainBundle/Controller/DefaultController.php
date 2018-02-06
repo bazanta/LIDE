@@ -41,7 +41,7 @@ class DefaultController extends Controller
         }
     }
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -54,15 +54,18 @@ class DefaultController extends Controller
         $logger = $this->get('logger');
         $logger->info(print_r($info, true));
 
-
         $exec = new Execution();
         $form = $this->createform(ExecutionType::class, $exec);
+
+        $userID = $this->getUser()->getId();
+        $jsonFiles = $request->getSession()->get('files'.$userID);
 
         return $this->render('MainBundle:Default:index.html.twig', array(
             'list_langage' => $langages,
             'selected_langage' => $selected_langage->getId(),
             'selected_langage_name' => $info['name'],
             'form' => $form->createView(),
+            'jsonFiles' => json_encode($jsonFiles)
         ));
     }
 
@@ -100,22 +103,30 @@ class DefaultController extends Controller
         );
     }
 
+    /**
+     * Renvoie les info du langage sous forme d'un json contenant
+     *   'ace' -> paramètre pour l'editeur
+     *   'model' -> fichier modèle pour le langage
+     */
     public function languageInfoAction(Request $request)
-    {
-        /*
-         Renvoie les info sous forme d'un json contenant
-          'ace' -> paramètre pour l'editeur
-          'model' -> fichier modèle pour le langage
-        */
+    {        
         if ($request->isXMLHttpRequest()) {
-
             $id = $request->request->get('lang');
-
             $info = $this->getLanguageInfo($id);
 
-            $response = new JsonResponse();
-            $response->setData($info);
-            return $response;
+            return new JsonResponse($info);
+        }
+        return new Response('This is not ajax!', 400);
+    }
+
+    public function saveCodeAction(Request $request)
+    {
+        if ($request->isXMLHttpRequest()) {
+            $userID = $this->getUser()->getId();
+            $jsonFiles = $request->request->get('files');
+            $request->getSession()->set('files'.$userID, json_decode($jsonFiles));
+
+            return new JsonResponse("merdouille");
         }
         return new Response('This is not ajax!', 400);
     }

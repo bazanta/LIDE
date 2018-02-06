@@ -45,8 +45,11 @@ var Exec = function () {
         };
 
         var onSuccess = function (data) {
-            console.log(data);
-            var reponse = $.parseJSON(data);
+            try {
+                var reponse = $.parseJSON(data);
+            } catch (e) {
+                // Problème serveur, impossible à parser
+            }
             jqconsole.Write(reponse.reponse, 'jqconsole-output');
             if (reponse.fin === "no") {
                 if (start == true) {
@@ -58,7 +61,11 @@ var Exec = function () {
                     if (form == "it") {
                         repondre();
                     } else {
-                        alert("Attention, les 'sleep' ou boucles infinies (programme dépassant le temps autorisé) durant un programe entraine l'arrêt de l'exécution.");                
+                        swal({
+                            title : 'Attention !',
+                            text : "Les 'sleep' ou boucles infinies (programme dépassant le temps autorisé) durant un programe entraine l'arrêt de l'exécution.",
+                            type : 'warning'
+                        })                                   
                     }
                 }                
             } else {
