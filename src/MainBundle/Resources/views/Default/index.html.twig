@@ -22,108 +22,104 @@
 
 
 {% block body %}
-    <div class="container-fluid m-0 p-0 h-100" id="top-container">
+    <div id="editor-toolbar" class="bg-light row m-0 p-0">
+        <div id="file-selector" class="col-6 d-inline-flex m-0 p-0">
+            <!-- Selection du fichier-->
+            <select id="select-file" class="custom-select">
+                <option value="0" selected>main</option>
+            </select>
+            <!--Buton pour afficher un fichier, lors de trigger le modal avec le formulaire de nouveau fichier -->
+            <button type="button" id="add_file" class="btn btn-toolbar btn-toolbar-style" data-toggle="modal"
+                    data-target="#modal-new-file" data-tooltip="tooltip" title="Nouveau fichier">
+                <span class="oi oi-document" title="document" aria-hidden="true"></span><!--Icon fichier/document-->
+            </button>
+
+            <!-- Bouton pour importer des fichiers depuis l'ordianteur client (ajouter depuis une URL ?) -->
+            <button type="button" id="import_file" class="btn btn-toolbar btn-toolbar-style" data-tooltip="tooltip"
+                    title="Importer des fichiers depuis votre ordinateur"
+            data-toggle="modal" data-target="#modal-import-file">
+                <span class="oi oi-data-transfer-upload" title="data-transfer-upload" aria-hidden="true"></span>
+                <!--Icon upload-->
+            </button>
+
+            <!-- Bouton de suppression du fichier courant -->
+            <button type="button" id="rm_file" class="btn btn-toolbar btn-danger" disabled data-tooltip="tooltip"
+                    title="Supprimer le fichier">
+                <span class="oi oi-trash" title="trash" aria-hidden="true"></span> <!--Icon poubelle-->
+            </button>
 
 
-        <div id="editor-toolbar" class="bg-light row m-0 p-0">
-            <div id="file-selector" class="col-6 d-inline-flex m-0 p-0">
-                <!-- Selection du fichier-->
-                <select id="select-file" class="custom-select">
-                    <option value="0" selected>main</option>
-                </select>
-                <!--Buton pour afficher un fichier, lors de trigger le modal avec le formulaire de nouveau fichier -->
-                <button type="button" id="add_file" class="btn btn-toolbar btn-toolbar-style" data-toggle="modal"
-                        data-target="#modal-new-file" data-tooltip="tooltip" title="Nouveau fichier">
-                    <span class="oi oi-document" title="document" aria-hidden="true"></span><!--Icon fichier/document-->
-                </button>
-
-                <!-- Bouton pour importer des fichiers depuis l'ordianteur client (ajouter depuis une URL ?) -->
-                <button type="button" id="import_file" class="btn btn-toolbar btn-toolbar-style" data-tooltip="tooltip"
-                        title="Importer des fichiers depuis votre ordinateur"
-                data-toggle="modal" data-target="#modal-import-file">
-                    <span class="oi oi-data-transfer-upload" title="data-transfer-upload" aria-hidden="true"></span>
-                    <!--Icon upload-->
-                </button>
-
-                <!-- Bouton de suppression du fichier courant -->
-                <button type="button" id="rm_file" class="btn btn-toolbar btn-danger" disabled data-tooltip="tooltip"
-                        title="Supprimer le fichier">
-                    <span class="oi oi-trash" title="trash" aria-hidden="true"></span> <!--Icon poubelle-->
-                </button>
-
-
-                <div id="file-tabs-container" class="m-0 container-fluid">
-                    <div class="row" id="file-tabs-row">
-                        <!--Contient les onglets de fichiers -->
-                    </div>
+            <div id="file-tabs-container" class="m-0 container-fluid">
+                <div class="row" id="file-tabs-row">
+                    <!--Contient les onglets de fichiers -->
                 </div>
-            </div>
-
-            <div id="editor-toolbar-options" class="bg-dark col-6 d-inline-flex justify-content-center p-0 m-0" style="">
-                <button type="button" id="toggle-console" class="btn btn-toolbar console-toggle-open" data-tooltip="tooltip" title="Reduire/agrandir terminal">
-                    <span id="toggle-console-icon" class="oi oi-chevron-right" aria-hidden="true"></span>
-                </button>
-                <button type="button" id="btn-option" class="btn btn-toolbar btn-toolbar-style" data-toggle="modal" data-target="#modal-options" data-tooltip="tooltip"
-                        title="Options">
-                <span class="oi oi-wrench" title="wrench" aria-hidden="true"></span> <!--Icon clé à outils-->
-                </button>
-                <!-- Button permettant de reduire / etendre la console -->
-                <button id="terminal-header" type="button"  class="btn btn-toolbar btn-toolbar-style" style="flex-grow: 1;" data-tooltip="tooltip"
-                        title="Ceci est votre terminal. Appuyer sur le bouton lancer pour compiler et démarrer votre programme, qui s'executera ici.">
-                    <span class="oi oi-terminal mr-1" title="terminal" aria-hidden="true"></span> <!--Icon terminal-->
-                    <span id="toolbar-span-terminal" class="align-content-center">Terminal</span>
-               </button>
-                <button type="button" id="btnStop" class="btn btn-toolbar-style btn-toolbar" disabled>
-                    <span class="oi oi-power-standby" aria-hidden="true"></span> <!--Icone eteindre -->
-                </button>
             </div>
         </div>
 
-        <div class="row m-0 p-0 " style="z-index : 1" id="row-editeur-console">
-            <!--Block contenant l'editeur des texte -->
-            <div id="block-editor" class="col-6  m-0 p-0 h-100">
+        <div id="editor-toolbar-options" class="bg-dark col-6 d-inline-flex justify-content-center p-0 m-0" style="">
+            <button type="button" id="toggle-console" class="btn btn-toolbar console-toggle-open" data-tooltip="tooltip" title="Reduire/agrandir terminal">
+                <span id="toggle-console-icon" class="oi oi-chevron-right" aria-hidden="true"></span>
+            </button>
+            <button type="button" id="btn-option" class="btn btn-toolbar btn-toolbar-style" data-toggle="modal" data-target="#modal-options" data-tooltip="tooltip"
+                    title="Options">
+            <span class="oi oi-wrench" title="wrench" aria-hidden="true"></span> <!--Icon clé à outils-->
+            </button>
+            <!-- Button permettant de reduire / etendre la console -->
+            <button id="terminal-header" type="button"  class="btn btn-toolbar btn-toolbar-style" style="flex-grow: 1;" data-tooltip="tooltip"
+                    title="Ceci est votre terminal. Appuyer sur le bouton lancer pour compiler et démarrer votre programme, qui s'executera ici.">
+                <span class="oi oi-terminal mr-1" title="terminal" aria-hidden="true"></span> <!--Icon terminal-->
+                <span id="toolbar-span-terminal" class="align-content-center">Terminal</span>
+            </button>
+            <button type="button" id="btnStop" class="btn btn-toolbar-style btn-toolbar" disabled>
+                <span class="oi oi-power-standby" aria-hidden="true"></span> <!--Icone eteindre -->
+            </button>
+        </div>
+    </div>
 
-                <div id="editor" class="m-0"></div>
-                <form id="editor-form" class="form-horizontal"
-                      style="width : 75%; position : absolute; top: auto; bottom : 5%; left:12.5%; z-index: 2;">
-                    <div class="btn-group" id="btn-action-file" role="group">
+    <div class="row m-0 p-0 " style="z-index : 1" id="row-editeur-console">
+        <!--Block contenant l'editeur des texte -->
+        <div id="block-editor" class="col-6  m-0 p-0 h-100">
 
-                        <!--Bouton sauvegarde : trois option : sauvegarder uniquement le fichier en cours, tous les fichiers dans une archive, tous les fichiers un par un. -->
-                        <div class="btn-group w-50 dropup">
-                            <button id="btn-save" type="button" class="btn btn-primary btn_save m-0 w-100">Sauvegarder
-                            </button>
-                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item save-method" id="save-file" href="#" data-save-method="file">Sauvegarder</a>
-                                <a class="dropdown-item save-method" id="save-all-archive" href="#"
-                                   data-save-method="archive">Sauvegarder tout (comme archive)</a>
-                                <a class="dropdown-item save-method" id="save-all" href="#"
-                                   data-save-method="all-files">Sauvegarder tout</a>
-                            </div>
+            <div id="editor" class="m-0"></div>
+            <form id="editor-form" class="form-horizontal"
+                    style="width : 75%; position : absolute; top: auto; bottom : 5%; left:12.5%; z-index: 2;">
+                <div class="btn-group" id="btn-action-file" role="group">
+
+                    <!--Bouton sauvegarde : trois option : sauvegarder uniquement le fichier en cours, tous les fichiers dans une archive, tous les fichiers un par un. -->
+                    <div class="btn-group w-50 dropup">
+                        <button id="btn-save" type="button" class="btn btn-primary btn_save m-0 w-100">Sauvegarder
+                        </button>
+                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item save-method" id="save-file" href="#" data-save-method="file">Sauvegarder</a>
+                            <a class="dropdown-item save-method" id="save-all-archive" href="#"
+                                data-save-method="archive">Sauvegarder tout (comme archive)</a>
+                            <a class="dropdown-item save-method" id="save-all" href="#"
+                                data-save-method="all-files">Sauvegarder tout</a>
                         </div>
-
-                        <div class="btn-group w-50 dropup">
-                            <button id="run-btn" type="button" class="btn btn-secondary btn_save w-100 m-0">Lancer !</button>
-                            <button id="runOptionToggle" type="button" class="btn btn-secondary dropdown-toggle-split"
-                                    data-toggle="modal" data-target="#executionForm-container" data-tooltip="tooltip"
-                                    title="Option de lancement">
-                                <span class="oi oi-cog" title="cog" aria-hidden="true"></span> <!--Icon Engrenage-->
-                            </button>
-                        </div>
-
                     </div>
-                </form>
-            </div>
 
-            <!-- Div contenant la console. Gerer dans console.js avec jqconsole -->
-            <div id="console-block" class="console-block-open col-6 m-0 p-0 mh-100">
-                <div id="console" class="console-dark">
+                    <div class="btn-group w-50 dropup">
+                        <button id="run-btn" type="button" class="btn btn-secondary btn_save w-100 m-0">Lancer !</button>
+                        <button id="runOptionToggle" type="button" class="btn btn-secondary dropdown-toggle-split"
+                                data-toggle="modal" data-target="#executionForm-container" data-tooltip="tooltip"
+                                title="Option de lancement">
+                            <span class="oi oi-cog" title="cog" aria-hidden="true"></span> <!--Icon Engrenage-->
+                        </button>
+                    </div>
+
                 </div>
-                <div id="loader"></div> 
+            </form>
+        </div>
+
+        <!-- Div contenant la console. Gerer dans console.js avec jqconsole -->
+        <div id="console-block" class="console-block-open col-6 m-0 p-0 mh-100">
+            <div id="console" class="console-dark">
             </div>
+            <div id="loader"></div> 
         </div>
     </div>
 
