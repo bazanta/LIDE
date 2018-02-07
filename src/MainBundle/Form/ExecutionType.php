@@ -35,6 +35,7 @@ class ExecutionType extends AbstractType
             ->add('inputs', TextareaType::class)
             ->add('compileOnly', CheckboxType::class, array(
                 'label' => 'Compilation uniquement',
+                'required' => false
             ))
             ->add('launchParameters', TextType::class, array(
                 'label' => 'Paramètres de lancement'

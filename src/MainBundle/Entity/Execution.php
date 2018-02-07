@@ -24,6 +24,11 @@ class Execution{
 
   protected $language;
 
+  public function __construct()
+  {
+    $this->inputMode = 'it';
+  }
+
   function getFiles(){
     return $this->files;
   }
