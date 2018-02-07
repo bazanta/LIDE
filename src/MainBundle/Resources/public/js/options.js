@@ -1,10 +1,9 @@
-
 var selectedTheme = $("#ace-theme-selector").val();
 var fontSize = $("#editor-font-size-selector").val();
 var themeConsole =$("#console-theme-selector").val();
 
 function setAceTheme(theme) {
-    editor.setTheme(theme);
+    editor.setTheme('ace/theme/'+theme);
 }
 
 function setEditorFontSize(fontSize){
@@ -34,6 +33,18 @@ $("#options-ok").click(function () {
     fontSize = $("#editor-font-size-selector").val();
     $('#modal-options').modal('hide');
     synchroniseEditorAndSelectedTab();
+
+    // Enregistrement en base
+    var formName = $(this).data('form');
+    var form = $('form[name="'+formName+'"]').serialize();
+    $.ajax({
+        type: "POST",
+        url: urlUpdateInterface,
+        data: form,
+        success: function (response) {
+            //console.log(response);
+        }
+    });
 });
 
 $("#console-theme-selector").change(function () {

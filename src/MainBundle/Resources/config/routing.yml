@@ -10,6 +10,10 @@ save_code:
     path:    /save_code
     defaults: {_controller : MainBundle:Default:saveCode }
 
+update_interface:
+    path:    /update_interface
+    defaults: {_controller : MainBundle:Default:updateInterface }
+
 vue_console:
     path:    /console
     defaults: { _controller: MainBundle:Console:index }

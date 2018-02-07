@@ -8,6 +8,7 @@ use MainBundle\Entity\DetailLangage;
 
 use MainBundle\Entity\Execution;
 use MainBundle\Form\ExecutionType;
+use MainBundle\Form\OptionsInterfaceType;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,15 +51,18 @@ class DefaultController extends Controller
         $exec = new Execution();
         $form = $this->createform(ExecutionType::class, $exec);
 
+        // Création formulaire paramètrage interface
+        $user = $this->getUser();
+        $formInterface = $this->createform(OptionsInterfaceType::class, $user);
+
         // Récupération des langages
         $langages = $em->getRepository('MainBundle:Langage')->findByActif(true);  
 
         // Récupération du code en session
-        $userID = $this->getUser()->getId();
-        $jsonFiles = $request->getSession()->get('files'.$userID);
+        $jsonFiles = $request->getSession()->get('files'.$user->getId());
 
         // Récupération du langage
-        $langage = $request->getSession()->get('langage'.$userID);
+        $langage = $request->getSession()->get('langage'.$user->getId());
         if ($langage == null) {
             $selected_langage = $em->getRepository('MainBundle:Langage')->findOneBy(array('actif' => true));
             $langage = $selected_langage->getId();
@@ -70,6 +74,7 @@ class DefaultController extends Controller
             'list_langage' => $langages,
             'selected_langage_name' => $info['name'],
             'form' => $form->createView(),
+            'formInterface' => $formInterface->createView(),
             'jsonFiles' => json_encode($jsonFiles),
             'langage' => $langage
         ));
@@ -137,6 +142,28 @@ class DefaultController extends Controller
 
 
             return new JsonResponse("OK");
+        }
+        return new Response('This is not ajax!', 400);
+    }
+
+    public function updateInterfaceAction(Request $request)
+    {
+        if ($request->isXMLHttpRequest()) {
+
+            $user = $this->getUser();
+            $form= $this->createform(OptionsInterfaceType::class, $user);
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+                $rep = "OK";
+            } else {
+                $rep = "Formulaire non valide";
+            }        
+            
+            return new JsonResponse($rep);
         }
         return new Response('This is not ajax!', 400);
     }

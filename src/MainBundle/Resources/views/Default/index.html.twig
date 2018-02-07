@@ -123,11 +123,10 @@
         </div>
     </div>
 
-    {{ include('MainBundle:Default:templates/Form_Exec.html.twig') }}
-    {{ include('MainBundle:Default:templates/FormNewFile.html.twig') }}
-    {{ include('MainBundle:Default:templates/FormImportFile.html.twig') }}
-    {{ include('MainBundle:Default:templates/options.html.twig') }}
-
+    {% include 'MainBundle:Default:templates/Form_Exec.html.twig' with {'form': form} %}
+    {% include 'MainBundle:Default:templates/FormNewFile.html.twig' %}
+    {% include 'MainBundle:Default:templates/FormImportFile.html.twig' %}
+    {% include 'MainBundle:Default:templates/options.html.twig' with {'form': formInterface} %}
 
 {% endblock %}
 
@@ -152,6 +151,7 @@
     <!-- Variable globale dont la valeur dépend de symfony -->
     <script>
         var urlLangagesInfo = "{{ path('language_info') }}";
+        var urlUpdateInterface = "{{ path('update_interface') }}";
         var PATH_CONSOLE_EXEC = "{{ path('exec') }}";
         var PATH_CONSOLE_ANS = "{{ path('answer') }}";
         var PATH_SAVE_CODE = "{{ path('save_code') }}";
