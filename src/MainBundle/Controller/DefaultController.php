@@ -44,28 +44,34 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $logger = $this->get('logger');              
 
-        $langages = $em->getRepository('MainBundle:Langage')->findByActif(true);
-
-        $selected_langage = $em->getRepository('MainBundle:Langage')->findOneBy(array('actif' => true));
-
-        $info = $this->getLanguageInfo($selected_langage->getId());
-
-        $logger = $this->get('logger');
-        $logger->info(print_r($info, true));
-
+        // Création du formulaire d'exécution
         $exec = new Execution();
         $form = $this->createform(ExecutionType::class, $exec);
 
+        // Récupération des langages
+        $langages = $em->getRepository('MainBundle:Langage')->findByActif(true);  
+
+        // Récupération du code en session
         $userID = $this->getUser()->getId();
         $jsonFiles = $request->getSession()->get('files'.$userID);
 
+        // Récupération du langage
+        $langage = $request->getSession()->get('langage'.$userID);
+        if ($langage == null) {
+            $selected_langage = $em->getRepository('MainBundle:Langage')->findOneBy(array('actif' => true));
+            $langage = $selected_langage->getId();
+        }
+        $info = $this->getLanguageInfo($langage);
+        $logger->info(print_r($info, true));
+
         return $this->render('MainBundle:Default:index.html.twig', array(
             'list_langage' => $langages,
-            'selected_langage' => $selected_langage->getId(),
             'selected_langage_name' => $info['name'],
             'form' => $form->createView(),
-            'jsonFiles' => json_encode($jsonFiles)
+            'jsonFiles' => json_encode($jsonFiles),
+            'langage' => $langage
         ));
     }
 
@@ -126,7 +132,11 @@ class DefaultController extends Controller
             $jsonFiles = $request->request->get('files');
             $request->getSession()->set('files'.$userID, json_decode($jsonFiles));
 
-            return new JsonResponse("merdouille");
+            $langage = $request->request->get('langage');
+            $request->getSession()->set('langage'.$userID, $langage);
+
+
+            return new JsonResponse("OK");
         }
         return new Response('This is not ajax!', 400);
     }

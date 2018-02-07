@@ -45,7 +45,6 @@ var Exec = function () {
         };
 
         var onSuccess = function (data) {
-            console.log(data);
             try {
                 var reponse = $.parseJSON(data);
             } catch (e) {

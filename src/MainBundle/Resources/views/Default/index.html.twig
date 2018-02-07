@@ -9,7 +9,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             {% for lang in list_langage %}
-                <a class="dropdown-item {% if lang.id == selected_langage %} choix-langage-selected{% else %} choix-langage{% endif %}"
+                <a class="dropdown-item {% if lang.id == langage %} choix-langage-selected{% else %} choix-langage{% endif %}"
                    href="#" data-id="{{ lang.id }}">{{ lang.nom }}</a>
             {% endfor %}
         </div>
@@ -158,6 +158,7 @@
         var PATH_STOP_CONSOLE = "{{ path('stop_docker') }}";
         FORM_NAME = "{{ form.vars.full_name }}";
         var filesJson = "{{ jsonFiles|e('js') }}";
+        var langageCourant = "{{ langage }}";
     </script>
 
     <script src="{{ asset('js/console.js') }}"></script>

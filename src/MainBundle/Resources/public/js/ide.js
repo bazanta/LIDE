@@ -408,6 +408,10 @@ function requestAndSetLanguage(language) {
             lang: language
         },
         success: function (response) {
+            // Affectation du nouveau langage
+            langageCourant = language;
+            console.log("Nouveau langage : "+langageCourant);
+
             //Coloration syntaxique de l'éditeur
             editor.getSession().setMode(response.ace);
 
@@ -533,7 +537,8 @@ $(document).ready(function () {
     editor.setTheme("ace/theme/tomorrow_night");
     editor.$blockScrolling = Infinity;
 
-    requestAndSetLanguage($(".choix-langage-selected").attr("data-id"));
+    // Langage
+    requestAndSetLanguage(langageCourant);
 });
 
 $(window).bind('beforeunload', function(){
@@ -558,7 +563,8 @@ $(window).bind('keydown', function(event) {
                     url: PATH_SAVE_CODE,
                     type: "POST",
                     data: {
-                        files: filesJSON
+                        files: filesJSON,
+                        langage: langageCourant,
                     },
                     beforeSend: function () {
                         // Activation loading
