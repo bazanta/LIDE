@@ -11,20 +11,8 @@ use MainBundle\Form\ExecutionType;
 
 class ConsoleController extends Controller
 {
-
-    public function indexAction()
+    private function writeFilesInDir($files, $dir)
     {
-
-        $content = $this->get('templating')->render('MainBundle:Console:console.html.twig', array(""));
-
-        $ssh = $this->get('gestionssh');
-
-        return new Response($content);
-
-    }
-
-
-    private function writeFilesInDir($files, $dir){
         $listeFichiers = "";
         $logger = $this->get('logger');
         foreach ($files as $f) {
@@ -163,7 +151,7 @@ class ConsoleController extends Controller
             $ssh->execCmd($cmd);
 
             // Pause de 2 secondes pour laisser le temps à la commande de s'exécuter
-            sleep(2);
+            sleep(1);
 
             $output = $ssh->lire($id_user);
 

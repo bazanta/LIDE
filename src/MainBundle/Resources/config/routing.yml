@@ -3,7 +3,7 @@ main_homepage:
     defaults: { _controller: MainBundle:Default:index }
 
 language_info:
-    path:   /language_info
+    path:    /language_info
     defaults: { _controller: MainBundle:Default:languageInfo }
     
 save_code:
@@ -13,10 +13,6 @@ save_code:
 update_interface:
     path:    /update_interface
     defaults: {_controller : MainBundle:Default:updateInterface }
-
-vue_console:
-    path:    /console
-    defaults: { _controller: MainBundle:Console:index }
     
 exec:
     path:    /exec
@@ -27,5 +23,5 @@ answer:
     defaults: {_controller : MainBundle:Console:answer }
 
 stop_docker:
-    path: /stop_exec
+    path:   /stop_exec
     defaults: {_controller : MainBundle:Console:stop }

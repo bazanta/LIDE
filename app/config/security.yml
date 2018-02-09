@@ -7,6 +7,9 @@ security:
             id: fos_user.user_provider.username
 
     firewalls:
+        main_resetting:
+            pattern: ^/resetting/
+            anonymous: true
         main_register:
             pattern:   ^/register/
             anonymous: true

@@ -27,8 +27,12 @@
                     </div>
                     <div class="row p-4">
                         <div class="col">
-                            <a href="{{ path('fos_user_profile_edit') }}"> 
-                            <input type="submit" class="btn btn-success" value="{{ 'Editer le Profile'|trans }}" data-toggle="modal" data-target="#edit_profile"/></A>                
+                            <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-success"> 
+                                {{ 'Editer le Profile'|trans }}
+                            </a> 
+                            <a href="{{ path('fos_user_change_password') }}" class="btn btn-primary"> 
+                                {{ 'Changer de mot de passe'|trans }}
+                            </a>  
                         </div>
                     </div>
                 </div>
