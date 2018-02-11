@@ -505,21 +505,21 @@ $("#toggle-console").click(function () {
     $("#console-block").toggleClass("console-block-open");
     $("#console-block").toggleClass("console-block-collapsed");
     $("#console-block").toggleClass("col-6");
-    $("#console-block").toggleClass("col-1");
+    $("#console-block").toggleClass("col-2");
 
     $("#editor-toolbar-options").toggleClass("col-6");
-    $("#editor-toolbar-options").toggleClass("col-1");
+    $("#editor-toolbar-options").toggleClass("col-2");
 
-    $("#block-editor").toggleClass("col-11");
+    $("#block-editor").toggleClass("col-10");
     $("#block-editor").toggleClass("col-6");
-    $("#file-selector").toggleClass("col-11");
+    $("#file-selector").toggleClass("col-10");
     $("#file-selector").toggleClass("col-6");
 
     $("#toggle-console-icon").toggleClass("oi-chevron-left");
     $("#toggle-console-icon").toggleClass("oi-chevron-right");
 //GROS HACK PAS BO
-
-    $("#terminal-header span").toggleClass("d-none");
+    $("#terminal-header span").toggleClass("d-none"); 
+    $("#editor-toolbar-options").toggleClass("reduiceConsole");
 });
 
 $(window).resize(function () {

@@ -13,7 +13,6 @@
     {% block stylesheet %}
         <!--Feuille de style bootstrap -->
         <link rel="stylesheet" href="{{ asset('css/plugins/bootstrap.min.css') }}" type="text/css"/>
-
         <link rel="stylesheet" href="{{ asset('css/plugins/sweetalert2.css') }}" type="text/css"/>
 
         <!-- Openiconic - icon -->
@@ -34,7 +33,7 @@
     </button>
 
 
-    <div class="collapse navbar-collapse" id="navbarToggler m-3">
+    <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             {% block navbarCollapse %}
                 {% if is_granted('ROLE_ADMIN') %}

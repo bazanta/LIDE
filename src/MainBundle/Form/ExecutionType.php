@@ -26,7 +26,7 @@ class ExecutionType extends AbstractType
                 'label' => "Gestion des entrées",
                 'choices' => array(
                     'none' => 'Aucune',
-                    'it' => 'Interractive',
+                    'it' => 'Interactive',
                     'text' => 'Texte'
                 ),
                 'expanded' => true,

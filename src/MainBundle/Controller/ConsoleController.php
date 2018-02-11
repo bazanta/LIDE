@@ -61,7 +61,6 @@ class ConsoleController extends Controller
             $user = "testUser";
 
             $logger->info(print_r($request->get('execution'), true));
-
             $logger->info("Fichier additionnels : " . print_r($exec->getAdditionalFiles(), true));
 
             //Écriture des fichiers sur le disques
@@ -72,20 +71,17 @@ class ConsoleController extends Controller
             $idLangage = $exec->getLanguage();
             $logger->info("Id langage : " . $idLangage);
             $em = $this->getDoctrine()->getManager();
-            $script = $em->getRepository('MainBundle:Langage')->find($idLangage)->getScript();
-
+            $langage = $em->getRepository('MainBundle:Langage')->find($idLangage);
+            $script = $langage->getScript();
             $logger->info($script);
 
             $file_on_disk = fopen("$tmpdir/exec.sh", "w");
             fwrite($file_on_disk, $script);
-
             fclose($file_on_disk);
 
             //Copie fichier source user
             $fichiers = json_decode($exec->getFiles());
-
             $logger->info(print_r($fichiers, true));
-
 
             $listeFichiers = $this->writeFilesInDir($fichiers, $tmpdir);
 
@@ -104,16 +100,16 @@ class ConsoleController extends Controller
             $parametreLancement = str_replace("\'", "\'\\\'\'", $exec->getLaunchParameters()); //Idem
 
             $wgetAdr = $this->container->getParameter('wget_adr')."/$tmpdir/";
-
             $logger->info("Wget adress: $wgetAdr");
 
             $timeout = $this->container->getParameter('docker_stop_timeout');
             $cpu = $this->container->getParameter('docker_cpu');
             $memory = $this->container->getParameter('docker_memory');
+            $dockerName = $langage->getDockerName();
 
             $cmd = "docker stop --time=0 id_$id_user"."A > /dev/null 2>&1; ";
             $cmd .= "timeout --signal=SIGKILL ".$timeout."s docker run --rm=true --name  id_$id_user"."A -it --cpus $cpu -m $memory";
-            $cmd .= " gpp /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
+            $cmd .= " $dockerName /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
             
             //Parametre de compilation
             $cmd .= " ./exec.sh -o '$parametreCompilation' -w $wgetAdr";
@@ -150,7 +146,7 @@ class ConsoleController extends Controller
             //Execution de la commande de lancement du docker, qui compile et eventuellement execute
             $ssh->execCmd($cmd);
 
-            // Pause de 2 secondes pour laisser le temps à la commande de s'exécuter
+            // Pause de 1 secondes pour laisser le temps à la commande de s'exécuter
             sleep(1);
 
             $output = $ssh->lire($id_user);
@@ -182,11 +178,9 @@ class ConsoleController extends Controller
     public function answerAction(Request $request)
     {
         $logger = $this->get('logger');
-
         $ssh = $this->get('gestionssh');
 
-        $msg = $request->request->get('msg');
-        
+        $msg = $request->request->get('msg');        
         $logger->info("Reponse : $msg");
 
         $id_user = $this->getUser()->getId();
@@ -220,7 +214,7 @@ class ConsoleController extends Controller
      */
     public function stopAction(Request $request){
         $ssh = $this->get('gestionssh');
-
+        
         $id_user = $this->getUser()->getId();
         $this->get("logger")->info("STOP ".$id_user);
         if(!$ssh->dockerTermine($id_user)){

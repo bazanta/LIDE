@@ -9,4 +9,10 @@ services:
         tags:
             - { name: validator.constraint_validator }
 
+    docker.subscriber:
+        class: MainBundle\EventListener\DockerSubscriber
+        arguments : ["@gestionssh"]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
        

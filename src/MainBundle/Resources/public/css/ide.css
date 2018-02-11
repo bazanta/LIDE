@@ -133,7 +133,7 @@
 }
 
 #select-file {
-    width: 10%;
+    width: 100%;
 }
 
 
@@ -173,4 +173,21 @@
 .btn_editor {
     width: 50%;
     opacity: 0.80;
+}
+
+/**************
+ * Responsive *
+ *************/
+
+ /* Gestion console md */
+@media (max-width: 880px) {
+    .reduiceConsole #btn-option{
+        display: none;
+    }   
+}
+
+@media (max-width: 750px) {
+    .reduiceConsole #btnStop{
+        display: none;
+    }  
 }

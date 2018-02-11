@@ -25,7 +25,7 @@
     <div id="editor-toolbar" class="bg-light row m-0 p-0">
         <div id="file-selector" class="col-6 d-inline-flex m-0 p-0">
             <!-- Selection du fichier-->
-            <select id="select-file" class="custom-select">
+            <select id="select-file" class="custom-select showSmallDevice">
                 <option value="0" selected>main</option>
             </select>
             <!--Buton pour afficher un fichier, lors de trigger le modal avec le formulaire de nouveau fichier -->
@@ -49,7 +49,7 @@
             </button>
 
 
-            <div id="file-tabs-container" class="m-0 container-fluid">
+            <div id="file-tabs-container" class="m-0 container-fluid hiddenSmallDevice">
                 <div class="row" id="file-tabs-row">
                     <!--Contient les onglets de fichiers -->
                 </div>
@@ -57,7 +57,7 @@
         </div>
 
         <div id="editor-toolbar-options" class="bg-dark col-6 d-inline-flex justify-content-center p-0 m-0" style="">
-            <button type="button" id="toggle-console" class="btn btn-toolbar console-toggle-open" data-tooltip="tooltip" title="Reduire/agrandir terminal">
+            <button type="button" id="toggle-console" class="btn btn-toolbar btn-toolbar-style console-toggle-open" data-tooltip="tooltip" title="Reduire/agrandir terminal">
                 <span id="toggle-console-icon" class="oi oi-chevron-right" aria-hidden="true"></span>
             </button>
             <button type="button" id="btn-option" class="btn btn-toolbar btn-toolbar-style" data-toggle="modal" data-target="#modal-options" data-tooltip="tooltip"
@@ -67,8 +67,8 @@
             <!-- Button permettant de reduire / etendre la console -->
             <button id="terminal-header" type="button"  class="btn btn-toolbar btn-toolbar-style" style="flex-grow: 1;" data-tooltip="tooltip"
                     title="Ceci est votre terminal. Appuyer sur le bouton lancer pour compiler et démarrer votre programme, qui s'executera ici.">
-                <span class="oi oi-terminal mr-1" title="terminal" aria-hidden="true"></span> <!--Icon terminal-->
-                <span id="toolbar-span-terminal" class="align-content-center">Terminal</span>
+                <span class="oi oi-terminal hiddenSmallDevice mr-1" title="terminal" aria-hidden="true"></span> <!--Icon terminal-->
+                <span id="toolbar-span-terminal" class="align-content-center hiddenSmallDevice">Terminal</span>
             </button>
             <button type="button" id="btnStop" class="btn btn-toolbar-style btn-toolbar" disabled>
                 <span class="oi oi-power-standby" aria-hidden="true"></span> <!--Icone eteindre -->
@@ -77,7 +77,7 @@
     </div>
 
     <div class="row m-0 p-0 " style="z-index : 1" id="row-editeur-console">
-        <!--Block contenant l'editeur des texte -->
+        <!--Block contenant l'editeur des texte --> 
         <div id="block-editor" class="col-6  m-0 p-0 h-100">
 
             <div id="editor" class="m-0"></div>

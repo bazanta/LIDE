@@ -3,12 +3,16 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Langage
  *
  * @ORM\Table(name="langage")
- * @ORM\Entity(repositoryClass="MainBundle\Repository\LangageRepository")
+ * @ORM\Entity(repositoryClass="MainBundle\Repository\LangageRepository") 
+ * @UniqueEntity(fields={"nom"}, errorPath="nom", message="Ce langage est déjà enregistré")
+ * @UniqueEntity(fields={"dockerName"}, errorPath="dockerName", message="Une autre image docker porte déjà ce nom")
  */
 class Langage
 {
@@ -23,28 +27,35 @@ class Langage
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
 
     /**
-     * @var string
-     *
+     * @var string     
+     * @Assert\NotBlank()
      * @ORM\Column(name="compilateur", type="string", length=255)
      */
     private $compilateur;
 
     /**
-     * @var string
-     *
+     * @var string      
+     * @Assert\NotBlank()
      * @ORM\Column(name="dockerfile", type="text")
      */
     private $dockerfile;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
+     * @ORM\Column(name="dockerName",  type="string", length=50)
+     */
+    private $dockerName;
+
+    /**
+     * @var string
+     * @Assert\NotBlank()
      * @ORM\Column(name="script", type="text")
      */
     private $script;
@@ -142,6 +153,29 @@ class Langage
     public function getDockerfile()
     {
         return $this->dockerfile;
+    }
+
+    /**
+     * Set dockerName
+     *
+     * @param string $dockerName
+     * @return Langage
+     */
+    public function setDockerName($dockerName)
+    {
+        $this->dockerName = $dockerName;
+
+        return $this;
+    }
+
+    /**
+     * Get dockerName
+     *
+     * @return string 
+     */
+    public function getDockerName()
+    {
+        return $this->dockerName;
     }
 
     /**

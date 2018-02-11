@@ -2,23 +2,13 @@
 
 Le but de ce projet est de créer un environnement de développement en ligne dédié aux étudiants de licence. 
 Cette application leur permettra d’éviter de télécharger tous les logiciels nécessaires durant les cours d’informatique (compilation,...). 
-Cette interface devra être sobre et le plus simple possible pour ne pas déstabiliser un étudiant débutant.
-
-## Explication du projet
-
-### Interface
-
-### Serveurs
-
-### Communication entre l'interface et les serveurs
-
+L'interface devra être sobre et la plus simple possible pour ne pas déstabiliser un étudiant débutant.
 
 ## Getting Started
 
 ### Installation
 
 Attention, l'utilisateur du serveur web par exemple pour apache, www-data doit avoir les droits d'écriture et de lecture sur le projet et surtout le dossier web.
-drwxr-xr-x   8 www-data www-data   4096 janv. 26 14:37 web/
 
 ### Composer
 
@@ -72,6 +62,14 @@ php app/console doctrine:schema:update --force
 
 ## Deploiement
 
+L'application sera créer comme suit dans le dossier du projet :
+    * current : version courante du projet
+    * releases : différentes version du projet
+    * repo
+    * shared : fichiers partagés entre les versions (paramétrages, ...)
+Chaque déploiement entraine la création d'une release. Si le déploiement se passe bien, alors le dossier current pointera sur cette nouvelle release.
+Pour exécuter des commmande symfony par exemple sur la version courante, il faut aller dans le dossier current. 
+
 1) Paramètrages 
 
  - Dupliquer le fichier prod.rb en le renommant avec le nom pour le deploiement dans le dossier config/deploy
@@ -81,7 +79,7 @@ php app/console doctrine:schema:update --force
     * set :deploy_to, '/var/www/html/LIDE' # Préciser le chemin sur le server là dans le dossier du serveur web apache
     * server 'domaineServeur_ou_Ip', user: 'user', port: 22, roles: %w{app db web} # Remplacer avec les informations du serveur de déploiement
 
-2) Installation Capistrano pour le déploiement automatique
+2) Installation Capistrano sur la machine voulant déployer pour le déploiement automatique
 
 gem install bundler
 bundle install
@@ -94,7 +92,7 @@ Attention, le serveur doit avoir :
  * nodesjs v8.6.0 et npm 5.3
  * l'extention ssh pour php (libssh2, php-ssh2, ... suivant votre distribution)
 
-Créer la base de données en utf8_general_ci avec un utilisateur spécifique ayant des droits que sur cette base de données.
+Créer la base de données en utf8_general_ci avec un utilisateur spécifique ayant des droits que sur cette base de données pour une meilleur sécurité.
 
 4) Deploiement
 
@@ -120,10 +118,24 @@ Exécuter les lignes de commande pour créer le schéma de la base de données e
 
 ## Explication du projet
 
+
 ### Interface
 
+Fonctionnalités implémentées :
+ * Administration : Permet entre autre de gérer les langages
+ * Authentification restreinte (Connexion + rôles + inscription par mail filtrée suivant le respet de préfixes paramétrable)
+ * Gestion de plusieurs fichiers de code
+ * Import de fichiers
+ * Export de fichiers (sauvegarde) sur l'ordinateur
+ * Sauvegarde en session : ctrl+s
+ * Création avec le choix de l'extension voulue et la possibilité de choisir un modèle
+ * Compilation/exécution de code avec docker paramétrable (compilation seule, choix des options, des entrées, ...)
+ * Gestion de plusieurs langages (C++, c, ...)
+ * Personalisation de l'interface (couleur, taille)
+ * Responsive
 
-### Serveurs
 
+### Exécution
 
-### Communication entre l'interface et les serveurs
+    Exécution conteneurisée avec docker sur un serveur. 
+    Exécution sécurisée et isolée avec la mémoire, l'accès au CPU et le temps d'exécution qui sont limités.

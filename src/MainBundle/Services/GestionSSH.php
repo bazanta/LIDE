@@ -32,7 +32,7 @@ class GestionSSH
         $start = false;
         $msg_rencontre =false;
         $start_time = time();
-        $max_time = 3; //time in seconds
+        $max_time = 2; //time in seconds
         
         // Si la connexion ssh a échoué
         if ($this->shell == null) {
