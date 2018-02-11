@@ -62,13 +62,13 @@ php app/console doctrine:schema:update --force
 
 ## Deploiement
 
-L'application sera créer comme suit dans le dossier du projet :
+L'application sera créée comme suit dans le dossier du projet :
     * current : version courante du projet
     * releases : différentes version du projet
     * repo
     * shared : fichiers partagés entre les versions (paramétrages, ...)
 Chaque déploiement entraine la création d'une release. Si le déploiement se passe bien, alors le dossier current pointera sur cette nouvelle release.
-Pour exécuter des commmande symfony par exemple sur la version courante, il faut aller dans le dossier current. 
+Pour exécuter des commmandes symfony par exemple sur la version courante, il faut aller dans le dossier current. Par exemple pour mettre à jour la base de données.
 
 1) Paramètrages 
 
@@ -76,12 +76,12 @@ Pour exécuter des commmande symfony par exemple sur la version courante, il fau
  - Modifier les lignes :
     * set :stage, :prod # remplacer :prod par le nouveau nom
     * set :symfony_env, "prod" # préciser l'environnement voulu : prod ou dev
-    * set :deploy_to, '/var/www/html/LIDE' # Préciser le chemin sur le server là dans le dossier du serveur web apache
+    * set :deploy_to, '/var/www/html/LIDE' # Préciser le chemin sur le server dans l'exemple, le dossier du serveur web apache
     * server 'domaineServeur_ou_Ip', user: 'user', port: 22, roles: %w{app db web} # Remplacer avec les informations du serveur de déploiement
 
 2) Installation Capistrano sur la machine voulant déployer pour le déploiement automatique
 
-gem install bundler
+gem install bundler # avoir ruby gems sur le poste d'installé
 bundle install
 
 3) Paramètrages serveur
@@ -113,11 +113,10 @@ cap prod deploy
 
 Se connecter en ssh sur le serveur, aller dans le dossier du projet puis current/ pour avoir la version courante.
 Exécuter les lignes de commande pour créer le schéma de la base de données et charger les fixtures.
-    - php app/console doctrine:schema:create
-    - php app/console doctrine:fixtures:load
+ * php app/console doctrine:schema:create
+ * php app/console doctrine:fixtures:load
 
 ## Explication du projet
-
 
 ### Interface
 
@@ -137,5 +136,23 @@ Fonctionnalités implémentées :
 
 ### Exécution
 
-    Exécution conteneurisée avec docker sur un serveur. 
-    Exécution sécurisée et isolée avec la mémoire, l'accès au CPU et le temps d'exécution qui sont limités.
+Exécution conteneurisée avec docker sur un serveur. 
+Exécution sécurisée et isolée avec la mémoire, l'accès au CPU et le temps d'exécution qui sont limités.
+
+### Administration
+
+Ajouter un nouveau langage à l'application :
+ * Demander à l'informaticien de créer un dockerFile sur le serveur d'exécution en le nommant avec un nom spécifique (docker build --tag nom .)
+ * Paramétrer l'application grâce à l'entité Langage
+    * Nommer le langage
+    * Renseigner les options de compilation par défauts
+    * Précider le compilateur
+    * Intégrer le dockerFile créé
+    * Renseigné le nom utilisé pour créer le docker sur le serveur
+    * Ajouter le script pour compiler/exécuter en automatique
+    * Activer le langage seulement si le docker correspondant à été créé sur le serveur
+ * Ajouter une extension pour le langage dans DetailLangage
+    * Renseigner l'extension (cpp, java, ...)
+    * Ajouter un modèle par défaut
+    * Choisir l'ordre de l'extension par rapport aux autres du même langage
+    * Relier avec le langage créé précedement
