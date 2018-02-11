@@ -14,10 +14,8 @@
             </div>
             <div class="modal-body">
                 <!--Input pour le nom du fichier - input-group-addon contenant l'extension -->
-                <div class="input-group m-1">
-                    <input type="text" class="form-control col" id="new-file-name"
-                           placeholder="Entrer le nom du fichier">
-                    <span class="input-group-addon" id="extension-addon">.cpp</span>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="new-file-name" placeholder="Entrer le nom du fichier" aria-describedby="extension-addon">
                 </div>
 
                 <div class="form-group m-1">
@@ -36,11 +34,14 @@
                         </code>
                     </div>
                 </div>
-                <label class="custom-control custom-checkbox">
-                    <input id="useModel" type="checkbox" class="custom-control-input" checked />
-                    <span class="custom-control-indicator"></span>
-                    <span class="custom-control-description">Utiliser ce modèle</span>
-                </label>
+                <div class="form-group">
+                    <div class="checkbox"> 
+                        <label for="useModel" >
+                            <input id="useModel" type="checkbox" checked />
+                            Utiliser ce modèle
+                        </label>
+                    </div>
+                </div>
                 <button id="btn-create-file" class="btn btn-success w-100" type="button">Créer</button>
 
             </div> <!-- Modal body -->
