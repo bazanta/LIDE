@@ -28,9 +28,19 @@ class detailFixtures extends Fixture {
             $detaillangage1 = new DetailLangage();
             $detaillangage1->setExtension("c");
 			$detaillangage1->setLangage($this->getReference('language-c'));
-            $detaillangage1->setModele("Hellow word!");
-            $detaillangage1->setActif(0);
+            $detaillangage1->setModele(file_get_contents("src/MainBundle/Resources/modeles/c/whatsyourage.c"));
+            $detaillangage1->setActif(1);
             $detaillangage1->setOrdre(1);
+          
+           
+            $manager->persist($detaillangage1);
+
+            $detaillangage1 = new DetailLangage();
+            $detaillangage1->setExtension("java");
+			$detaillangage1->setLangage($this->getReference('language-java'));
+            $detaillangage1->setModele(file_get_contents("src/MainBundle/Resources/modeles/java/helloworld.java"));
+            $detaillangage1->setActif(0);
+            $detaillangage1->setOrdre(2);
           
            
             $manager->persist($detaillangage1);

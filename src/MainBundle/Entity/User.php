@@ -1,25 +1,19 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace MainBundle\Entity;
 
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use MainBundle\Validator\Constraints\ContainsMail as MailSuffixe;
 
 /**
  * Description of User
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
- * @author etudiant
  */
-class User extends BaseUser {
-    //put your code here
-    
+class User extends BaseUser 
+{    
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -28,61 +22,86 @@ class User extends BaseUser {
     protected $id;
 
     /**
+     * @MailSuffixe
+     */
+    protected $email;
+
+    /**
+     * var $aceTheme
      * @ORM\Column(type="string")
      */
     protected $aceTheme = "tomorrow_night";
+
+    /**
+     * var $consoleTheme
+     * @ORM\Column(type="string")
+     */
+    protected $consoleTheme = "dark";
+
+    /**
+     * var $sizeEditeur
+     * @ORM\Column(type="integer")
+     */
+    protected $sizeEditeur = 12;
     
    
     public function __construct()
     {
         parent::__construct();
-        // your own logic
-    
     }
     
-     public function getId(){
+    public function getId()
+    {
         return $this->id;
     }
     
-    public function getExpiresAt(){
+    public function getExpiresAt()
+    {
         return $this->expiresAt;
     }
-    
-    
-    public  function getCredentialsExpireAt(){
-        
-          return $this->credentialsExpireAt;
-    }
-    
-      public function setExpiresAt(\DateTime $date)
+
+    public function setExpiresAt(\DateTime $date=null)
     {
         $this->expiresAt = $date;
+    } 
     
+    public function setCredentialsExpireAt(\DateTime $date=null)
+    {
+        $this->expiresAt = $date;
+    }  
+    
+    public  function getCredentialsExpireAt()
+    {        
+        return $this->credentialsExpireAt;
     }
-    public function setEmail($email){
 
-        $this->checkEmail($email);
-        return parent::setEmail($email);
-       }
+    public function getAceTheme()
+    {
+        return $this->aceTheme;
+    }
 
-public function setEmailCanonical($emailCanonical) {
+    public function setAceTheme($aceTheme)
+    {
+        $this->aceTheme = $aceTheme;
+    }  
 
- $this->checkEmail($emailCanonical);
- return parent::setEmailCanonical($emailCanonical);
-}
+    public function getConsoleTheme()
+    {
+        return $this->consoleTheme;
+    }
 
-private function checkEmail($email) {
+    public function setConsoleTheme($consoleTheme)
+    {
+        $this->consoleTheme = $consoleTheme;
+    }  
 
- if(!empty($email) 
-    && filter_var($email, FILTER_VALIDATE_EMAIL) 
-    && (preg_match("/^(.*)@etud.univ-angers.fr$/",$email) || preg_match("/^(.*)@univ-angers.fr$/",$email))) { 
-  return $email;  
- } else {
-  throw new \Exception('Email invalide');
- }
+    public function getSizeEditeur()
+    {
+        return $this->sizeEditeur;
+    }
 
-}
-
-
-   
+    public function setSizeEditeur($sizeEditeur)
+    {
+        $this->sizeEditeur = $sizeEditeur;
+    }  
 }

@@ -1,0 +1,39 @@
+<div id="executionForm-container" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="modalRunOptionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 id="modalRunOptionLabel" class="modal-title">Options de lancement</h5>
+                <!--Bouton de fermeture du modal-->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="{{ form.vars.full_name }}" class="" name="exec_form">
+                    {{ form_start(form) }}
+                        {{ form_row(form.compileOnly) }}
+                        {{ form_row(form.inputMode) }}
+                        {{ form_widget(form.inputs) }}
+                        
+                        <div class="form-group"> 
+                            {{ form_label(form.compilationOptions) }} 
+                            {{ form_widget(form.compilationOptions, { 'id':'compileCMD-options-value','attr' : {'class' : 'form-control font-mono'}}) }} 
+                            <small id="helpCompilationsOptions" class="form-text text-muted"> 
+                                La commande suivante sera effectuée pour la compilation : <br/> 
+                                <span id="compileCMD-compilateur" class="font-mono"> g++ </span> 
+                                <span id="compileCMD-options" class="font-mono font-bold"> </span> 
+                                <span id="compileCMD-file-list" class="font-mono">[fichiers]...</span> 
+                            </small> 
+                        </div> 
+
+                        {{ form_row(form.launchParameters, {'attr' : { 'class' : 'font-mono'} }) }}
+                        {{ form_row(form.additionalFiles) }}
+                    {{ form_end(form) }}
+                    <button id="exec-form-run-btn" class="btn btn-success w-100">Lancer !</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

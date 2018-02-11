@@ -1,0 +1,20 @@
+<div class="modal fade px-4 py-3" id="modal-options" tabindex="-1" role="dialog" aria-labelledby="modalOptionsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalOptionsLabel">Options</h5>
+            </div>
+            <div class="modal-body container-fluid">
+                {{ form_start(form) }}
+                        {{ form_row(form.aceTheme, {'id':'ace-theme-selector'}) }} 
+                        {{ form_row(form.consoleTheme, {'id':'console-theme-selector'}) }}
+                        {{ form_row(form.sizeEditeur, {'id':'editor-font-size-selector'}) }}
+                {{ form_end(form) }}
+            </div> <!-- Modal body -->
+            <div class="modal-footer">
+                <button id="options-cancel" class="btn btn-danger" type="button">Cancel</button>
+                <button id="options-ok" class="btn btn-success" data-form="{{ form.vars.full_name }}" type="button">Ok</button>
+            </div><!--Modal footer -->
+        </div> <!--Modal content -->
+    </div> <!--Modal dialog -->
+</div> <!-- #modal-options -->

@@ -1,9 +1,3 @@
-<!--
-    Créé par Paulin VIOLETTE
-
-    SVP DEMANDEZ MOI SI VOUS ALLEZ CHANGER QUELQUE CHOSE ME METTEZ PAS DES BOUTTONS / LIENS / N'IMPORTE OÙ, ET CHANGEZ RIEN SI VOUS ÊTES PAS SÛRE DE CE QUE VOUS FAITES
--->
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,10 +8,11 @@
         {% endblock %}
     </title>
 
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+
     {% block stylesheet %}
         <!--Feuille de style bootstrap -->
         <link rel="stylesheet" href="{{ asset('css/plugins/bootstrap.min.css') }}" type="text/css"/>
-
         <link rel="stylesheet" href="{{ asset('css/plugins/sweetalert2.css') }}" type="text/css"/>
 
         <!-- Openiconic - icon -->
@@ -38,7 +33,7 @@
     </button>
 
 
-    <div class="collapse navbar-collapse" id="navbarToggler m-3">
+    <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             {% block navbarCollapse %}
                 {% if is_granted('ROLE_ADMIN') %}
@@ -64,14 +59,14 @@
                 </div>
         {% else %}
             <div class="btn-group w-100">
-                <button type="button" class="btn btn-secondary w-75">
+                <a href="{{ path('fos_user_security_login') }}" class="btn btn-secondary w-75">
                     <span class="oi oi-account-login" aria-hidden="true"></span> Log In
-                </button>
+                </a>
                 <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split w-25" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Inscription</a>
+                    <a class="dropdown-item" href="{{ path('fos_user_registration_register') }}">Inscription</a>
                 </div>
             </div>
         {% endif %}
@@ -80,7 +75,7 @@
     </div>
 </nav>
 
-<div class="container-fluid p-0 m-0 main-container-height">
+<div id="top-container" class="container-fluid p-0 m-0 main-container-height">
 {% block body %}
 {% endblock %}
 </div>

@@ -11,20 +11,8 @@ use MainBundle\Form\ExecutionType;
 
 class ConsoleController extends Controller
 {
-
-    public function indexAction()
+    private function writeFilesInDir($files, $dir)
     {
-
-        $content = $this->get('templating')->render('MainBundle:Console:console.html.twig', array(""));
-
-        $ssh = $this->get('gestionssh');
-
-        return new Response($content);
-
-    }
-
-
-    private function writeFilesInDir($files, $dir){
         $listeFichiers = "";
         $logger = $this->get('logger');
         foreach ($files as $f) {
@@ -56,6 +44,13 @@ class ConsoleController extends Controller
 
         $id_user = $this->getUser()->getId();
 
+        if ($id_user == null) {
+            return new Response(json_encode(array(
+                'reponse' => "Vous êtes déconnecté",
+                'fin' => 'oui'
+            )));
+        }
+
         $exec = new Execution();
         $form = $this->createform(ExecutionType::class, $exec);
 
@@ -66,36 +61,31 @@ class ConsoleController extends Controller
             $user = "testUser";
 
             $logger->info(print_r($request->get('execution'), true));
-
             $logger->info("Fichier additionnels : " . print_r($exec->getAdditionalFiles(), true));
 
-//Écriture des fichiers sur le disques
+            //Écriture des fichiers sur le disques
             $tmpdir = exec("mktemp -d $user.XXXXXX");
             $logger->info("Dossier temporaire : $tmpdir");
 
-//Récupération script compilation & éxecution dans la DB, ecriture sur le disk.
+            //Récupération script compilation & éxecution dans la DB, ecriture sur le disk.
             $idLangage = $exec->getLanguage();
             $logger->info("Id langage : " . $idLangage);
             $em = $this->getDoctrine()->getManager();
-            $script = $em->getRepository('MainBundle:Langage')->find($idLangage)->getScript();
-
+            $langage = $em->getRepository('MainBundle:Langage')->find($idLangage);
+            $script = $langage->getScript();
             $logger->info($script);
 
             $file_on_disk = fopen("$tmpdir/exec.sh", "w");
             fwrite($file_on_disk, $script);
-
             fclose($file_on_disk);
 
-//Copie fichier source user
-
+            //Copie fichier source user
             $fichiers = json_decode($exec->getFiles());
-
             $logger->info(print_r($fichiers, true));
-
 
             $listeFichiers = $this->writeFilesInDir($fichiers, $tmpdir);
 
-//Copie fichier additionnels
+            //Copie fichier additionnels
             foreach ($exec->getAdditionalFiles() as $file){
                 $fileName = $file->getClientOriginalName();
                 $file->move(
@@ -110,22 +100,26 @@ class ConsoleController extends Controller
             $parametreLancement = str_replace("\'", "\'\\\'\'", $exec->getLaunchParameters()); //Idem
 
             $wgetAdr = $this->container->getParameter('wget_adr')."/$tmpdir/";
-
             $logger->info("Wget adress: $wgetAdr");
 
             $timeout = $this->container->getParameter('docker_stop_timeout');
             $cpu = $this->container->getParameter('docker_cpu');
+            $gestionCpu = null;
+            if ($cpu != null) {
+                $gestionCpu = "--cpus $cpu";
+            }
             $memory = $this->container->getParameter('docker_memory');
+            $dockerName = $langage->getDockerName();
 
             $cmd = "docker stop --time=0 id_$id_user"."A > /dev/null 2>&1; ";
-            $cmd .= "docker run --rm=true --name  id_$id_user"."A -it --stop-timeout $timeout --cpus $cpu -m $memory";
-            $cmd .= " gpp /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
-
-//Parametre de compilation
+            $cmd .= "timeout --signal=SIGKILL ".$timeout."s docker run --rm=true --name  id_$id_user"."A -it $gestionCpu -m $memory";
+            $cmd .= " $dockerName /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
+            
+            //Parametre de compilation
             $cmd .= " ./exec.sh -o '$parametreCompilation' -w $wgetAdr";
-//Arguments
+            //Arguments
             $cmd .= " -a '$parametreLancement'";
-//Mode de gestion des entrées
+            //Mode de gestion des entrées
             if ($exec->getInputMode() == 'none') {
                 $cmd .= " -n";
             } else if ($exec->getInputMode() == 'text') { //Création d'un fichier d'entrée. Lancement du programme du type ./a.out args ... < input_file
@@ -142,10 +136,10 @@ class ConsoleController extends Controller
                 //Input interractive : rien à faire
             }
 
-//Liste des fichiers
+            //Liste des fichiers
             $cmd .= " -f '$listeFichiers'";
 
-//Mode compilation uniquement
+            //Mode compilation uniquement
             if ($exec->isCompileOnly() == 1) {
                 $cmd .= " -c";
             }
@@ -153,13 +147,17 @@ class ConsoleController extends Controller
             $cmd .= "\" 2>/dev/null";
 
             $logger->info("Starting docker with command : " . $cmd);
-//Execution de la commande de lancement du docker, qui compile et eventuellement execute
+            //Execution de la commande de lancement du docker, qui compile et eventuellement execute
             $ssh->execCmd($cmd);
-            
+
+            // Pause de 1 secondes pour laisser le temps à la commande de s'exécuter
+            sleep(1);
+
             $output = $ssh->lire($id_user);
 
             $logger->info($output[0]);
             $response = array(
+                'cmd' => $cmd,
                 'reponse' => $output[0],
                 'fin' => $output[1]
             );
@@ -184,18 +182,13 @@ class ConsoleController extends Controller
     public function answerAction(Request $request)
     {
         $logger = $this->get('logger');
-
         $ssh = $this->get('gestionssh');
 
-        $msg = $request->request->get('msg');
-        
+        $msg = $request->request->get('msg');        
         $logger->info("Reponse : $msg");
 
         $id_user = $this->getUser()->getId();
 
-
-        
-        
         if(!$ssh->dockerTermine($id_user)){
             
             $ssh->execCmd("docker start -ai id_$id_user"."A");
@@ -206,16 +199,12 @@ class ConsoleController extends Controller
                 'reponse' => $output[0],
                 'fin' => $output[1]
             );
-        }
-        else{
+        } else {
             $response = array(
                 'reponse' => "Docker terminé",
                 'fin' => "yes"
             );
         }
-        
-        
-
        
         $logger->info(json_encode($response));
 
@@ -229,12 +218,10 @@ class ConsoleController extends Controller
      */
     public function stopAction(Request $request){
         $ssh = $this->get('gestionssh');
-
+        
         $id_user = $this->getUser()->getId();
         $this->get("logger")->info("STOP ".$id_user);
         if(!$ssh->dockerTermine($id_user)){
-
-            //FONCTIONNE PAS JE COMPREND PAS
             $ssh->execAndRead("docker stop --time=0 id_$id_user"."A > /dev/null 2>&1; ");
             $output = $ssh->lire($this->getUser()->getId());
 
@@ -242,8 +229,7 @@ class ConsoleController extends Controller
                 'out' => $output,
                 'stopped' => 'ok'
             );
-        }
-        else{
+        } else {
             $response = array(
                 'stopped' => 'already-dead'
             );

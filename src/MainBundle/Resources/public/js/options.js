@@ -1,10 +1,9 @@
-
 var selectedTheme = $("#ace-theme-selector").val();
 var fontSize = $("#editor-font-size-selector").val();
 var themeConsole =$("#console-theme-selector").val();
 
 function setAceTheme(theme) {
-    editor.setTheme(theme);
+    editor.setTheme('ace/theme/'+theme);
 }
 
 function setEditorFontSize(fontSize){
@@ -15,7 +14,6 @@ function setConsoleTheme(theme){
     var divConsole = $("#console");
     var opt = $("#console-theme-selector option");
     for(var i  =0; i < opt.length; ++i){
-        console.log("console-" + opt[i].value);
         divConsole.removeClass("console-" + opt[i].value);
     }
 
@@ -35,6 +33,18 @@ $("#options-ok").click(function () {
     fontSize = $("#editor-font-size-selector").val();
     $('#modal-options').modal('hide');
     synchroniseEditorAndSelectedTab();
+
+    // Enregistrement en base
+    var formName = $(this).data('form');
+    var form = $('form[name="'+formName+'"]').serialize();
+    $.ajax({
+        type: "POST",
+        url: urlUpdateInterface,
+        data: form,
+        success: function (response) {
+            //console.log(response);
+        }
+    });
 });
 
 $("#console-theme-selector").change(function () {
@@ -42,7 +52,6 @@ $("#console-theme-selector").change(function () {
 });
 
 $('#options-cancel').click(function () {
-    console.log(selectedTheme + " " + fontSize);
     $("#ace-theme-selector").val(selectedTheme);
     if(editor.getTheme() != selectedTheme){
         editor.setTheme(selectedTheme);

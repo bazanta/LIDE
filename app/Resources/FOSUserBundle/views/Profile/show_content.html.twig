@@ -1,11 +1,13 @@
 {% block body %}
-    <div class="modal_content m-4">
-        <div>
-            <div class="card">
-                <div class="card-heading">
-                    <h3 class="card-title p-3">Profile</h3>
-                </div>
-                <div class="card-body">
+    <div id="modal_content m-4">
+        <div class="card p-4">
+            <div class="card-heading">
+                <h3 class="card-title">
+                    Profil
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="modal-body">
                     <div class="row">
                         <div class="col-md-3 col-lg-3 " align="center"></div>
                         <div class=" col-md-9 col-lg-9 ">
@@ -25,11 +27,12 @@
                     </div>
                     <div class="row p-4">
                         <div class="col">
-                            <A href="/LIDE/web/app_dev.php/profile/edit"> <input type="submit"
-                                                                                 class="btn btn-success btn-block w-100"
-                                                                                 value="{{ 'Editer le Profile'|trans }}"
-                                                                                 data-toggle="modal"
-                                                                                 data-target="#edit_profile"/></A>
+                            <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-success"> 
+                                {{ 'Editer le Profil'|trans }}
+                            </a> 
+                            <a href="{{ path('fos_user_change_password') }}" class="btn btn-primary"> 
+                                {{ 'Changer de mot de passe'|trans }}
+                            </a>  
                         </div>
                     </div>
                 </div>

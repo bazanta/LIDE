@@ -1,8 +1,18 @@
 services:
     gestionssh:
         class: MainBundle\Services\GestionSSH
-        arguments: ["%ssh_host%","%ssh_login%","%ssh_password%"]
+        arguments: ["%ssh_host%", "%ssh_port%", "%ssh_login%", "%ssh_password%"]
+
+    maindbundle.contains_mail_validator:
+        class: MainBundle\Validator\Constraints\ContainsMailValidator
+        arguments: ["%mails_suffixe%"]
+        tags:
+            - { name: validator.constraint_validator }
+
+    docker.subscriber:
+        class: MainBundle\EventListener\DockerSubscriber
+        arguments : ["@gestionssh"]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
        
-#    main.example:
-#        class: MainBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]

@@ -1,18 +1,20 @@
 
 {% block body_html %}
-{% block subject %} confirmation d'inscription {% endblock %}
 
-{% block body_text %}
-    {%  autoescape false%}
-        <br>
-        Bonjour {{user.username}},<br>
-        
-        Merci de valider votre compte en cliquant sur le lien suivent :{{confirmationUrl}}
-        <br>
-        Cordialement,
-        
-    {%  endautoescape%}
+    {% block subject %} 
+        Confirmation inscription LIDE 
+    {% endblock %}
 
-{% endblock %}
+    {% block body_text %}
+        {%  autoescape false%}
+            <br>
+            Bonjour {{user.username}},<br>
+            
+            Merci de valider votre compte en cliquant sur le lien suivant :{{confirmationUrl}}
+            <br>
+            Cordialement,        
+        {%  endautoescape%}
+
+    {% endblock %}
 
 {% endblock %}

@@ -14,7 +14,7 @@ parameters:
     mailer_host: 127.0.0.1
     mailer_user: ~
     mailer_password: ~
-    mailer_auth_mode: ssh_login
+    mailer_auth_mode: login
     mailer_encryption: ssl
 
     # A secret key that's used to generate certain security-related tokens
@@ -23,6 +23,7 @@ parameters:
     ssh_host: 127.0.0.1
     ssh_login: etudiant
     ssh_password: ~
+    ssh_port: 22
 
     wget_adr: 'http://etudiant@172.29.18.192/LIDE/web/'
 
@@ -32,3 +33,7 @@ parameters:
     docker_memory: 10M
     #Nombre de cpu max à utiliser
     docker_cpu : 1
+
+    mails_suffixe: 
+        - etud.univ-angers.fr
+        - univ-angers.fr

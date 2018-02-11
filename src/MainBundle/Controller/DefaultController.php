@@ -8,6 +8,7 @@ use MainBundle\Entity\DetailLangage;
 
 use MainBundle\Entity\Execution;
 use MainBundle\Form\ExecutionType;
+use MainBundle\Form\OptionsInterfaceType;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,28 +42,43 @@ class DefaultController extends Controller
         }
     }
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $logger = $this->get('logger');              
 
-        $langages = $em->getRepository('MainBundle:Langage')->findByActif(true);
+        // Création formulaire paramètrage interface
+        $user = $this->getUser();
+        $formInterface = $this->createform(OptionsInterfaceType::class, $user);
 
-        $selected_langage = $em->getRepository('MainBundle:Langage')->findOneBy(array('actif' => true));
+        // Récupération des langages
+        $langages = $em->getRepository('MainBundle:Langage')->findByActif(true);  
 
-        $info = $this->getLanguageInfo($selected_langage->getId());
+        // Récupération du code en session
+        $jsonFiles = $request->getSession()->get('files'.$user->getId());
 
-        $logger = $this->get('logger');
+        // Récupération du langage
+        $langageID = $request->getSession()->get('langage'.$user->getId());
+        if ($langageID == null) {
+            $selected_langage = $em->getRepository('MainBundle:Langage')->findOneBy(array('actif' => true));
+            $langageID = $selected_langage->getId();
+        }
+        $langage = $em->getRepository('MainBundle:Langage')->find($langageID);
+        $info = $this->getLanguageInfo($langageID);
         $logger->info(print_r($info, true));
 
-
+        // Création du formulaire d'exécution
         $exec = new Execution();
+        $exec->setCompilationOptions($langage->getOptions());
         $form = $this->createform(ExecutionType::class, $exec);
 
         return $this->render('MainBundle:Default:index.html.twig', array(
             'list_langage' => $langages,
-            'selected_langage' => $selected_langage->getId(),
             'selected_langage_name' => $info['name'],
             'form' => $form->createView(),
+            'formInterface' => $formInterface->createView(),
+            'jsonFiles' => json_encode($jsonFiles),
+            'langage' => $langageID
         ));
     }
 
@@ -78,6 +94,7 @@ class DefaultController extends Controller
 
         $name = $lang->getNom();
         $compilateur = $lang->getCompilateur();
+        $options = $lang->getOptions();
 
         $details = $em->getRepository('MainBundle:DetailLangage')->findByLangage($id);
 
@@ -96,26 +113,61 @@ class DefaultController extends Controller
             'ace' => $this->matchLanguageToAce($id),
             'modeles' => $detailThatMatter,
             'name' => $name,
-            'compilateur' => $compilateur
+            'compilateur' => $compilateur,
+            'options' => $options
         );
     }
 
+    /**
+     * Renvoie les info du langage sous forme d'un json contenant
+     *   'ace' -> paramètre pour l'editeur
+     *   'model' -> fichier modèle pour le langage
+     */
     public function languageInfoAction(Request $request)
-    {
-        /*
-         Renvoie les info sous forme d'un json contenant
-          'ace' -> paramètre pour l'editeur
-          'model' -> fichier modèle pour le langage
-        */
+    {        
         if ($request->isXMLHttpRequest()) {
-
             $id = $request->request->get('lang');
-
             $info = $this->getLanguageInfo($id);
 
-            $response = new JsonResponse();
-            $response->setData($info);
-            return $response;
+            return new JsonResponse($info);
+        }
+        return new Response('This is not ajax!', 400);
+    }
+
+    public function saveCodeAction(Request $request)
+    {
+        if ($request->isXMLHttpRequest()) {
+            $userID = $this->getUser()->getId();
+            $jsonFiles = $request->request->get('files');
+            $request->getSession()->set('files'.$userID, json_decode($jsonFiles));
+
+            $langage = $request->request->get('langage');
+            $request->getSession()->set('langage'.$userID, $langage);
+
+
+            return new JsonResponse("OK");
+        }
+        return new Response('This is not ajax!', 400);
+    }
+
+    public function updateInterfaceAction(Request $request)
+    {
+        if ($request->isXMLHttpRequest()) {
+
+            $user = $this->getUser();
+            $form= $this->createform(OptionsInterfaceType::class, $user);
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+                $rep = "OK";
+            } else {
+                $rep = "Formulaire non valide";
+            }        
+            
+            return new JsonResponse($rep);
         }
         return new Response('This is not ajax!', 400);
     }

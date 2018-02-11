@@ -1,0 +1,24 @@
+{% extends 'MainBundle::layout.html.twig' %}
+
+{% block body %}
+<div class="p-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <div class="card p-2">
+                    <div class="card-hearder">
+                        <h3 class="card-title text-center">
+                            Problème redirection (403)
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        Oups, vous n'avez rien à faire ici !
+                        <br />
+                        <a href="{{ path('main_homepage') }}">Retour à la page principale</a>.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

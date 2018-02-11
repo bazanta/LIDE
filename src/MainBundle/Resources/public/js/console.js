@@ -1,7 +1,3 @@
-/* Auteur : Valentine Rahier
- *
- */
-
 var jqconsole;
 
 var Exec = function () {
@@ -9,6 +5,7 @@ var Exec = function () {
     $('#console').html("");
 
     jqconsole = $('#console').jqconsole('', '');
+    var start = true;
 
     var getOutput = function () {
         $("#btnStop").prop("disabled", false);
@@ -19,8 +16,17 @@ var Exec = function () {
             cache: false,
             contentType: false,
             processData: false,
+            beforeSend: function() {
+                // Activation loading
+                $('#loader').addClass('active');
+                start = true;
+            },
             success: function (data) {
                 onSuccess(data);
+            },
+            complete: function() {
+                // Gestion loading
+                $('#loader').removeClass('active');
             },
             timeout: 30000
         });
@@ -39,14 +45,39 @@ var Exec = function () {
         };
 
         var onSuccess = function (data) {
-            var reponse = $.parseJSON(data);
-            console.log(reponse);
+            try {
+                var reponse = $.parseJSON(data);
+            } catch (e) {
+                // Problème serveur
+                if (data.match("Vous n'êtes pas inscrit ?")) {                    
+                    jqconsole.Write("Attention, vous n'êtes plus connecté", 'jqconsole-output');
+                } else {
+                    jqconsole.Write("Erreur serveur", 'jqconsole-output');
+                }
+                return;
+            }
             jqconsole.Write(reponse.reponse, 'jqconsole-output');
             if (reponse.fin === "no") {
-                repondre();
-            }
-            else{
+                if (start == true) {
+                    start = false;
+                    repondre(); 
+                } else {
+                    var form = $('input[name="mainbundle_execution[inputMode]"]:checked').val();
+                    // Vérification mode intéractif
+                    if (form == "it") {
+                        repondre();
+                    } else {
+                        swal({
+                            title : 'Attention !',
+                            text : "Les 'sleep' ou boucles infinies (programme dépassant le temps autorisé) durant un programe entraine l'arrêt de l'exécution.",
+                            type : 'warning'
+                        })  
+                        $("#btnStop").click();                                 
+                    }
+                }                
+            } else {
                 $("#btnStop").prop("disabled", true);
+                jqconsole.Write("\033[32m$ Execution finie.\033[0m", 'jqconsole-output');
             }
         };
 
@@ -62,8 +93,8 @@ $("#btnStop").click(function () {
         cache: false,
         success: function () {
             $("#btnStop").prop("disabled", true);
+            jqconsole.Write("\033[31m$ Execution interrompue\033[0m");
             jqconsole.AbortPrompt();
-            jqconsole.Write("\033[31m$ Execution interrompu\033[0m");
         }
     })
 });
