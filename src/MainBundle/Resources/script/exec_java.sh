@@ -67,21 +67,18 @@ do
 	fi
 done
 
-echo -e "\e[1;33m\$ javac $options $listeFichiersFinale \e[0m\n Appuyer sur Entrer pour commencer"
+echo -e "\e[1;33m\$ javac $options $listeFichiersFinale \e[0m\n"
 javac $options $listeFichiersFinale
 resCompil="$?"
-read x
 if [ "$resCompil" != "0" ]
 then
     exit $resCompil
 fi
-
-executable=$(ls -t | head -1)
+echo -e "Classe à lancer"
+read executable
 
 if [ $compilationUniquement = false ]
 then
-	if [ -x $executable ]
-	then
 	  case $fichierInput in
 	  	"")
 			echo -e "\e[33m\$ java $executable $arguments \e[0m"
@@ -94,7 +91,6 @@ then
 	  		res=$?
 	  		;;
 	  esac
-	fi
 	if [ "$res" = "0" ]
 	then
       echo -e "\e[1;32m\$ Fin du programme avec le code $res\e[0m"

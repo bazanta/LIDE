@@ -8,24 +8,8 @@
                 {{ form_start(form) }}
                         {{ form_row(form.aceTheme, {'id':'ace-theme-selector'}) }} 
                         {{ form_row(form.consoleTheme, {'id':'console-theme-selector'}) }}
-                        {{ form_widget(form.sizeEditeur, {'id':'editor-font-size-selector'}) }}
+                        {{ form_row(form.sizeEditeur, {'id':'editor-font-size-selector'}) }}
                 {{ form_end(form) }}
-                <!--
-                    <optgroup label="Autre">
-                        <option value="ace/theme/ambiance">Ambiance</option>
-                        <option value="ace/theme/chaos">Chaos</option>
-                        <option value="ace/theme/clouds">Cloud</option>
-                        <option value="ace/theme/clouds_midnight">Cloud Midnight</option>
-                        <option value="ace/theme/cobalt">Cobalt</option>
-                        <option value="ace/theme/crimson_editor">Crimson Editor</option>
-                        <option value="ace/theme/dawn">Dawn</option>
-                        <option value="ace/theme/dracula">Dracula</option>
-                        <option value="ace/theme/eclipse">Eclipse</option>
-                        <option value="ace/theme/pastel_on_dark">Pastel On Dark</option>
-                        <option value="ace/theme/tomorrow_night_bright">Tomorrow Night (bright)</option>
-                        <option value="ace/theme/xcode">XCode</option>
-                    </optgroup>
-                -->
             </div> <!-- Modal body -->
             <div class="modal-footer">
                 <button id="options-cancel" class="btn btn-danger" type="button">Cancel</button>

@@ -34,6 +34,12 @@ class Langage
 
     /**
      * @var string     
+     * @ORM\Column(name="options", type="string", length=255, nullable=true)
+     */
+    private $options;
+
+    /**
+     * @var string     
      * @Assert\NotBlank()
      * @ORM\Column(name="compilateur", type="string", length=255)
      */
@@ -107,6 +113,29 @@ class Langage
     public function getNom()
     {
         return $this->nom;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $options
+     * @return Langage
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Get options
+     *
+     * @return string 
+     */
+    public function getOptions()
+    {
+        return $this->options;
     }
 
     /**

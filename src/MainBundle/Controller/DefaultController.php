@@ -47,10 +47,6 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $logger = $this->get('logger');              
 
-        // Création du formulaire d'exécution
-        $exec = new Execution();
-        $form = $this->createform(ExecutionType::class, $exec);
-
         // Création formulaire paramètrage interface
         $user = $this->getUser();
         $formInterface = $this->createform(OptionsInterfaceType::class, $user);
@@ -62,13 +58,19 @@ class DefaultController extends Controller
         $jsonFiles = $request->getSession()->get('files'.$user->getId());
 
         // Récupération du langage
-        $langage = $request->getSession()->get('langage'.$user->getId());
-        if ($langage == null) {
+        $langageID = $request->getSession()->get('langage'.$user->getId());
+        if ($langageID == null) {
             $selected_langage = $em->getRepository('MainBundle:Langage')->findOneBy(array('actif' => true));
-            $langage = $selected_langage->getId();
+            $langageID = $selected_langage->getId();
         }
-        $info = $this->getLanguageInfo($langage);
+        $langage = $em->getRepository('MainBundle:Langage')->find($langageID);
+        $info = $this->getLanguageInfo($langageID);
         $logger->info(print_r($info, true));
+
+        // Création du formulaire d'exécution
+        $exec = new Execution();
+        $exec->setCompilationOptions($langage->getOptions());
+        $form = $this->createform(ExecutionType::class, $exec);
 
         return $this->render('MainBundle:Default:index.html.twig', array(
             'list_langage' => $langages,
@@ -76,7 +78,7 @@ class DefaultController extends Controller
             'form' => $form->createView(),
             'formInterface' => $formInterface->createView(),
             'jsonFiles' => json_encode($jsonFiles),
-            'langage' => $langage
+            'langage' => $langageID
         ));
     }
 
@@ -92,6 +94,7 @@ class DefaultController extends Controller
 
         $name = $lang->getNom();
         $compilateur = $lang->getCompilateur();
+        $options = $lang->getOptions();
 
         $details = $em->getRepository('MainBundle:DetailLangage')->findByLangage($id);
 
@@ -110,7 +113,8 @@ class DefaultController extends Controller
             'ace' => $this->matchLanguageToAce($id),
             'modeles' => $detailThatMatter,
             'name' => $name,
-            'compilateur' => $compilateur
+            'compilateur' => $compilateur,
+            'options' => $options
         );
     }
 

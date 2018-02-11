@@ -461,6 +461,8 @@ function requestAndSetLanguage(language) {
             $("#select-modele").change();
 
             $("#compileCMD-compilateur").text(response.compilateur);
+            $("#compileCMD-options").text(response.options);
+            $('#compileCMD-options-value').val(response.options);
         },
     });
 }

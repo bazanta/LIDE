@@ -21,7 +21,16 @@ class OptionsInterfaceType extends AbstractType
                 'label' => "Thème de l'éditeur", 
                 'choices' => array( 
                     'tomorrow_night' => 'tomorrow_night', 
-                    'clouds' => 'clouds', 
+                    'clouds' => 'clouds',
+                    'clouds_midnight' => 'clouds_midnight',
+                    'cobalt' => 'cobalt',
+                    'dracula' => 'dracula', 
+                    'xcode' => 'xcode', 
+                    'tomorrow_night_bright' => 'tomorrow_night_bright', 
+                    'eclipse' => 'eclipse', 
+                    'pastel_on_dark' => 'pastel_on_dark', 
+                    'dawn' => 'dawn', 
+                    'crimson_editor' => 'crimson_editor', 
                     'ambiance' => 'ambiance' 
                 ), 
             )) 

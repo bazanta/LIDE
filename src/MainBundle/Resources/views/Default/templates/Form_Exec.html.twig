@@ -19,11 +19,11 @@
                         
                         <div class="form-group"> 
                             {{ form_label(form.compilationOptions) }} 
-                            {{ form_widget(form.compilationOptions, { 'attr' : {'class' : 'form-control font-mono'}}) }} 
+                            {{ form_widget(form.compilationOptions, { 'id':'compileCMD-options-value','attr' : {'class' : 'form-control font-mono'}}) }} 
                             <small id="helpCompilationsOptions" class="form-text text-muted"> 
                                 La commande suivante sera effectuée pour la compilation : <br/> 
                                 <span id="compileCMD-compilateur" class="font-mono"> g++ </span> 
-                                <span id="compileCMD-options" class="font-mono font-bold"> -Wall </span> 
+                                <span id="compileCMD-options" class="font-mono font-bold"> </span> 
                                 <span id="compileCMD-file-list" class="font-mono">[fichiers]...</span> 
                             </small> 
                         </div> 

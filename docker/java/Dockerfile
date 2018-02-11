@@ -1,4 +1,4 @@
-FROM debian
+FROM openjdk:7
 
 MAINTAINER Jerome<jerome.martinsmosca@etud.univ-angers.fr>
 
@@ -8,7 +8,6 @@ RUN  apt-get update
 RUN apt-get install -y wget
 RUN apt-get install -y ssh
 
-# c et c++
-RUN apt-get install -y g++  
+CMD ["java"]
 
 WORKDIR /home

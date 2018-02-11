@@ -42,7 +42,7 @@ class ExecutionType extends AbstractType
             ))
             ->add('compilationOptions', TextType::class, array(
                 'label' => 'Options de compilation',
-                'data' => '-Wall'
+                'required' => false
             ))
             ->add('files', HiddenType::class)
             ->add('language', HiddenType::class)
