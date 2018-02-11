@@ -104,11 +104,15 @@ class ConsoleController extends Controller
 
             $timeout = $this->container->getParameter('docker_stop_timeout');
             $cpu = $this->container->getParameter('docker_cpu');
+            $gestionCpu = null;
+            if ($cpu != null) {
+                $gestionCpu = "--cpus $cpu";
+            }
             $memory = $this->container->getParameter('docker_memory');
             $dockerName = $langage->getDockerName();
 
             $cmd = "docker stop --time=0 id_$id_user"."A > /dev/null 2>&1; ";
-            $cmd .= "timeout --signal=SIGKILL ".$timeout."s docker run --rm=true --name  id_$id_user"."A -it --cpus $cpu -m $memory";
+            $cmd .= "timeout --signal=SIGKILL ".$timeout."s docker run --rm=true --name  id_$id_user"."A -it $gestionCpu -m $memory";
             $cmd .= " $dockerName /bin/bash -c \"wget $wgetAdr" . "exec.sh 2>/dev/null  && chmod a+x exec.sh && sed -i -e 's/\\r$//' exec.sh && ";
             
             //Parametre de compilation

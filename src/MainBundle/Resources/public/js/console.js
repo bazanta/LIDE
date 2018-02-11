@@ -71,7 +71,8 @@ var Exec = function () {
                             title : 'Attention !',
                             text : "Les 'sleep' ou boucles infinies (programme dépassant le temps autorisé) durant un programe entraine l'arrêt de l'exécution.",
                             type : 'warning'
-                        })                                   
+                        })  
+                        $("#btnStop").click();                                 
                     }
                 }                
             } else {
@@ -92,8 +93,8 @@ $("#btnStop").click(function () {
         cache: false,
         success: function () {
             $("#btnStop").prop("disabled", true);
-            jqconsole.AbortPrompt();
             jqconsole.Write("\033[31m$ Execution interrompue\033[0m");
+            jqconsole.AbortPrompt();
         }
     })
 });
