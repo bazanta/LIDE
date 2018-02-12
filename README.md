@@ -9,13 +9,14 @@ L'interface devra être sobre et la plus simple possible pour ne pas déstabilis
 ### Installation
 
 Attention, l'utilisateur du serveur web par exemple pour apache, www-data doit avoir les droits d'écriture et de lecture sur le projet et surtout le dossier web.  
+   
 Il faut d'avoir installé :
- * Un serveur web avec la base de données (apache, nginx, ...)
+ * Un serveur web avec la base de données (apache, ...)
     * Exemple sous linux de LAMP (Linux Apache2 Mariadb PHP):
         * sudo apt install apache2 php mariadb-server libapache2-mod-php php-mysql
  * PHP 7 et composer
  * L'extention ssh pour php (libssh2, php-ssh2, ... suivant votre distribution)
- * nodesjs v8 et npm 5.3 
+ * nodesjs v8.* et npm 5.3 
     * Pour avoir la bonne version de nodejs sous linux :
         * curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
         * apt-get install-y nodejs
@@ -23,6 +24,44 @@ Il faut d'avoir installé :
   
 Ensuite, cloner le projet dans le dossier de votre serveur web (pour apache /var/www/html) avec git.  
 Puis dans le dossier du projet, exécuter les étapes suivantes pour le bon fonctionnement du projet.
+
+#### Parameters 
+
+Dans le dossier du projet puis app/config, créer le fichier parameters.yml identique au fichier parameters.yml.dist en renseignant les bonnes valeurs. 
+```
+parameters:
+    # Base de donénes
+    database_host: localhost (ou 127.0.0.1)
+    database_port: null
+    database_name: lide <-- nom de la base de données
+    database_user: user  <-- utilisateur de la base de données
+    database_password: pass  <-- mot de passe de l'utilisateur de la base de données
+
+    # Envoie de mail pour l'inscription
+    mailer_transport: smtp
+    mailer_host: smtp.gmail.com
+    mailer_user: exemple@gmail.com  <-- Adresse mail gmail pour envoyer les mails d'inscription
+    mailer_password: pass  <-- Mot de passe de l'adresse gmail
+    mailer_auth_mode: login
+    mailer_encryption: ssl
+    mails_suffixe:  <-- Liste des suffixes autorisés pour l'inscription
+        - etud.univ-angers.fr
+
+    # Connexion SSH sur le serveur d'exécution
+    ssh_host: 127.0.0.1 <-- ip du serveur d'exécution
+    ssh_login: etudiant <-- login du serveur d'exécution
+    ssh_password: pass <-- mot de passe de l'utilisateur du serveur d'exécution
+    ssh_port: 22 <-- port pour se connecter en ssh au serveur d'exéution
+    wget_adr: 'http://etudiant@192.168.1.6/LIDE/web' <-- la machine qui contient l'application pour que l'exécution docker récupère les fichiers de code de l'utilisateur
+
+    # Paramètre pour docker
+    docker_stop_timeout: 6 <-- Temps autorisé en seconde pour les exécutions docker sans intéractions
+    docker_memory: 250M <-- Mémoire maximum autorisée pour les exécutions docker
+    docker_cpu: 1 <-- null si non pris en compte par le noyau sinon la part du cpu voulu
+    
+    secret: ThisTokenIsNotSoSecretChangeIt
+```
+
 
 #### Composer
 
@@ -34,8 +73,6 @@ Si composer install renvoie une erreur, il faut probablement installer les exten
 
 #### NPM
 
-Il faut la version v8.6.0 de nodejs et 5.3 de npm.
-
 Pour installer les dépendances web :
 ```
 npm install
@@ -43,9 +80,9 @@ npm install
 
 #### Gulp
 
-Installé en global avec NPM (npm install gulp -g).
+Installé en global avec NPM :
 ```
-npm install gulp -g
+sudo npm install gulp -g
 ```
 
 Pour récupérer les fichiers css, js :
@@ -65,12 +102,12 @@ Pour créer le schéma de la base de données :
 php app/console doctrine:schema:create
 ```
 
-Pour mettre à jour le schéma de la base de données :
+Pour mettre à jour le schéma de la base de données si changement :
 Avoir le retour de ce qui va être fait :
 ```
 php app/console doctrine:schema:update --dump-sql
 ```
-Forcer la mise à jour:
+Forcer la mise à jour de la base de données :
 ```
 php app/console doctrine:schema:update --force
 ```
@@ -82,7 +119,7 @@ L'application sera créée comme suit dans le dossier du projet :
     * releases : différentes version du projet
     * repo
     * shared : fichiers partagés entre les versions (paramétrages, ...)
-Chaque déploiement entraine la création d'une release. Si le déploiement se passe bien, alors le dossier current pointera sur cette nouvelle release.
+Chaque déploiement entraine la création d'une release. Si le déploiement se passe bien, alors le dossier "current" pointera sur cette nouvelle release.
 Pour exécuter des commmandes symfony par exemple sur la version courante, il faut aller dans le dossier current. Par exemple pour mettre à jour la base de données.
   
 Pré-requis :  
@@ -104,7 +141,7 @@ bundle install
 
 3) Paramètrages serveur
 
-Attention, le serveur doit avoir :
+Attention, le serveur doit avoir (voir partie installation pour plus de détails) :
  * un serveur web (apache, nginx, ...)
  * PHP 7 et composer
  * nodesjs v8.6.0 et npm 5.3
@@ -126,7 +163,7 @@ Sur le serveur, aller dans le dossier du projet puis shared/app puis créer le f
 cap prod deploy  
 ```
 => erreur base de données (Pas d'accès)  
-Sur le serveur, aller dans le dossier du projet puis shared/app puis modifier le fichier parameters.yml avec les bons paramètres
+Sur le serveur, aller dans le dossier du projet puis shared/app puis modifier le fichier parameters.yml avec les bons paramètres (voir partie Parameters)
 ```
 cap prod deploy  
 ```
@@ -136,6 +173,8 @@ Se connecter en ssh sur le serveur, aller dans le dossier du projet puis current
 Exécuter les lignes de commande pour créer le schéma de la base de données et charger les fixtures.
  * php app/console doctrine:schema:create
  * php app/console doctrine:fixtures:load
+  
+Attention, il faut créer les images docker sur le serveur d'exécution et paramétrer en conséquence les langages.
 
 ## Explication du projet
 
