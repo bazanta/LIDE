@@ -4,9 +4,47 @@ Le but de ce projet est de créer un environnement de développement en ligne d�
 Cette application leur permettra d’éviter de télécharger tous les logiciels nécessaires durant les cours d’informatique (compilation,...). 
 L'interface devra être sobre et la plus simple possible pour ne pas déstabiliser un étudiant débutant.
 
-## Getting Started
+## Explication du projet
 
-### Installation
+### Interface
+
+Fonctionnalités implémentées :
+ * Administration : Permet entre autre de gérer les langages
+ * Authentification restreinte (Connexion + rôles + inscription par mail filtrée suivant le respet de préfixes paramétrable)
+ * Gestion de plusieurs fichiers de code
+ * Import de fichiers
+ * Export de fichiers (sauvegarde) sur l'ordinateur
+ * Sauvegarde en session : ctrl+s
+ * Création avec le choix de l'extension voulue et la possibilité de choisir un modèle
+ * Compilation/exécution de code avec docker paramétrable (compilation seule, choix des options, des entrées, ...)
+ * Gestion de plusieurs langages (C++, c, ...)
+ * Personalisation de l'interface (couleur, taille)
+ * Responsive
+
+### Exécution
+
+Exécution conteneurisée avec docker sur un serveur. 
+Exécution sécurisée et isolée avec la mémoire, l'accès au CPU et le temps d'exécution qui sont limités.
+
+### Administration
+
+Ajouter un nouveau langage à l'application :
+ * Demander à l'informaticien de créer un dockerFile sur le serveur d'exécution en le nommant avec un nom spécifique (docker build --tag nom .)
+ * Paramétrer l'application grâce à l'entité Langage
+    * Nommer le langage
+    * Renseigner les options de compilation par défauts
+    * Préciser le compilateur
+    * Intégrer le dockerFile créé
+    * Renseigné le nom utilisé pour créer le docker sur le serveur
+    * Ajouter le script pour compiler/exécuter en automatique
+    * Activer le langage seulement si le docker correspondant à été créé sur le serveur
+ * Ajouter une extension pour le langage dans DetailLangage
+    * Renseigner l'extension (cpp, java, ...)
+    * Ajouter un modèle par défaut
+    * Choisir l'ordre de l'extension par rapport aux autres du même langage
+    * Relier avec le langage créé précedement
+
+## Installation
 
 Attention, l'utilisateur du serveur web par exemple pour apache, www-data doit avoir les droits d'écriture et de lecture sur le projet et surtout le dossier web.  
    
@@ -25,7 +63,7 @@ Il faut d'avoir installé :
 Ensuite, cloner le projet dans le dossier de votre serveur web (pour apache /var/www/html) avec git.  
 Puis dans le dossier du projet, exécuter les étapes suivantes pour le bon fonctionnement du projet.
 
-#### Parameters 
+### Parameters 
 
 Dans le dossier du projet puis app/config, créer le fichier parameters.yml identique au fichier parameters.yml.dist en renseignant les bonnes valeurs. 
 ```
@@ -63,7 +101,7 @@ parameters:
 ```
 
 
-#### Composer
+### Composer
 
 Pour installer les dépendances PHP :
 ```
@@ -71,14 +109,14 @@ composer install
 ```
 Si composer install renvoie une erreur, il faut probablement installer les extensions php nécessaire au bon déroulement de php en suivant les recommandation (exemple : php-curl, php-xml, php-mcrypt, php-zip, php-gd php-intl php-json php-mbstring)
 
-#### NPM
+### NPM
 
 Pour installer les dépendances web :
 ```
 npm install
 ```
 
-#### Gulp
+### Gulp
 
 Installé en global avec NPM :
 ```
@@ -90,7 +128,7 @@ Pour récupérer les fichiers css, js :
 gulp all
 ```
 
-#### Base de données
+### Base de données
 
 Pour créer la base de données :
 ```
@@ -175,43 +213,3 @@ Exécuter les lignes de commande pour créer le schéma de la base de données e
  * php app/console doctrine:fixtures:load
   
 Attention, il faut créer les images docker sur le serveur d'exécution et paramétrer en conséquence les langages.
-
-## Explication du projet
-
-### Interface
-
-Fonctionnalités implémentées :
- * Administration : Permet entre autre de gérer les langages
- * Authentification restreinte (Connexion + rôles + inscription par mail filtrée suivant le respet de préfixes paramétrable)
- * Gestion de plusieurs fichiers de code
- * Import de fichiers
- * Export de fichiers (sauvegarde) sur l'ordinateur
- * Sauvegarde en session : ctrl+s
- * Création avec le choix de l'extension voulue et la possibilité de choisir un modèle
- * Compilation/exécution de code avec docker paramétrable (compilation seule, choix des options, des entrées, ...)
- * Gestion de plusieurs langages (C++, c, ...)
- * Personalisation de l'interface (couleur, taille)
- * Responsive
-
-### Exécution
-
-Exécution conteneurisée avec docker sur un serveur. 
-Exécution sécurisée et isolée avec la mémoire, l'accès au CPU et le temps d'exécution qui sont limités.
-
-### Administration
-
-Ajouter un nouveau langage à l'application :
- * Demander à l'informaticien de créer un dockerFile sur le serveur d'exécution en le nommant avec un nom spécifique (docker build --tag nom .)
- * Paramétrer l'application grâce à l'entité Langage
-    * Nommer le langage
-    * Renseigner les options de compilation par défauts
-    * Préciser le compilateur
-    * Intégrer le dockerFile créé
-    * Renseigné le nom utilisé pour créer le docker sur le serveur
-    * Ajouter le script pour compiler/exécuter en automatique
-    * Activer le langage seulement si le docker correspondant à été créé sur le serveur
- * Ajouter une extension pour le langage dans DetailLangage
-    * Renseigner l'extension (cpp, java, ...)
-    * Ajouter un modèle par défaut
-    * Choisir l'ordre de l'extension par rapport aux autres du même langage
-    * Relier avec le langage créé précedement
