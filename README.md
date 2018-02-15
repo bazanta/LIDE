@@ -63,7 +63,7 @@ Il faut d'avoir installé :
 Ensuite, cloner le projet dans le dossier de votre serveur web (pour apache /var/www/html) avec git.  
 Puis dans le dossier du projet, exécuter les étapes suivantes pour le bon fonctionnement du projet.
 
-### Parameters 
+### Parameters
 
 Dans le dossier du projet puis app/config, créer le fichier parameters.yml identique au fichier parameters.yml.dist en renseignant les bonnes valeurs. 
 ```
@@ -196,12 +196,12 @@ cap prod deploy # prod : le nom du fichier voulu dans config/deploy ici, prod
 cap prod deploy  
 ```
 => erreur pas de fichier parameters.yml  
-Sur le serveur, aller dans le dossier du projet puis shared/app puis créer le fichier parameters.yml vide
+Sur le serveur, aller dans le dossier du projet puis shared/app/config puis créer le fichier parameters.yml vide
 ```
 cap prod deploy  
 ```
 => erreur base de données (Pas d'accès)  
-Sur le serveur, aller dans le dossier du projet puis shared/app puis modifier le fichier parameters.yml avec les bons paramètres (voir partie Parameters)
+Sur le serveur, aller dans le dossier du projet puis shared/app/config puis modifier le fichier parameters.yml avec les bons paramètres (voir partie Parameters)
 ```
 cap prod deploy  
 ```
